@@ -8,7 +8,8 @@
         "about-us": "About Us",
         "project-team": "Project team",
         "zuo-yi": "Zuo Yi",
-        "nicholas-lim": "Nicholas Lim"
+        "nicholas-lim": "Nicholas Lim",
+        "david-joshua-sudartha": "David Joshua Sudartha"
       },
       "headingKeywords": {}
     },
@@ -129,6 +130,14 @@
       "title": "",
       "headings": {
         "addressbook-level-3": "AddressBook Level-3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/djsudartha.md",
+      "title": "David's Project Portfolio Page",
+      "headings": {
+        "project-campusbook": "Project: CampusBook"
       },
       "headingKeywords": {}
     },
