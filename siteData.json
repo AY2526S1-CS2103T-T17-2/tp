@@ -7,6 +7,7 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
+        "zuo-yi": "Zuo Yi",
         "nicholas-lim": "Nicholas Lim"
       },
       "headingKeywords": {}
@@ -136,6 +137,14 @@
       "title": "Nicholas Lim's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/zuoyi.md",
+      "title": "Zuo Yi's Project Portfolio Page",
+      "headings": {
+        "project-campusbook": "Project: CampusBook"
       },
       "headingKeywords": {}
     }
