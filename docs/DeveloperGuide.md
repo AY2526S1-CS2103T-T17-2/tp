@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# CampusBook Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -13,7 +13,7 @@
 
 ## **Acknowledgements**
 
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
+This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -274,13 +274,14 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
+* is a NUS Student
 * has a need to manage a significant number of contacts
 * prefer desktop apps over other types
 * can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: manage NUS-related contacts faster than a typical mouse/GUI driven app.
 
 
 ### User stories
@@ -300,16 +301,41 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `CampusBook` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**UC01: Add a person**
+
+Guarantees: Person will only be added into the list if all the required fields are present
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
+1.  User requests to list persons 
+2.  CampusBook shows a list of persons
+3.  User requests to add a specific person in the list
+4.  CampusBook adds the person
+
+    Use case ends.
+
+**Extensions**
+
+* 3a. The given command is invalid.
+
+    * 3a1. CampusBook shows an error message.
+
+      Use case resumes at step 2.
+
+
+
+**UC02: Delete a person**
+
+Guarantees: Person will only be deleted from the list if the index given is valid
+
+**MSS**
+
+1.  User requests to list persons 
+2.  CampusBook shows a list of persons
 3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+4.  CampusBook deletes the person
 
     Use case ends.
 
@@ -319,26 +345,120 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
   Use case ends.
 
-* 3a. The given index is invalid.
+* 3a. The given command is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. CampusBook shows an error message.
 
       Use case resumes at step 2.
 
-*{More to be added}*
+
+**UC03: Edit a person**
+
+Guarantees: Person will only be editted in the list if the index given, and field format is valid (e.g. johnd@example@com is invalid, and person will not be editted)
+
+**MSS**
+
+1.  User requests to list persons 
+2.  CampusBook shows a list of persons
+3.  User requests to edit a specific person in the list
+4.  CampusBook edits the person
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given command is invalid.
+
+    * 3a1. CampusBook shows an error message.
+
+      Use case resumes at step 2.
+
+**UC04: Find a person**
+
+Guarantees: Person will only be found from the list if at least a part of the given name matches at least a part of the name of an existing person's name
+
+**MSS**
+
+1.  User requests to list persons 
+2.  CampusBook shows a list of persons
+3.  User requests to find a specific person in the list
+4.  CampusBook lists the person(s)
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given command is invalid.
+
+    * 3a1. CampusBook shows an error message.
+
+      Use case resumes at step 2.
+
+* 4a. There are no matches for the given name.
+
+    * 3a1. CampusBook shows no person matched.
+
+      Use case ends.
+
+**UC05: Clear the entries**
+
+Guarantees: Person entries will be cleared
+
+**MSS**
+
+1.  User requests to list persons 
+2.  CampusBook shows a list of persons
+3.  User requests to clear all entries in the list
+4.  CampusBook clears the list
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+
+  Use case ends.
 
 ### Non-Functional Requirements
-
+#### Environment & Portability ####
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
-
+2.  All features (including seeding NUS contacts and startup message) shall work offline.
+#### Performance ####
+1. Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+2. Application should respond to user commands within 1 second for typical operations (add, edit, find).
+3. The startup motivational message must not delay startup by more than 100ms.
+4. Exporting/Importing 2000 contacts should not take more than 3s.
+#### Usability & Accessibility ####
+1. A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+2. The application should be usable by an NUS student who has never used the application before, with guidance from the User Guide.
+3. The application should provide the relevant help messages to educate students on how to use the application appropriately.
+4. A novice to CLI should be able to use the application, with guidance from the User Guide.
+#### Data Quality ####
+1. Faculty Admin contacts must be regularly checked by developers, and updated in releases if they are changed by the relevant departments
+2. Course/Module codes must be regularly checked by developers, and updated in releases if they are changed by the relevant departments
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **AB3**: AddressBook Level 3, the base project we are extending
+* **Faculty Admin**: Administrative staff managing a faculty's affairs (e.g. registration, internship, dean's office)
+* **Favorite Contact**: A user-marked important contact that can be viewed at the top of the contacts list
+* **Seed Contacts**: Predefined contact list (e.g. NUS faculty admins) that can be bulk-loaded into your CampusBook
+* **Export/Import**: Functions to save or load contacts from CSV format
+* **Command-Line Interface (CLI)**: Text-based user interface where users type commands
+* **Motivational Message**: A short text displayed at startup to motivate the student to study harder
+* **User Guide**: A comprehensive guide to teach new users how to use the application
+* **Release**: A set of changes that updates or adds new functionality to a software product or service
+* **Course/Module Code**: A unique code given to a course/module given by NUS, which has a 2 or 3 letter prefix indicating the discipline, followed by four digits, and an optional suffix (e.g. DSA1101, CS2103T, MA2001)
+* **Startup**: The act of running the application for the first time after exiting it previously
 
 --------------------------------------------------------------------------------------------------------------------
 

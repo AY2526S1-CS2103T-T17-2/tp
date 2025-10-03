@@ -2,10 +2,11 @@
 
 ![Ui Mockup](docs/images/Ui.png)
 
-* This is **a project for university students** to easily find and access contact information of professors and administrative staff.  
+* This is a project for **NUS Students** to track and access school-related contacts (e.g. Professors, Faculty Admins, Coursemates) with ease and efficiency.  
   Example usages:
-  * as a centralized platform for searching professors’ contact details
+  * as a centralized platform to record the contact details of professors for various modules
   * as a quick reference for administrative staff information (e.g., faculty office, finance office, IT support)
+  * as a convenient address book to track a student's classmates
 * The project simulates a real-world software system for a desktop application (called _CampusBook_) used for managing and searching university contacts.
   * It is **written in OOP fashion**. It provides a **well-structured** code base (~6 KLoC) that students can extend, without being overwhelmingly big.
   * It comes with **comprehensive user and developer documentation**.
