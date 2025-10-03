@@ -37,3 +37,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 =======
 
+### Zhou Zirun
+
+<img src="images/sakichannn.png" width="200px">
+
+[[github](https://github.com/sakichannn)]
+[[portfolio](team/sakichannn.md)]
+
+* Role: Developer
+=======
