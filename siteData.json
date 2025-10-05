@@ -9,7 +9,8 @@
         "project-team": "Project team",
         "zuo-yi": "Zuo Yi",
         "nicholas-lim": "Nicholas Lim",
-        "david-joshua-sudartha": "David Joshua Sudartha"
+        "david-joshua-sudartha": "David Joshua Sudartha",
+        "zhou-zirun": "Zhou Zirun"
       },
       "headingKeywords": {}
     },
@@ -144,6 +145,14 @@
     {
       "src": "team/nicholaslimzixian.md",
       "title": "Nicholas Lim's Project Portfolio Page",
+      "headings": {
+        "project-addressbook-level-3": "Project: AddressBook Level 3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/sakichannn.md",
+      "title": "Zhou Zirun's Project Portfolio Page",
       "headings": {
         "project-addressbook-level-3": "Project: AddressBook Level 3"
       },
