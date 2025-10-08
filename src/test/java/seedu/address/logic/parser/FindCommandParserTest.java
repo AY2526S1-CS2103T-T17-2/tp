@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.TagContainsKeywordsPredicate; 
+import seedu.address.model.person.TagContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
 
@@ -52,5 +52,5 @@ public class FindCommandParserTest {
         assertParseFailure(parser, "Alice t/friends",
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
-    
+
 }

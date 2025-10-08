@@ -17,13 +17,13 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
             + "the specified keywords (case-insensitive) or whose tags match the specified tag.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]... OR t/TAG\n" 
+            + "Parameters: KEYWORD [MORE_KEYWORDS]... OR t/TAG\n"
             + "Example: " + COMMAND_WORD + " alice bob charlie\n"
-            + "Example: " + COMMAND_WORD + " t/friends"; 
+            + "Example: " + COMMAND_WORD + " t/friends";
 
-    private final Predicate<Person> predicate; 
+    private final Predicate<Person> predicate;
 
-    public FindCommand(Predicate<Person> predicate) { 
+    public FindCommand(Predicate<Person> predicate) {
         this.predicate = predicate;
     }
 
