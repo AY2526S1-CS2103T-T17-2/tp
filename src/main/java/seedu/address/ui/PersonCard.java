@@ -42,6 +42,8 @@ public class PersonCard extends UiPart<Region> {
     private FlowPane tags;
     @FXML
     private FlowPane faculties;
+    @FXML
+    private Label favorite;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -60,5 +62,8 @@ public class PersonCard extends UiPart<Region> {
         person.getFaculties().stream()
                 .sorted(Comparator.comparing(faculty -> faculty.facultyName))
                 .forEach(faculty -> faculties.getChildren().add(new Label(faculty.facultyName)));
+        if (person.getFavorite().getIsFavorite()) {
+            favorite.setText("⭐");
+        }
     }
 }

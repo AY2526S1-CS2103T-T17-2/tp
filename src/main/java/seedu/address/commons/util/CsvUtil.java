@@ -16,6 +16,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 
 import seedu.address.model.faculty.Faculty;
+import seedu.address.model.favorite.Favorite;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -57,7 +58,8 @@ public class CsvUtil {
                 Set<Tag> allTags = parseTags(nextLine[4]);
                 Set<Faculty> allFaculties = parseFaculties(nextLine[5]);
 
-                Person newPerson = new Person(name, phoneNo, email, address, allTags, allFaculties);
+                Person newPerson = new Person(name, phoneNo, email, address, allTags, allFaculties,
+                        Favorite.DEFAULT_NOT_FAVORITE);
 
                 contacts.add(newPerson);
             }

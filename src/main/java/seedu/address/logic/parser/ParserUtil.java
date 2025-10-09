@@ -10,6 +10,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.faculty.Faculty;
+import seedu.address.model.favorite.Favorite;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -124,6 +125,21 @@ public class ParserUtil {
             throw new ParseException(Faculty.MESSAGE_CONSTRAINTS);
         }
         return new Faculty(trimmedFaculty);
+    }
+
+    /**
+     * Parses a {@code String favorite} into a {@code Favorite}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code favorite} is invalid.
+     */
+    public static Favorite parseFavorite(String favorite) throws ParseException {
+        requireNonNull(favorite);
+        String trimmedFavorite = favorite.trim();
+        if (!Favorite.isValidFavorite(trimmedFavorite)) {
+            throw new ParseException(Favorite.MESSAGE_CONSTRAINTS);
+        }
+        return new Favorite(trimmedFavorite);
     }
 
     /**

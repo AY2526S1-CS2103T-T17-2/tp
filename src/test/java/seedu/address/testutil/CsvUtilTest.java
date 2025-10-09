@@ -16,6 +16,7 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import seedu.address.commons.util.CsvUtil;
 import seedu.address.model.faculty.Faculty;
+import seedu.address.model.favorite.Favorite;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -36,7 +37,8 @@ class CsvUtilTest {
                 new Email("alice@example.com"),
                 new Address("123 Wonderland St"),
                 Set.of(new Tag("friend"), new Tag("colleague")),
-                Set.of(new Faculty("Engineering"))
+                Set.of(new Faculty("Engineering")),
+                Favorite.DEFAULT_NOT_FAVORITE
         );
 
         Person person2 = new Person(
@@ -45,7 +47,8 @@ class CsvUtilTest {
                 new Email("bob@example.com"),
                 new Address("456 Nowhere Rd"),
                 Set.of(new Tag("family")),
-                Set.of(new Faculty("Science"), new Faculty("Arts"))
+                Set.of(new Faculty("Science"), new Faculty("Arts")),
+                Favorite.DEFAULT_NOT_FAVORITE
         );
 
         List<Person> contacts = List.of(person1, person2);
