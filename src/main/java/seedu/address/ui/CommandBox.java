@@ -1,9 +1,13 @@
 package seedu.address.ui;
 
+import java.util.Optional;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Region;
+import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -17,6 +21,8 @@ public class CommandBox extends UiPart<Region> {
     private static final String FXML = "CommandBox.fxml";
 
     private final CommandExecutor commandExecutor;
+    private final Logic logic;
+    private String temporaryInput = "";
 
     @FXML
     private TextField commandTextField;
@@ -27,8 +33,77 @@ public class CommandBox extends UiPart<Region> {
     public CommandBox(CommandExecutor commandExecutor) {
         super(FXML);
         this.commandExecutor = commandExecutor;
+        this.logic = null;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+    }
+
+    /**
+     * Creates a {@code CommandBox} with the given {@code CommandExecutor} and {@code Logic}.
+     * This constructor enables command history navigation.
+     */
+    public CommandBox(CommandExecutor commandExecutor, Logic logic) {
+        super(FXML);
+        this.commandExecutor = commandExecutor;
+        this.logic = logic;
+        // calls #setStyleToDefault() whenever there is a change to the text of the command box.
+        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+        setupKeyboardNavigation();
+    }
+
+    /**
+     * Sets up keyboard navigation for command history.
+     */
+    private void setupKeyboardNavigation() {
+        commandTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.UP) {
+                handleUpArrow();
+                event.consume();
+            } else if (event.getCode() == KeyCode.DOWN) {
+                handleDownArrow();
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Handles the UP arrow key press to navigate to the previous command in history.
+     */
+    private void handleUpArrow() {
+        if (logic == null) {
+            return;
+        }
+
+        // Save the current input before navigating
+        if (temporaryInput.isEmpty()) {
+            temporaryInput = commandTextField.getText();
+        }
+
+        Optional<String> previousCommand = logic.getCommandHistory().getPreviousCommand();
+        if (previousCommand.isPresent()) {
+            commandTextField.setText(previousCommand.get());
+            commandTextField.positionCaret(commandTextField.getText().length());
+        }
+    }
+
+    /**
+     * Handles the DOWN arrow key press to navigate to the next command in history.
+     */
+    private void handleDownArrow() {
+        if (logic == null) {
+            return;
+        }
+
+        Optional<String> nextCommand = logic.getCommandHistory().getNextCommand();
+        if (nextCommand.isPresent()) {
+            commandTextField.setText(nextCommand.get());
+            commandTextField.positionCaret(commandTextField.getText().length());
+        } else {
+            // Reached the end of history, restore the temporary input
+            commandTextField.setText(temporaryInput);
+            commandTextField.positionCaret(commandTextField.getText().length());
+            temporaryInput = "";
+        }
     }
 
     /**
@@ -44,6 +119,7 @@ public class CommandBox extends UiPart<Region> {
         try {
             commandExecutor.execute(commandText);
             commandTextField.setText("");
+            temporaryInput = ""; // Reset temporary input after command execution
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
         }
