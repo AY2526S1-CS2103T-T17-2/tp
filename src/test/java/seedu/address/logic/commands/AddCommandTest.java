@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -79,13 +79,13 @@ public class AddCommandTest {
 
     @Test
     public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
+        AddCommand addCommand = new AddCommand(new PersonBuilder().build());
+        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + addCommand.toAdd + "}";
         assertEquals(expected, addCommand.toString());
     }
 
     /**
-     * A default model stub that have all of the methods failing.
+     * A default model stub that has all of the methods failing.
      */
     private class ModelStub implements Model {
         @Override
@@ -157,6 +157,27 @@ public class AddCommandTest {
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        // Methods from Alias feature
+        @Override
+        public Map<String, String> getCommandAliases() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAlias(String alias, String commandString) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean removeAlias(String alias) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void clearAliases() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -200,5 +221,4 @@ public class AddCommandTest {
             return new AddressBook();
         }
     }
-
 }
