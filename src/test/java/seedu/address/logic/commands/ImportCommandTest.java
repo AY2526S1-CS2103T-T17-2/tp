@@ -28,7 +28,7 @@ class ModelStub implements Model {
 
     final List<Person> persons = new ArrayList<>();
 
-    public void removeAlias(String alias) {
+    public boolean removeAlias(String alias) {
         throw new AssertionError("This method should not be called.");
     }
 
