@@ -10,6 +10,7 @@ import static seedu.address.testutil.TypicalPersons.ALICE;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -157,6 +158,21 @@ public class AddCommandTest {
         public void updateFilteredPersonList(Predicate<Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public Map<String, String> getCommandAliases() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addAlias(String alias, String commandString) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean removeAlias(String alias) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
@@ -199,12 +215,6 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
         }
-
-        @Override
-        public void removeAlias(String alias) {
-            throw new AssertionError("This method should not be called.");
-        }
-
     }
 
 }
