@@ -12,8 +12,10 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.logic.commands.AliasCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.UnaliasCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -45,7 +47,9 @@ public class LogicManager implements Logic {
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        addressBookParser = new AddressBookParser();
+
+        // Pass the model to the parser to allow alias resolution
+        addressBookParser = new AddressBookParser(model);
 
         // Load command history from storage
         CommandHistory loadedHistory;
@@ -64,6 +68,8 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
+
+        // The parser will now resolve aliases *before* returning the command
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
@@ -73,6 +79,13 @@ public class LogicManager implements Logic {
         try {
             storage.saveAddressBook(model.getAddressBook());
             storage.saveCommandHistory(commandHistory.getHistory());
+
+            // Save UserPrefs if an alias command was executed
+            // This ensures new aliases persist immediately
+            if (command instanceof AliasCommand || command instanceof UnaliasCommand) {
+                storage.saveUserPrefs(model.getUserPrefs());
+            }
+
         } catch (AccessDeniedException e) {
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {

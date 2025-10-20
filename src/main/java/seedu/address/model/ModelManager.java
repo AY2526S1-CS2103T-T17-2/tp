@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map; // Required for alias
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -34,7 +35,7 @@ public class ModelManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
-        this.userPrefs = new UserPrefs(userPrefs);
+        this.userPrefs = new UserPrefs(userPrefs); // Ensures we have a mutable UserPrefs
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
 
         // Sort the address book by favorite status on initialization
@@ -78,6 +79,38 @@ public class ModelManager implements Model {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
+    }
+
+    //=========== Alias Methods ======================================================================
+
+    /**
+     * Returns an unmodifiable view of the command alias map from UserPrefs.
+     */
+    @Override
+    public Map<String, String> getCommandAliases() {
+        return userPrefs.getCommandAliases();
+    }
+
+    /**
+     * Adds a new command alias to UserPrefs.
+     * @param alias The alias name.
+     * @param commandString The full command string it maps to.
+     */
+    @Override
+    public void addAlias(String alias, String commandString) {
+        // The mutable UserPrefs object held by ModelManager is updated
+        userPrefs.addAlias(alias, commandString);
+    }
+
+    /**
+     * Removes a command alias from UserPrefs.
+     * @param alias The alias name to remove.
+     * @return true if the alias was removed, false otherwise.
+     */
+    @Override
+    public boolean removeAlias(String alias) {
+        // The mutable UserPrefs object held by ModelManager is updated
+        return userPrefs.removeAlias(alias) != null;
     }
 
     //=========== AddressBook ================================================================================
