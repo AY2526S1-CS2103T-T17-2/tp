@@ -58,7 +58,8 @@ public class AliasCommandTest {
     public void execute_aliasIsCommand_throwsCommandException() {
         Model model = new ModelManager();
         AliasCommand aliasCommand = new AliasCommand("list", "find");
-        assertThrows(CommandException.class, String.format(AliasCommand.MESSAGE_ALIAS_IS_COMMAND, "list"), () -> aliasCommand.execute(model));
+        assertThrows(CommandException.class, String.format(
+                AliasCommand.MESSAGE_ALIAS_IS_COMMAND, "list"), () -> aliasCommand.execute(model));
     }
 
     @Test
@@ -66,14 +67,16 @@ public class AliasCommandTest {
         Model model = new ModelManager();
         model.addAlias("l", "list");
         AliasCommand aliasCommand = new AliasCommand("la", "l");
-        assertThrows(CommandException.class, String.format(AliasCommand.MESSAGE_CHAINED_ALIAS_NOT_ALLOWED, "l"), () -> aliasCommand.execute(model));
+        assertThrows(CommandException.class, String.format(
+                AliasCommand.MESSAGE_CHAINED_ALIAS_NOT_ALLOWED, "l"), () -> aliasCommand.execute(model));
     }
 
     @Test
     public void execute_commandNotFound_throwsCommandException() {
         Model model = new ModelManager();
         AliasCommand aliasCommand = new AliasCommand("p", "play");
-        assertThrows(CommandException.class, String.format(AliasCommand.MESSAGE_COMMAND_NOT_FOUND, "play"), () -> aliasCommand.execute(model));
+        assertThrows(CommandException.class, String.format(
+                AliasCommand.MESSAGE_COMMAND_NOT_FOUND, "play"), () -> aliasCommand.execute(model));
     }
 
 
