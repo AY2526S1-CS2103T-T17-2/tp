@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,93 +19,19 @@ import com.opencsv.exceptions.CsvValidationException;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ImportCommandParser;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
-
-// Simple in-memory stub of Model for testing
-class ModelStub implements Model {
-
-    final List<Person> persons = new ArrayList<>();
-
-    @Override
-    public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-
-    }
-
-    @Override
-    public ReadOnlyUserPrefs getUserPrefs() {
-        return null;
-    }
-
-    @Override
-    public GuiSettings getGuiSettings() {
-        return null;
-    }
-
-    @Override
-    public void setGuiSettings(GuiSettings guiSettings) {
-
-    }
-
-    @Override
-    public Path getAddressBookFilePath() {
-        return null;
-    }
-
-    @Override
-    public void setAddressBookFilePath(Path addressBookFilePath) {
-
-    }
-
-    @Override
-    public void setAddressBook(ReadOnlyAddressBook addressBook) {
-
-    }
-
-    @Override
-    public ReadOnlyAddressBook getAddressBook() {
-        return null;
-    }
-
-    @Override
-    public boolean hasPerson(Person person) {
-        return persons.contains(person);
-    }
-
-    @Override
-    public void deletePerson(Person target) {
-
-    }
-
-    @Override
-    public void addPerson(Person person) {
-        persons.add(person);
-    }
-
-    @Override
-    public void setPerson(Person target, Person editedPerson) {
-
-    }
-
-    @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return null;
-    }
-
-    @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
-
-    }
-
-    // Stub out other Model methods if needed
-}
 
 class ImportCommandTest {
 
     @TempDir
     Path tempDir;
+
+    private final Model model = new ModelManager(new AddressBook(), new UserPrefs());
 
     @Test
     void execute_validCsv_importsAllContacts() throws IOException, CsvValidationException, Exception {
@@ -119,13 +46,12 @@ class ImportCommandTest {
         Files.writeString(csvFile, csvContent);
 
         ImportCommand command = new ImportCommand(csvFile);
-        ModelStub model = new ModelStub();
 
         // Act
         CommandResult result = command.execute(model);
 
         // Assert
-        assertEquals(3, model.persons.size());
+        assertEquals(3, model.getAddressBook().getPersonList().size());
         assertEquals("Imported 3 contact(s). Skipped 0 duplicate row(s).", result.getFeedbackToUser());
     }
 
@@ -140,11 +66,10 @@ class ImportCommandTest {
         Files.writeString(csvFile, csvContent);
 
         ImportCommand command = new ImportCommand(csvFile);
-        ModelStub model = new ModelStub();
 
         CommandResult result = command.execute(model);
 
-        assertEquals(1, model.persons.size()); // only one added
+        assertEquals(1, model.getAddressBook().getPersonList().size()); // only one added
         assertEquals("Imported 1 contact(s). Skipped 1 duplicate row(s).", result.getFeedbackToUser());
     }
 
@@ -153,6 +78,7 @@ class ImportCommandTest {
         Path fakeFile = tempDir.resolve("nonexistent.csv");
         ImportCommand command = new ImportCommand(fakeFile);
 
-        assertThrows(CommandException.class, () -> command.execute(new ModelStub()));
+        assertThrows(CommandException.class, () -> command.execute(model));
     }
+
 }

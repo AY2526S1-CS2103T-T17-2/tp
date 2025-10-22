@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import com.opencsv.exceptions.CsvValidationException;
@@ -20,6 +21,7 @@ import seedu.address.model.person.Person;
 public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
     public static final String INVALID_PATH_ERROR = "Path input is not valid";
+    public static final String INVALID_FILE_ERROR = "File doesn't exist or isn't a csv file";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports all the contacts from a CSV file and adds it to the current address book. "
             + "The address book will ignore any duplicates and"
@@ -37,12 +39,19 @@ public class ImportCommand extends Command {
      * @throws NullPointerException if {@code path} is null
      */
     public ImportCommand(Path path) {
-        requireNonNull(path);
         this.path = path;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (!java.nio.file.Files.exists(path)) {
+            throw new CommandException(INVALID_PATH_ERROR);
+        }
+
+        if (!java.nio.file.Files.isRegularFile(path)) {
+            throw new CommandException(INVALID_FILE_ERROR);
+        }
+
         List<Person> contacts;
         try {
             contacts = CsvUtil.readContactsFromCsv(path);

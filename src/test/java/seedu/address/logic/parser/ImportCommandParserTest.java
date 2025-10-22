@@ -61,4 +61,13 @@ class ImportCommandParserTest {
 
         assertThrows(ParseException.class, () -> parser.parse(invalidPath));
     }
+
+    @Test
+    void parse_emptyArgument_usesDefaultPathOrThrows() {
+        assertDoesNotThrow(() -> parser.parse(""));
+
+        assertDoesNotThrow(() -> parser.parse("   "));
+    }
+
 }
+

@@ -17,9 +17,14 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ImportCommandParser implements Parser<ImportCommand> {
 
+    private static final Path DEFAULT_PATH= Paths.get(System.getProperty("user.home"), "Downloads"
+            , "CampusBook_contacts.csv");
+
     @Override
     public ImportCommand parse(String userInput) throws ParseException {
-        requireNonNull(userInput);
+        if (userInput == null) {
+            userInput = "";
+        }
 
         userInput = userInput.trim();
         if ((userInput.startsWith("\"") && userInput.endsWith("\""))
@@ -28,12 +33,17 @@ public class ImportCommandParser implements Parser<ImportCommand> {
         }
 
         try {
+            if (userInput.isEmpty()) {
+                return new ImportCommand(DEFAULT_PATH);
+            }
+
             Path path = Paths.get(userInput);
             if (!userInput.endsWith(".csv") || !Files.exists(path) || !Files.isRegularFile(path)) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE)
                 );
             }
+
             return new ImportCommand(path);
         } catch (InvalidPathException e) {
             throw new ParseException(
