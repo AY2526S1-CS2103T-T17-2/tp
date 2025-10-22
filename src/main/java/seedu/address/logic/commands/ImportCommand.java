@@ -27,8 +27,10 @@ public class ImportCommand extends Command {
             + "The address book will ignore any duplicates and"
             + " incorrect data formats. "
             + "The name, email, phone and address columns must be all present and valid inputs\n"
-            + "Parameters: Path file (must be the full path)\n"
-            + "Example: " + COMMAND_WORD + " C://Users//djsud//Downloads//CampusBook_contacts.csv";
+            + "Parameters: empty or Path file (must be the full path)\n"
+            + "Notes: If parameter is empty, then will try to find ../Downloads/CampusBook_contacts.csv"
+            + "Example: " + COMMAND_WORD + " C:/Users/djsud/Downloads/CampusBook_contacts.csv or "
+            + COMMAND_WORD + " (NOTHING HERE)";
 
     private Path path;
 

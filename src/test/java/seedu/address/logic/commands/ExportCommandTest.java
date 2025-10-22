@@ -9,20 +9,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import javafx.collections.ObservableList;
-import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.util.CsvUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.*;
 import seedu.address.model.favorite.Favorite;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -35,91 +29,16 @@ class ExportCommandTest {
     @TempDir
     Path tempDir;
 
-    private TestModel model;
+    private Model model;
 
     @BeforeEach
     void setUp() {
-        model = new TestModel();
+        model = new ModelManager(new AddressBook(), new UserPrefs());
     }
 
     /**
      * Minimal in-memory Model implementation for testing ExportCommand.
      */
-    private static class TestModel implements Model {
-        private final AddressBook addressBook = new AddressBook();
-
-        @Override
-        public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
-
-        }
-
-        @Override
-        public ReadOnlyUserPrefs getUserPrefs() {
-            return null;
-        }
-
-        @Override
-        public GuiSettings getGuiSettings() {
-            return null;
-        }
-
-        @Override
-        public void setGuiSettings(GuiSettings guiSettings) {
-
-        }
-
-        @Override
-        public Path getAddressBookFilePath() {
-            return null;
-        }
-
-        @Override
-        public void setAddressBookFilePath(Path addressBookFilePath) {
-
-        }
-
-        @Override
-        public void setAddressBook(ReadOnlyAddressBook addressBook) {
-
-        }
-
-        @Override
-        public AddressBook getAddressBook() {
-            return addressBook;
-        }
-
-        @Override
-        public boolean hasPerson(Person person) {
-            return addressBook.hasPerson(person);
-        }
-
-        @Override
-        public void deletePerson(Person target) {
-
-        }
-
-        @Override
-        public void addPerson(Person person) {
-            addressBook.addPerson(person);
-        }
-
-        @Override
-        public void setPerson(Person target, Person editedPerson) {
-
-        }
-
-        @Override
-        public ObservableList<Person> getFilteredPersonList() {
-            return null;
-        }
-
-        @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
-
-        }
-
-        // Other Model methods are not needed for these tests
-    }
 
     @Test
     void execute_emptyAddressBook_returnsEmptyMessage() throws Exception {
