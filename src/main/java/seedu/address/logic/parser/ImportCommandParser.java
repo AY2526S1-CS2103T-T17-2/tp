@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.nio.file.Files;
@@ -17,8 +16,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ImportCommandParser implements Parser<ImportCommand> {
 
-    private static final Path DEFAULT_PATH= Paths.get(System.getProperty("user.home"), "Downloads"
-            , "CampusBook_contacts.csv");
+    private static final Path DEFAULT_PATH = Paths.get(System.getProperty("user.home"), "Downloads",
+            "CampusBook_contacts.csv");
 
     @Override
     public ImportCommand parse(String userInput) throws ParseException {
@@ -31,12 +30,11 @@ public class ImportCommandParser implements Parser<ImportCommand> {
                 || (userInput.startsWith("'") && userInput.endsWith("'"))) {
             userInput = userInput.substring(1, userInput.length() - 1);
         }
+        if (userInput.isEmpty()) {
+            return new ImportCommand(DEFAULT_PATH);
+        }
 
         try {
-            if (userInput.isEmpty()) {
-                return new ImportCommand(DEFAULT_PATH);
-            }
-
             Path path = Paths.get(userInput);
             if (!userInput.endsWith(".csv") || !Files.exists(path) || !Files.isRegularFile(path)) {
                 throw new ParseException(
