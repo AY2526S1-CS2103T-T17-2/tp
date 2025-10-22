@@ -1,10 +1,7 @@
 package seedu.address.ui;
 
-import java.util.Comparator;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
@@ -39,12 +36,6 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
-    private FlowPane tags;
-    @FXML
-    private FlowPane modules;
-    @FXML
-    private FlowPane faculties;
-    @FXML
     private Label favorite;
 
     /**
@@ -58,15 +49,6 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        person.getModules().stream()
-                .sorted(Comparator.comparing(module -> module.moduleName))
-                .forEach(module -> modules.getChildren().add(new Label(module.moduleName)));
-        person.getFaculties().stream()
-                .sorted(Comparator.comparing(faculty -> faculty.facultyName))
-                .forEach(faculty -> faculties.getChildren().add(new Label(faculty.facultyName)));
         if (person.getFavorite().getIsFavorite()) {
             favorite.setText("★");
             cardPane.getStyleClass().add("favorite-card");
