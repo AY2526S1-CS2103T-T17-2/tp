@@ -12,7 +12,18 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.Logic;
-import seedu.address.logic.commands.*;
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ImportCommand;
+import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -23,6 +34,22 @@ public class CommandBox extends UiPart<Region> {
 
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
+    private static final String[] BUILT_IN_COMMANDS = {
+        AddCommand.COMMAND_WORD,
+        EditCommand.COMMAND_WORD,
+        DeleteCommand.COMMAND_WORD,
+        ClearCommand.COMMAND_WORD,
+        FindCommand.COMMAND_WORD,
+        ListCommand.COMMAND_WORD,
+        ExitCommand.COMMAND_WORD,
+        HelpCommand.COMMAND_WORD,
+        SelectCommand.COMMAND_WORD,
+        ExportCommand.COMMAND_WORD,
+        ImportCommand.COMMAND_WORD
+        // AliasCommand.COMMAND_WORD,
+        // UnaliasCommand.COMMAND_WORD,
+        // ListAliasesCommand.COMMAND_WORD
+    };
 
     private final CommandExecutor commandExecutor;
     private final Logic logic;
@@ -33,22 +60,6 @@ public class CommandBox extends UiPart<Region> {
 
     private ResultDisplay resultDisplay;
 
-    private static final String[] BUILT_IN_COMMANDS = {
-            AddCommand.COMMAND_WORD,
-            EditCommand.COMMAND_WORD,
-            DeleteCommand.COMMAND_WORD,
-            ClearCommand.COMMAND_WORD,
-            FindCommand.COMMAND_WORD,
-            ListCommand.COMMAND_WORD,
-            ExitCommand.COMMAND_WORD,
-            HelpCommand.COMMAND_WORD,
-            SelectCommand.COMMAND_WORD,
-            ExportCommand.COMMAND_WORD,
-            ImportCommand.COMMAND_WORD//,
-//            AliasCommand.COMMAND_WORD,
-//            UnaliasCommand.COMMAND_WORD,
-//            ListAliasesCommand.COMMAND_WORD
-    };
 
 
 
@@ -204,7 +215,9 @@ public class CommandBox extends UiPart<Region> {
 
             if (input.isEmpty()) {
                 Path home = Paths.get(System.getProperty("user.home"));
-                if (!Files.isDirectory(home)) return null;
+                if (!Files.isDirectory(home)) {
+                    return null;
+                }
                 try (var stream = Files.list(home)) {
                     return stream
                             .map(Path::getFileName)
@@ -240,7 +253,9 @@ public class CommandBox extends UiPart<Region> {
                 prefix = leaf.toString();
             }
 
-            if (!Files.isDirectory(dirToList)) return null;
+            if (!Files.isDirectory(dirToList)) {
+                return null;
+            }
 
             // Compute what to return: keep original parent from user input so we
             // return a path that "completes" what they typed
@@ -254,7 +269,9 @@ public class CommandBox extends UiPart<Region> {
                         .sorted()
                         .findFirst();
 
-                if (first.isEmpty()) return null;
+                if (first.isEmpty()) {
+                    return null;
+                }
 
                 Path completed = (userParent == null)
                         ? Paths.get(first.get())

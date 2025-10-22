@@ -6,6 +6,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -18,6 +19,8 @@ import com.opencsv.exceptions.CsvValidationException;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ImportCommandParser;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
@@ -105,6 +108,7 @@ class ImportCommandTest {
 
     @TempDir
     Path tempDir;
+    private final ImportCommandParser parser = new ImportCommandParser();
 
     @Test
     void execute_validCsv_importsAllContacts() throws IOException, CsvValidationException, Exception {
@@ -154,5 +158,30 @@ class ImportCommandTest {
         ImportCommand command = new ImportCommand(fakeFile);
 
         assertThrows(CommandException.class, () -> command.execute(new ModelStub()));
+    }
+
+    @Test
+    public void parse_validFileName_resolvesToDownloadsDirectory() throws Exception {
+        String fileName = "contacts.csv";
+        String userHome = System.getProperty("user.home");
+        Path expectedPath = Paths.get(userHome, "Downloads", fileName);
+
+        // Stub file existence for test purposes — create a temp file
+        Path tempFile = expectedPath;
+        java.nio.file.Files.createDirectories(tempFile.getParent());
+        java.nio.file.Files.createFile(tempFile);
+
+        try {
+            ImportCommand command = parser.parse(fileName);
+            assertEquals(expectedPath, command.getPath());
+        } finally {
+            // Clean up the temporary file
+            java.nio.file.Files.deleteIfExists(tempFile);
+        }
+    }
+
+    @Test
+    public void parse_nonCsvFile_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse("contacts.txt"));
     }
 }
