@@ -34,7 +34,6 @@ public class ImportCommand extends Command {
             + "  " + COMMAND_WORD + " contacts.csv\n"
             + "  " + COMMAND_WORD + " C://Users//djsud//Downloads//CampusBook_contacts.csv";
 
-
     private Path path;
 
     /**
