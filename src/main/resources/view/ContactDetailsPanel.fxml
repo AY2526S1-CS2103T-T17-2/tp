@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" styleClass="details-right-pane">
+  <content>
+    <VBox fx:id="detailsContainer" spacing="14" fillWidth="true" prefWidth="400" styleClass="details-right-pane">
+
+        <!-- Name and favorite -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label fx:id="name" styleClass="details-name"/>
+            <Label fx:id="favorite" styleClass="favorite_star" visible="false" managed="false" text="★"/>
+        </HBox>
+
+        <!-- Card body -->
+        <VBox spacing="12" styleClass="details-card" fillWidth="true" VBox.vgrow="ALWAYS">
+            <Label text="Contact Details" styleClass="details-section-title"/>
+
+            <!-- Address -->
+            <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+                <Label text="🏢" styleClass="icon"
+                       minWidth="20" prefWidth="20" maxWidth="20"/>
+                <Label fx:id="address"
+                       wrapText="true" textOverrun="CLIP"
+                       styleClass="details-person-text" prefWidth="0"
+                       maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- Phone -->
+            <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+                <Label text="📞" styleClass="icon"
+                       minWidth="20" prefWidth="20" maxWidth="20"/>
+                <Label fx:id="phone"
+                       wrapText="true" textOverrun="CLIP"
+                       styleClass="details-person-text" prefWidth="0"
+                       maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- Email -->
+            <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+                <Label text="✉" styleClass="icon"
+                       minWidth="20" prefWidth="20" maxWidth="20"/>
+                <Label fx:id="email"
+                       wrapText="true" textOverrun="CLIP"
+                       styleClass="details-person-text" prefWidth="0"
+                       maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- Divider -->
+            <Region styleClass="details-divider" VBox.vgrow="NEVER"/>
+
+            <!-- Faculties chips -->
+            <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+                <Label text="Faculties:" styleClass="details-person-text"
+                       minWidth="80" prefWidth="80" maxWidth="80"/>
+                <FlowPane fx:id="faculties" hgap="6" vgap="6"
+                          rowValignment="CENTER"/>
+            </HBox>
+
+            <!-- Modules chips -->
+            <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+                <Label text="Modules:" styleClass="details-person-text"
+                       minWidth="80" prefWidth="80" maxWidth="80"/>
+                <FlowPane fx:id="modules" hgap="6" vgap="6"
+                          rowValignment="CENTER"
+                          HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+
+            <!-- Tags chips -->
+            <HBox spacing="10" alignment="CENTER_LEFT" fillHeight="true">
+                <Label text="Tags:" styleClass="details-person-text"
+                       minWidth="80" prefWidth="80" maxWidth="80"/>
+                <FlowPane fx:id="tags" hgap="6" vgap="6"
+                          rowValignment="CENTER"
+                          HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </HBox>
+        </VBox>
+    </VBox>
+  </content>
+</ScrollPane>
