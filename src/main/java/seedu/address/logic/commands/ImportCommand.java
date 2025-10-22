@@ -23,7 +23,7 @@ public class ImportCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports all the contacts from a CSV file and adds it to the current address book. "
             + "The address book will ignore any duplicates and"
-            + " incorrect data formats. "
+            + " incorrect data formats. \n"
             + "The name, email, phone and address columns must be all present and valid inputs\n"
             + "Parameters: Path file (must be the full path)\n"
             + "Example: " + COMMAND_WORD + " C://Users//djsud//Downloads//CampusBook_contacts.csv";

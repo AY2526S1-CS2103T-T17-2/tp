@@ -1,11 +1,15 @@
 package seedu.address.ui;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.*;
@@ -46,6 +50,8 @@ public class CommandBox extends UiPart<Region> {
 //            ListAliasesCommand.COMMAND_WORD
     };
 
+
+
     /**
      * Creates a {@code CommandBox} with the given {@code CommandExecutor}.
      */
@@ -69,6 +75,13 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
         setupKeyboardNavigation();
+
+        commandTextField.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                handleTab();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -81,9 +94,6 @@ public class CommandBox extends UiPart<Region> {
                 event.consume();
             } else if (event.getCode() == KeyCode.DOWN) {
                 handleDownArrow();
-                event.consume();
-            } else if (event.getCode() ==  KeyCode.TAB) {
-                handleTab();
                 event.consume();
             }
         });
@@ -127,6 +137,8 @@ public class CommandBox extends UiPart<Region> {
             commandTextField.positionCaret(commandTextField.getText().length());
             temporaryInput = "";
         }
+
+        commandTextField.positionCaret(commandTextField.getText().length());
     }
 
     /**
@@ -134,8 +146,20 @@ public class CommandBox extends UiPart<Region> {
      */
     private void handleTab() {
         String currInput = commandTextField.getText();
-        String completion = autocomplete(currInput);
+        String[] parts = currInput.split(" ", 2);
+        String command = parts[0];
+        String argument = parts.length > 1 ? parts[1] : "";
 
+        if (ImportCommand.COMMAND_WORD.equals(command)) {
+            String match = getFirstMatchingFile(argument);
+            if (match != null) {
+                commandTextField.setText(command + " " + match);
+                commandTextField.positionCaret(commandTextField.getText().length());
+            }
+            return;
+        }
+
+        String completion = autocomplete(currInput);
         if (completion != null) {
             commandTextField.setText(completion);
             commandTextField.positionCaret(completion.length());
@@ -171,6 +195,79 @@ public class CommandBox extends UiPart<Region> {
         // If exactly one match, return it
         return count == 1 ? match : null;
     }
+
+    private String getFirstMatchingFile(String partialPath) {
+        try {
+            final Path cwd = Paths.get(System.getProperty("user.home"), "Downloads");
+
+            String input = (partialPath == null) ? "" : partialPath.trim();
+
+            if (input.isEmpty()) {
+                Path home = Paths.get(System.getProperty("user.home"));
+                if (!Files.isDirectory(home)) return null;
+                try (var stream = Files.list(home)) {
+                    return stream
+                            .map(Path::getFileName)
+                            .map(Path::toString)
+                            .filter(name -> name.endsWith(".csv")) // optional
+                            .sorted()
+                            .findFirst()
+                            .map(name -> home.resolve(name).toString())
+                            .orElse(null);
+                }
+            }
+
+            Path raw = Paths.get(input);
+            boolean endsWithSeparator =
+                    input.endsWith("/") || input.endsWith("\\"); // handle both
+
+            // Resolve to absolute for listing
+            Path resolved = raw.isAbsolute() ? raw : cwd.resolve(raw).normalize();
+
+            // Decide directory to list and prefix to match
+            Path dirToList;
+            String prefix;
+
+            if (endsWithSeparator || Files.isDirectory(resolved)) {
+                // User typed a directory (or ended with slash): list inside it
+                dirToList = resolved;
+                prefix = "";
+            } else {
+                // User typed something like "path/to/pa" → list parent and match "pa"
+                Path parent = resolved.getParent();
+                dirToList = (parent == null) ? cwd : parent;
+                Path leaf = resolved.getFileName(); // guaranteed non-null here
+                prefix = leaf.toString();
+            }
+
+            if (!Files.isDirectory(dirToList)) return null;
+
+            // Compute what to return: keep original parent from user input so we
+            // return a path that "completes" what they typed
+            Path userParent = raw.getParent(); // may be null
+            try (var stream = Files.list(dirToList)) {
+                Optional<String> first = stream
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .filter(name -> name.startsWith(prefix))
+                        .filter(name -> name.endsWith(".csv")) // optional: only CSVs
+                        .sorted()
+                        .findFirst();
+
+                if (first.isEmpty()) return null;
+
+                Path completed = (userParent == null)
+                        ? Paths.get(first.get())
+                        : userParent.resolve(first.get());
+
+                // Return as a string exactly what should appear after the command word
+                return completed.normalize().toString();
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     /**
      * Handles the Enter button pressed event.
