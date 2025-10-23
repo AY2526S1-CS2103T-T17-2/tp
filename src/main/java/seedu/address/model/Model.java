@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -84,4 +85,23 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Returns an unmodifiable view of the command alias map.
+     */
+    Map<String, String> getCommandAliases();
+
+    /**
+     * Adds a new command alias and saves user preferences.
+     * @param alias The alias name.
+     * @param commandString The full command string it maps to.
+     */
+    void addAlias(String alias, String commandString);
+
+    /**
+     * Removes a command alias and saves user preferences.
+     * @param alias The alias name to remove.
+     * @return true if the alias was removed, false otherwise.
+     */
+    boolean removeAlias(String alias);
 }
