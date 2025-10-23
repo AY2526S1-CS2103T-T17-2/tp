@@ -1,8 +1,7 @@
 package seedu.address.ui;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import static seedu.address.commons.util.FileUtil.getFirstMatchingFile;
+
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
@@ -12,20 +11,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import seedu.address.logic.Logic;
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.LogicManager;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.ExportCommand;
-import seedu.address.logic.commands.FindCommand;
-import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.commands.ListCommand;
-import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+
 
 /**
  * The UI component that is responsible for receiving user command inputs.
@@ -34,22 +25,7 @@ public class CommandBox extends UiPart<Region> {
 
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
-    private static final String[] BUILT_IN_COMMANDS = {
-        AddCommand.COMMAND_WORD,
-        EditCommand.COMMAND_WORD,
-        DeleteCommand.COMMAND_WORD,
-        ClearCommand.COMMAND_WORD,
-        FindCommand.COMMAND_WORD,
-        ListCommand.COMMAND_WORD,
-        ExitCommand.COMMAND_WORD,
-        HelpCommand.COMMAND_WORD,
-        SelectCommand.COMMAND_WORD,
-        ExportCommand.COMMAND_WORD,
-        ImportCommand.COMMAND_WORD
-        // AliasCommand.COMMAND_WORD,
-        // UnaliasCommand.COMMAND_WORD,
-        // ListAliasesCommand.COMMAND_WORD
-    };
+    private static final String[] BUILT_IN_COMMANDS = LogicManager.ALL_COMMANDS;
 
     private final CommandExecutor commandExecutor;
     private final Logic logic;
@@ -205,84 +181,6 @@ public class CommandBox extends UiPart<Region> {
 
         // If exactly one match, return it
         return count == 1 ? match : null;
-    }
-
-    private String getFirstMatchingFile(String partialPath) {
-        try {
-            final Path cwd = Paths.get(System.getProperty("user.home"), "Downloads");
-
-            String input = (partialPath == null) ? "" : partialPath.trim();
-
-            if (input.isEmpty()) {
-                Path home = Paths.get(System.getProperty("user.home"));
-                if (!Files.isDirectory(home)) {
-                    return null;
-                }
-                try (var stream = Files.list(home)) {
-                    return stream
-                            .map(Path::getFileName)
-                            .map(Path::toString)
-                            .filter(name -> name.endsWith(".csv")) // optional
-                            .sorted()
-                            .findFirst()
-                            .map(name -> home.resolve(name).toString())
-                            .orElse(null);
-                }
-            }
-
-            Path raw = Paths.get(input);
-            boolean endsWithSeparator =
-                    input.endsWith("/") || input.endsWith("\\"); // handle both
-
-            // Resolve to absolute for listing
-            Path resolved = raw.isAbsolute() ? raw : cwd.resolve(raw).normalize();
-
-            // Decide directory to list and prefix to match
-            Path dirToList;
-            String prefix;
-
-            if (endsWithSeparator || Files.isDirectory(resolved)) {
-                // User typed a directory (or ended with slash): list inside it
-                dirToList = resolved;
-                prefix = "";
-            } else {
-                // User typed something like "path/to/pa" → list parent and match "pa"
-                Path parent = resolved.getParent();
-                dirToList = (parent == null) ? cwd : parent;
-                Path leaf = resolved.getFileName(); // guaranteed non-null here
-                prefix = leaf.toString();
-            }
-
-            if (!Files.isDirectory(dirToList)) {
-                return null;
-            }
-
-            // Compute what to return: keep original parent from user input so we
-            // return a path that "completes" what they typed
-            Path userParent = raw.getParent(); // may be null
-            try (var stream = Files.list(dirToList)) {
-                Optional<String> first = stream
-                        .map(Path::getFileName)
-                        .map(Path::toString)
-                        .filter(name -> name.startsWith(prefix))
-                        .filter(name -> name.endsWith(".csv")) // optional: only CSVs
-                        .sorted()
-                        .findFirst();
-
-                if (first.isEmpty()) {
-                    return null;
-                }
-
-                Path completed = (userParent == null)
-                        ? Paths.get(first.get())
-                        : userParent.resolve(first.get());
-
-                // Return as a string exactly what should appear after the command word
-                return completed.normalize().toString();
-            }
-        } catch (Exception e) {
-            return null;
-        }
     }
 
 

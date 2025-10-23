@@ -6,7 +6,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -175,24 +174,31 @@ class ImportCommandTest {
     }
 
     @Test
-    public void parse_validFileName_resolvesToDownloadsDirectory() throws Exception {
+    void parse_validFileName_resolvesToDownloadsDirectory() throws Exception {
         String fileName = "contacts.csv";
-        String userHome = System.getProperty("user.home");
-        Path expectedPath = Paths.get(userHome, "Downloads", fileName);
 
-        // Stub file existence for test purposes — create a temp file
-        Path tempFile = expectedPath;
-        java.nio.file.Files.createDirectories(tempFile.getParent());
-        java.nio.file.Files.createFile(tempFile);
+        // Arrange: redirect "user.home" to a temporary directory
+        String originalUserHome = System.getProperty("user.home");
+        System.setProperty("user.home", tempDir.toString());
 
         try {
+            Path fakeDownloadsDir = tempDir.resolve("Downloads");
+            Files.createDirectories(fakeDownloadsDir);
+
+            Path expectedPath = fakeDownloadsDir.resolve(fileName);
+            Files.createFile(expectedPath);
+
+            ImportCommandParser parser = new ImportCommandParser();
             ImportCommand command = parser.parse(fileName);
+
+            // Assert
             assertEquals(expectedPath, command.getPath());
         } finally {
-            // Clean up the temporary file
-            java.nio.file.Files.deleteIfExists(tempFile);
+            // Restore the original "user.home" after the test
+            System.setProperty("user.home", originalUserHome);
         }
     }
+
 
     @Test
     public void parse_nonCsvFile_throwsParseException() {
