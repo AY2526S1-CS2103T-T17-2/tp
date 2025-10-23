@@ -81,4 +81,12 @@ public class ImportCommand extends Command {
     public void setPath(Path path) {
         this.path = path;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ImportCommand
+                && path.equals(((ImportCommand) other).path));
+    }
+
 }

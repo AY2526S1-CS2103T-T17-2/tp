@@ -16,7 +16,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  */
 public class ImportCommandParser implements Parser<ImportCommand> {
 
-    private static final Path DEFAULT_PATH = Paths.get(System.getProperty("user.home"), "Downloads",
+    public static final Path DEFAULT_PATH = Paths.get(System.getProperty("user.home"), "Downloads",
             "CampusBook_contacts.csv");
 
     @Override
