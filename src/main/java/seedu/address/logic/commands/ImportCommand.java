@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -20,6 +18,7 @@ import seedu.address.model.person.Person;
 public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
     public static final String INVALID_PATH_ERROR = "Path input is not valid";
+    public static final String INVALID_FILE_ERROR = "File doesn't exist or isn't a csv file";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports contacts from a CSV file into the current address book. "
             + "Duplicate entries and invalid data formats will be ignored.\n"
@@ -43,12 +42,19 @@ public class ImportCommand extends Command {
      * @throws NullPointerException if {@code path} is null
      */
     public ImportCommand(Path path) {
-        requireNonNull(path);
         this.path = path;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        if (!java.nio.file.Files.exists(path)) {
+            throw new CommandException(INVALID_PATH_ERROR);
+        }
+
+        if (!java.nio.file.Files.isRegularFile(path)) {
+            throw new CommandException(INVALID_FILE_ERROR);
+        }
+
         List<Person> contacts;
         try {
             contacts = CsvUtil.readContactsFromCsv(path);
@@ -79,4 +85,12 @@ public class ImportCommand extends Command {
     public void setPath(Path path) {
         this.path = path;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ImportCommand
+                && path.equals(((ImportCommand) other).path));
+    }
+
 }

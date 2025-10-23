@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import seedu.address.logic.commands.ImportCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 class ImportCommandParserTest {
@@ -61,4 +63,17 @@ class ImportCommandParserTest {
 
         assertThrows(ParseException.class, () -> parser.parse(invalidPath));
     }
+
+    @Test
+    void parse_emptyArgument_usesDefaultPathOrThrows() {
+        ImportCommand expectedCommand = new ImportCommand(ImportCommandParser.DEFAULT_PATH);
+
+        // Empty input
+        assertParseSuccess(parser, "", expectedCommand);
+
+        // Whitespace input
+        assertParseSuccess(parser, "   ", expectedCommand);
+    }
+
 }
+
