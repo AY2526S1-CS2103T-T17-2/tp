@@ -19,6 +19,8 @@ import com.opencsv.exceptions.CsvValidationException;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ImportCommandParser;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
@@ -119,6 +121,7 @@ class ImportCommandTest {
 
     @TempDir
     Path tempDir;
+    private final ImportCommandParser parser = new ImportCommandParser();
 
     @Test
     void execute_validCsv_importsAllContacts() throws IOException, CsvValidationException, Exception {
@@ -168,5 +171,37 @@ class ImportCommandTest {
         ImportCommand command = new ImportCommand(fakeFile);
 
         assertThrows(CommandException.class, () -> command.execute(new ModelStub()));
+    }
+
+    @Test
+    void parse_validFileName_resolvesToDownloadsDirectory() throws Exception {
+        String fileName = "contacts.csv";
+
+        // Arrange: redirect "user.home" to a temporary directory
+        String originalUserHome = System.getProperty("user.home");
+        System.setProperty("user.home", tempDir.toString());
+
+        try {
+            Path fakeDownloadsDir = tempDir.resolve("Downloads");
+            Files.createDirectories(fakeDownloadsDir);
+
+            Path expectedPath = fakeDownloadsDir.resolve(fileName);
+            Files.createFile(expectedPath);
+
+            ImportCommandParser parser = new ImportCommandParser();
+            ImportCommand command = parser.parse(fileName);
+
+            // Assert
+            assertEquals(expectedPath, command.getPath());
+        } finally {
+            // Restore the original "user.home" after the test
+            System.setProperty("user.home", originalUserHome);
+        }
+    }
+
+
+    @Test
+    public void parse_nonCsvFile_throwsParseException() {
+        assertThrows(ParseException.class, () -> parser.parse("contacts.txt"));
     }
 }

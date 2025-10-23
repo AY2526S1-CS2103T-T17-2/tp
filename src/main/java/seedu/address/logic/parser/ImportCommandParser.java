@@ -29,6 +29,11 @@ public class ImportCommandParser implements Parser<ImportCommand> {
 
         try {
             Path path = Paths.get(userInput);
+
+            if (!path.isAbsolute()) {
+                String userHome = System.getProperty("user.home");
+                path = Paths.get(userHome, "Downloads", userInput);
+            }
             if (!userInput.endsWith(".csv") || !Files.exists(path) || !Files.isRegularFile(path)) {
                 throw new ParseException(
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, ImportCommand.MESSAGE_USAGE)
