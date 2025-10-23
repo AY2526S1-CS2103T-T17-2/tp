@@ -39,10 +39,6 @@ class ExportCommandTest {
         model = new ModelManager(new AddressBook(), new UserPrefs());
     }
 
-    /**
-     * Minimal in-memory Model implementation for testing ExportCommand.
-     */
-
     @Test
     void execute_emptyAddressBook_returnsEmptyMessage() throws Exception {
         ExportCommand command = new ExportCommand();
