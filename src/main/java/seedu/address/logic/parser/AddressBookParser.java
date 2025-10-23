@@ -3,12 +3,14 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
+import java.util.Map; // Import Map
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AliasCommand; // Import new command
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -18,9 +20,12 @@ import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
+import seedu.address.logic.commands.ListAliasesCommand; // Import new command
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
+import seedu.address.logic.commands.UnaliasCommand; // Import new command
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Model; // Import Model
 
 /**
  * Parses user input.
@@ -28,10 +33,24 @@ import seedu.address.logic.parser.exceptions.ParseException;
 public class AddressBookParser {
 
     /**
-     * Used for initial separation of command word and args.
+     * Used for initial separation of command word and arguments.
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
     private static final Logger logger = LogsCenter.getLogger(AddressBookParser.class);
+
+    // Add model field
+    private final Model model;
+
+    /**
+     * Constructs an {@code AddressBookParser} that uses the given {@code Model}
+     * to resolve aliases.
+     *
+     * @param model The model component to get alias definitions from.
+     */
+    public AddressBookParser(Model model) {
+        this.model = model;
+    }
+
 
     /**
      * Parses user input into command for execution.
@@ -46,12 +65,31 @@ public class AddressBookParser {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
 
-        final String commandWord = matcher.group("commandWord");
-        final String arguments = matcher.group("arguments");
+        String commandWord = matcher.group("commandWord");
+        String arguments = matcher.group("arguments");
 
-        // Note to developers: Change the log level in config.json to enable lower level (i.e., FINE, FINER and lower)
-        // log messages such as the one below.
-        // Lower level log messages are used sparingly to minimize noise in the code.
+        final Map<String, String> aliases = model.getCommandAliases();
+
+        if (aliases.containsKey(commandWord)) {
+            final String aliasedCommand = aliases.get(commandWord);
+            final String newCommandText = (aliasedCommand + " " + arguments).trim();
+
+            logger.fine("Alias detected. Original: '" + userInput
+                        + "', Substituted: '" + newCommandText + "'");
+
+            final Matcher newMatcher = BASIC_COMMAND_FORMAT.matcher(newCommandText);
+
+            // This should always match, but we check for safety
+            if (!newMatcher.matches()) {
+                throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+            }
+
+            // Update commandWord and arguments to the substituted values
+            commandWord = newMatcher.group("commandWord");
+            arguments = newMatcher.group("arguments");
+        }
+
+
         logger.fine("Command word: " + commandWord + "; Arguments: " + arguments);
 
         switch (commandWord) {
@@ -88,6 +126,15 @@ public class AddressBookParser {
 
         case ImportCommand.COMMAND_WORD:
             return new ImportCommandParser().parse(arguments);
+
+        case AliasCommand.COMMAND_WORD:
+            return new AliasCommandParser().parse(arguments);
+
+        case UnaliasCommand.COMMAND_WORD:
+            return new UnaliasCommandParser().parse(arguments);
+
+        case ListAliasesCommand.COMMAND_WORD:
+            return new ListAliasesCommand();
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

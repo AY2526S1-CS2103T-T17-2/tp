@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -73,7 +74,7 @@ class ModelStub implements Model {
 
     @Override
     public boolean hasPerson(Person person) {
-        return persons.contains(person);
+        return persons.stream().anyMatch(p -> p.isSamePerson(person));
     }
 
     @Override
@@ -101,7 +102,20 @@ class ModelStub implements Model {
 
     }
 
-    // Stub out other Model methods if needed
+    @Override
+    public Map<String, String> getCommandAliases() {
+        return null;
+    }
+
+    @Override
+    public void addAlias(String alias, String commandString) {
+
+    }
+
+    @Override
+    public boolean removeAlias(String alias) {
+        return false;
+    }
 }
 
 class ImportCommandTest {
@@ -116,8 +130,8 @@ class ImportCommandTest {
         Path csvFile = tempDir.resolve("test.csv");
         String csvContent = String.join(System.lineSeparator(),
                 "Name,Phone Number,Email,Address,Tags,Modules,Faculties,Favorites",
-                "Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6,,,," ,
-                "Bob Tan,91234567,bob@example.com,456 Clementi Rd,,,," ,
+                "Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6,,,,",
+                "Bob Tan,91234567,bob@example.com,456 Clementi Rd,,,,",
                 "Chloe Lim,98765432,chloe@example.com,789 Pasir Ris Dr 2,,,,"
         );
         Files.writeString(csvFile, csvContent);
@@ -138,7 +152,7 @@ class ImportCommandTest {
         Path csvFile = tempDir.resolve("test.csv");
         String csvContent = String.join(System.lineSeparator(),
                 "Name,Phone Number,Email,Address,Tags,Modules,Faculties,Favorites",
-                "Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6,,,," ,
+                "Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6,,,,",
                 "Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6,,,,"
         );
         Files.writeString(csvFile, csvContent);
