@@ -20,14 +20,18 @@ public class ImportCommand extends Command {
     public static final String INVALID_PATH_ERROR = "Path input is not valid";
     public static final String INVALID_FILE_ERROR = "File doesn't exist or isn't a csv file";
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Imports all the contacts from a CSV file and adds it to the current address book. "
-            + "The address book will ignore any duplicates and"
-            + " incorrect data formats. "
-            + "The name, email, phone and address columns must be all present and valid inputs\n"
-            + "Parameters: empty or Path file (must be the full path)\n"
-            + "Notes: If parameter is empty, then will try to find ../Downloads/CampusBook_contacts.csv"
-            + "Example: " + COMMAND_WORD + " C:/Users/djsud/Downloads/CampusBook_contacts.csv or "
-            + COMMAND_WORD + " (NOTHING HERE)";
+            + ": Imports contacts from a CSV file into the current address book. "
+            + "Duplicate entries and invalid data formats will be ignored.\n"
+            + "The CSV file must include valid 'name', 'email', 'phone', and 'address' columns.\n"
+            + "Parameters: [FILEPATH]\n"
+            + "If FILEPATH is:\n"
+            + "1. Empty — the app will look for 'Campusbook_contacts.csv' in your Downloads folder.\n"
+            + "2. A file name — it will be resolved relative to your Downloads folder.\n"
+            + "3. An absolute path — it will use the specified file directly.\n"
+            + "Example:\n"
+            + "  " + COMMAND_WORD + "\n"
+            + "  " + COMMAND_WORD + " contacts.csv\n"
+            + "  " + COMMAND_WORD + " C://Users//djsud//Downloads//CampusBook_contacts.csv";
 
     private Path path;
 

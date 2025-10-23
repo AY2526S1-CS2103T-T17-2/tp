@@ -134,7 +134,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand, logic);
+        CommandBox commandBox = new CommandBox(this::executeCommand, logic, resultDisplay);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
         mainSplit.setDividerPositions(SPLITPANE_RATIO);

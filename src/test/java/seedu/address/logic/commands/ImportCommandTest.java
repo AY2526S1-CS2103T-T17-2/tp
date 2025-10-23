@@ -22,6 +22,7 @@ class ImportCommandTest {
 
     @TempDir
     Path tempDir;
+    private final ImportCommandParser parser = new ImportCommandParser();
 
     private final Model model = new ModelManager(new AddressBook(), new UserPrefs());
 
