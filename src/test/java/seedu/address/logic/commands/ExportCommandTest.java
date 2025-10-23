@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -118,7 +119,20 @@ class ExportCommandTest {
 
         }
 
-        // Other Model methods are not needed for these tests
+        @Override
+        public Map<String, String> getCommandAliases() {
+            return null;
+        }
+
+        @Override
+        public void addAlias(String alias, String commandString) {
+
+        }
+
+        @Override
+        public boolean removeAlias(String alias) {
+            return false;
+        }
     }
 
     @Test

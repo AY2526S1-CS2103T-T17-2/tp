@@ -1,84 +1,87 @@
-// package seedu.address.logic.commands;
+package seedu.address.logic.commands;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertFalse;
-// import static org.junit.jupiter.api.Assertions.assertTrue;
-// import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-// import static seedu.address.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.address.testutil.Assert.assertThrows;
 
-// import java.util.Map;
+import java.util.Map;
 
-// import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 
-// import seedu.address.model.UserPrefs;
+import seedu.address.model.ModelManager;
+import seedu.address.model.UserPrefs;
 
-// public class UnaliasCommandTest {
+public class UnaliasCommandTest {
+    private class ModelStubWithAlias extends ModelManager {
+        private final UserPrefs userPrefs = new UserPrefs();
 
-//     private class ModelStubWithAlias extends CommandTestUtil.ModelStub {
-//         private final UserPrefs userPrefs = new UserPrefs();
+        @Override
+        public void addAlias(String alias, String commandString) {
+            userPrefs.addAlias(alias, commandString);
+        }
 
-//         @Override
-//         public void addAlias(String alias, String commandString) {
-//             userPrefs.addAlias(alias, commandString);
-//         }
+        @Override
+        public boolean removeAlias(String alias) {
+            return userPrefs.removeAlias(alias) != null;
+        }
 
-//         @Override
-//         public boolean removeAlias(String alias) {
-//             return userPrefs.removeAlias(alias) != null;
-//         }
+        @Override
+        public Map<String, String> getCommandAliases() {
+            return userPrefs.getCommandAliases();
+        }
+    }
+    @Test
+    public void constructor_nullAlias_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new UnaliasCommand(null));
+    }
 
-//         @Override
-//         public Map<String, String> getCommandAliases() {
-//             return userPrefs.getCommandAliases();
-//         }
-//     }
+    @Test
+    public void execute_aliasExists_removeSuccessful() throws Exception {
+        ModelStubWithAlias modelStub = new ModelStubWithAlias();
+        String aliasName = "la";
+        String commandString = "list";
+        modelStub.addAlias(aliasName, commandString);
 
-//     @Test
-//     public void constructor_nullAlias_throwsNullPointerException() {
-//         assertThrows(NullPointerException.class, () -> new UnaliasCommand(null));
-//     }
+        CommandResult commandResult = new UnaliasCommand(aliasName).execute(modelStub);
 
-//     @Test
-//     public void execute_aliasExists_removeSuccessful() throws Exception {
-//         ModelStubWithAlias modelStub = new ModelStubWithAlias();
-//         String aliasName = "la";
-//         String commandString = "list";
-//         modelStub.addAlias(aliasName, commandString);
+        assertEquals(String.format(UnaliasCommand.MESSAGE_SUCCESS, aliasName),
+                commandResult.getFeedbackToUser());
+        Map<String, String> aliases = modelStub.getCommandAliases();
+        assertFalse(aliases.containsKey(aliasName));
+    }
 
-//         CommandResult commandResult = new UnaliasCommand(aliasName).execute(modelStub);
+    @Test
+    public void execute_aliasNotExists_throwsCommandException() {
+        ModelStubWithAlias modelStub = new ModelStubWithAlias();
+        String aliasName = "nonexistent";
+        UnaliasCommand unaliasCommand = new UnaliasCommand(aliasName);
 
-//         assertEquals(String.format(UnaliasCommand.MESSAGE_SUCCESS, aliasName),
-//                 commandResult.getFeedbackToUser());
+        String expectedMessage = String.format(UnaliasCommand.MESSAGE_ALIAS_NOT_FOUND, aliasName);
 
-//         Map<String, String> aliases = modelStub.getCommandAliases();
-//         assertFalse(aliases.containsKey(aliasName));
-//     }
+        assertCommandFailure(unaliasCommand, modelStub, expectedMessage);
+    }
 
-//     @Test
-//     public void execute_aliasNotExists_throwsCommandException() {
-//         ModelStubWithAlias modelStub = new ModelStubWithAlias();
-//         String aliasName = "nonexistent";
-//         UnaliasCommand unaliasCommand = new UnaliasCommand(aliasName);
+    @Test
+    public void equals() {
+        UnaliasCommand unaliasLa = new UnaliasCommand("la");
+        UnaliasCommand unaliasF = new UnaliasCommand("f");
 
-//         String expectedMessage = String.format(UnaliasCommand.MESSAGE_ALIAS_NOT_FOUND, aliasName);
+        // same object -> returns true
+        assertTrue(unaliasLa.equals(unaliasLa));
 
-//         assertCommandFailure(unaliasCommand, modelStub, expectedMessage);
-//     }
+        // same values -> returns true
+        UnaliasCommand unaliasLaCopy = new UnaliasCommand("la");
+        assertTrue(unaliasLa.equals(unaliasLaCopy));
 
-//     @Test
-//     public void equals() {
-//         UnaliasCommand unaliasLa = new UnaliasCommand("la");
-//         UnaliasCommand unaliasF = new UnaliasCommand("f");
+        // different types -> returns false
+        assertFalse(unaliasLa.equals(1));
 
-//         assertTrue(unaliasLa.equals(unaliasLa));
+        // null -> returns false
+        assertFalse(unaliasLa.equals(null));
 
-//         UnaliasCommand unaliasLaCopy = new UnaliasCommand("la");
-//         assertTrue(unaliasLa.equals(unaliasLaCopy));
-
-//         assertFalse(unaliasLa.equals(1));
-
-//         assertFalse(unaliasLa.equals(null));
-
-//         assertFalse(unaliasLa.equals(unaliasF));
-//     }
-// }
+        // different alias -> returns false
+        assertFalse(unaliasLa.equals(unaliasF));
+    }
+}

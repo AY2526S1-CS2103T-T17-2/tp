@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalPersons.ALICE;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -60,26 +61,33 @@ public class AddCommandTest {
         AddCommand addAliceCommand = new AddCommand(alice);
         AddCommand addBobCommand = new AddCommand(bob);
 
+        // same object -> returns true
         assertTrue(addAliceCommand.equals(addAliceCommand));
 
+        // same values -> returns true
         AddCommand addAliceCommandCopy = new AddCommand(alice);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
+        // different types -> returns false
         assertFalse(addAliceCommand.equals(1));
 
+        // null -> returns false
         assertFalse(addAliceCommand.equals(null));
 
+        // different person -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
     }
 
     @Test
     public void toStringMethod() {
-        Person person = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(person);
-        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + person + "}";
+        AddCommand addCommand = new AddCommand(ALICE);
+        String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
         assertEquals(expected, addCommand.toString());
     }
 
+    /**
+     * A default model stub that have all of the methods failing.
+     */
     private class ModelStub implements Model {
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
@@ -167,6 +175,9 @@ public class AddCommandTest {
         }
     }
 
+    /**
+     * A Model stub that contains a single person.
+     */
     private class ModelStubWithPerson extends ModelStub {
         private final Person person;
 
@@ -182,6 +193,9 @@ public class AddCommandTest {
         }
     }
 
+    /**
+     * A Model stub that always accept the person being added.
+     */
     private class ModelStubAcceptingPersonAdded extends ModelStub {
         final ArrayList<Person> personsAdded = new ArrayList<>();
 
@@ -202,4 +216,5 @@ public class AddCommandTest {
             return new AddressBook();
         }
     }
+
 }

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FACULTY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FAVORITE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -14,6 +15,7 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
+
 
 /**
  * Adds a person to the address book.
@@ -30,7 +32,8 @@ public class AddCommand extends Command {
             + PREFIX_ADDRESS + "ADDRESS "
             + "[" + PREFIX_TAG + "TAG]... "
             + "[" + PREFIX_MODULE + "MODULE]... "
-            + "[" + PREFIX_FACULTY + "FACULTY]...\n"
+            + "[" + PREFIX_FACULTY + "FACULTY]... "
+            + "[" + PREFIX_FAVORITE + "FAVORITE]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
@@ -39,7 +42,8 @@ public class AddCommand extends Command {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney "
             + PREFIX_MODULE + "CS2103T "
-            + PREFIX_FACULTY + "SOC";
+            + PREFIX_FACULTY + "School of Computing "
+            + PREFIX_FAVORITE + "false";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
