@@ -13,6 +13,7 @@ import org.junit.jupiter.api.io.TempDir;
 import com.opencsv.exceptions.CsvValidationException;
 
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.ImportCommandParser;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
