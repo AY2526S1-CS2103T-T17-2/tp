@@ -12,9 +12,21 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AliasCommand;
+import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ImportCommand;
+import seedu.address.logic.commands.ListAliasesCommand;
+import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UnaliasCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
@@ -34,12 +46,30 @@ public class LogicManager implements Logic {
     public static final String FILE_OPS_PERMISSION_ERROR_FORMAT =
             "Could not save data to file %s due to insufficient permissions to write to the file or the folder.";
 
+    public static final String[] ALL_COMMANDS = {
+        AddCommand.COMMAND_WORD,
+        EditCommand.COMMAND_WORD,
+        DeleteCommand.COMMAND_WORD,
+        ClearCommand.COMMAND_WORD,
+        FindCommand.COMMAND_WORD,
+        ListCommand.COMMAND_WORD,
+        ExitCommand.COMMAND_WORD,
+        HelpCommand.COMMAND_WORD,
+        SelectCommand.COMMAND_WORD,
+        ExportCommand.COMMAND_WORD,
+        ImportCommand.COMMAND_WORD,
+        AliasCommand.COMMAND_WORD,
+        UnaliasCommand.COMMAND_WORD,
+        ListAliasesCommand.COMMAND_WORD
+    };
+
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);
 
     private final Model model;
     private final Storage storage;
     private final AddressBookParser addressBookParser;
     private final CommandHistory commandHistory;
+
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
