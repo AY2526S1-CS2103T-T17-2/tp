@@ -158,6 +158,20 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+Step 1.
+
+## Import/export feature
+
+Given below is an example usage scenario and how the import/export mechanism behaves at each step.
+
+Step 1. BLA BLA BLA
+
+Step 2. The user executes `export` command to export every contact in the address book. 
+
+The following sequence diagram shows how an export operation goes through the `Logic` component:
+
+<puml src="diagrams/ExportSequenceDiagram-Logic.puml" alt="ExportSequenceDiagram-Logic" />
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
