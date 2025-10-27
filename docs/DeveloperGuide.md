@@ -7,6 +7,14 @@
 # CampusBook Developer Guide
 
 <!-- * Table of Contents -->
+## **Table of Contents**
+1. [Acknowledgements](#acknowledgements)
+2. [Setting Up, Getting Started](#setting-up-getting-started)
+3. [Design](#design)
+4. [Implementation](#implementation)
+5. [Documentation, Logging, Testing, Configuration and Dev-Ops Guides](#documentation-logging-testing-configuration-dev-ops)
+6. [Appendix: Requirements](#appendix-requirements)
+7. [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
@@ -24,6 +32,17 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Design**
+
+<!-- * Table of Contents -->
+### Table of Contents
+1. [Architecture](#architecture)
+2. [UI Component](#ui-component)
+3. [Logic Component](#logic-component)
+4. [Model Component](#model-component)
+5. [Storage Component](#storage-component)
+6. [Common Classes](#common-classes)
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Architecture
 
@@ -65,6 +84,8 @@ For example, the `Logic` component defines its API in the `Logic.java` interface
 
 The sections below give more details of each component.
 
+--------------------------------------------------------------------------------------------------------------------
+
 ### UI component
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
@@ -81,6 +102,8 @@ The `UI` component,
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
 * depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Logic component
 
@@ -115,6 +138,8 @@ How the parsing works:
 * When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
+--------------------------------------------------------------------------------------------------------------------
+
 ### Model component
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
@@ -136,6 +161,7 @@ The `Model` component,
 
 </box>
 
+--------------------------------------------------------------------------------------------------------------------
 
 ### Storage component
 
@@ -147,6 +173,8 @@ The `Storage` component,
 * can save both address book data and user preference data in JSON format, and read them back into corresponding objects.
 * inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
 * depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Common classes
 
@@ -297,6 +325,7 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Value proposition**: manage NUS-related contacts faster than a typical mouse/GUI driven app.
 
+--------------------------------------------------------------------------------------------------------------------
 
 ### User stories
 
@@ -323,6 +352,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | cautious user                             | be able to preview all my changes before saving                   | double-check all my changes                                                 |
 | `*`      | efficient user                            | have tab autocomplete                                             | type the commands easily, without having to type the full command manually  |
 | `*`      | efficient user                            | be able to edit batches of profiles at the same time              | add the same data to several people at the same time                        |
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Use cases
 
@@ -600,6 +631,9 @@ Use case ends.
 - Command history is session-based and not saved after application exit (unless specified in future extensions).
 
 --- 
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Non-Functional Requirements
 
 #### Environment & Portability ####
@@ -633,6 +667,8 @@ Use case ends.
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
+
+* **App**: Used interchangeably with the term *application*, which is a software designed to perform a specific task (e.g. web browsers, games, AB3)
 
 * **Private contact detail**: A contact detail that is not meant to be shared with others
 
