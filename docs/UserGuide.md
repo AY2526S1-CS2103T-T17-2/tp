@@ -64,13 +64,11 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
    7. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
    8. [`exit`: Exiting the Program](#exiting-the-program--exit)
 2. [Command Summary](#command-summary)
-3. [Favorite Contacts](#favorite-contacts)
-4. [Navigating Command History](#navigating-command-history)
-5. [Contact Details Panel](#contact-details-panel-)
-6. [Fields: Types of Information](#how-fields-work-)
-7. [Saving the Data](#saving-the-data)
-8. [Editing the Data File](#editing-the-data-file)
-9. [Archiving Data Files](#archiving-data-files-coming-in-v20)
+3. [Contact Details Panel](#contact-details-panel-)
+4. [Fields: Types of Information](#how-fields-work-)
+5. [Saving the Data](#saving-the-data)
+6. [Editing the Data File](#editing-the-data-file)
+7. [Archiving Data Files](#archiving-data-files-coming-in-v20)
 --------------------------------------------------------------------------------------------------------------------
 ## Commands 
 
@@ -301,51 +299,6 @@ Format: `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Favorite Contacts
-
-You can mark important contacts as favorites. Favorite contacts appear at the top of your contact list with a gold star ★ for easy access.
-
-**To mark a contact as favorite:**
-* When adding: `add n/NAME ... fav/true`
-* When editing: `edit INDEX fav/true`
-
-**To remove favorite status:**
-* `edit INDEX fav/false`
-
-Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 fav/true`
-* `edit 1 fav/true`
-
-<box type="tip" seamless>
-
-**Tip:** Mark your frequently contacted people (e.g., project teammates, close friends, professors) as favorites!
-</box>
-
---------------------------------------------------------------------------------------------------------------------
-
-## Navigating Command History
-
-Use the up and down arrow keys to quickly access your previous commands.
-
-**Usage:**
-* **↑ (Up Arrow)**: Navigate to previous commands
-* **↓ (Down Arrow)**: Navigate to more recent commands
-
-You can edit retrieved commands before executing them.
-
-Example:
-1. Previously executed: `add n/John Doe p/98765432 e/johnd@example.com a/John street`
-2. Press ↑ to retrieve the command
-3. Edit the details (e.g., change name to `Jane Doe`)
-4. Press Enter to execute
-
-<box type="tip" seamless>
-
-**Tip:** Useful for repeating similar commands, like adding multiple contacts with similar information!
-</box>
-
---------------------------------------------------------------------------------------------------------------------
-
 ### How Fields Work : 
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
@@ -366,8 +319,6 @@ Each Person can possess:
 --------------------------------------------------------------------------------------------------------------------
 
 ### Contact Details Panel : 
-
-Adds a person to the address book.
 
 How to Use: 
 1. Click into your preferred contact.
