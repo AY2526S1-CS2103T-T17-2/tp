@@ -57,17 +57,18 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 1. [Command List:](#commands)
    1. [`help`: Viewing Help](#viewing-help--help)
    2. [`add`: Adding a Person](#adding-a-person-add)
-   3. [`list`: Listing all Persons](#listing-all-persons--list)
-   4. [`edit`: Editing a Person](#editing-a-person--edit)
-   5. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
-   6. [`delete`: Deleting a Person](#deleting-a-person--delete)
-   7. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
-   8. [`export`: Exporting Data](#exporting-data--export)
-   9. [`import`: Importing Data](#importing-data--import)
-   10. [`alias`: Creating an Alias](#creating-a-command-alias-alias)
-   11. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
-   12. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
-   13. [`exit`: Exiting the Program](#exiting-the-program--exit)
+   3. [`select`: Selecting a Faculty](#selecting-a-faculty-to-preload-contacts-select)
+   4. [`list`: Listing all Persons](#listing-all-persons--list)
+   5. [`edit`: Editing a Person](#editing-a-person--edit)
+   6. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
+   7. [`delete`: Deleting a Person](#deleting-a-person--delete)
+   8. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
+   9. [`export`: Exporting Data](#exporting-data--export)
+   10. [`import`: Importing Data](#importing-data--import)
+   11. [`alias`: Creating an Alias](#creating-a-command-alias-alias)
+   12. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
+   13. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
+   14. [`exit`: Exiting the Program](#exiting-the-program--exit)
 2. [Command Summary](#command-summary)
 3. [Contact Details Panel](#command-summary)
 4. [Fields: Types of Information](#how-fields-work-)
@@ -332,6 +333,7 @@ Format: `exit`
 |-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add**         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
 | **Clear**       | `clear`                                                                                                                                                               |
+| **Select**      | `select`<br> e.g.,`select Computing`                                                                                                                                  |
 | **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
 | **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
 | **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
