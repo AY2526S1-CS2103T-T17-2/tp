@@ -19,9 +19,11 @@ public class AliasCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Defines an alias for a command. "
             + "Parameters: ALIAS_NAME COMMAND_STRING\n"
-            + "Example: " + COMMAND_WORD + " la list";
+            + "Example 1: " + COMMAND_WORD + " la list\n"
+            + "Example 2: " + COMMAND_WORD + " findfriend find t/friend";
 
     public static final String MESSAGE_SUCCESS = "Alias defined: %1$s -> %2$s";
+    public static final String MESSAGE_ALIAS_OVERWRITTEN = "Warning: Existing alias '%1$s' (was: '%2$s') is now overwritten to: '%3$s'";
     public static final String MESSAGE_ALIAS_IS_COMMAND = "Alias name '%1$s' is a built-in command and cannot be used.";
     public static final String MESSAGE_ALIAS_IS_EMPTY = "Alias name cannot be empty.";
     public static final String MESSAGE_COMMAND_IS_EMPTY = "Command string cannot be empty.";
@@ -67,13 +69,14 @@ public class AliasCommand extends Command {
         }
 
         this.aliasName = aliasName.trim();
-        this.commandString = commandString.trim().split(" ")[0]; // We only care about the command word
+        this.commandString = commandString.trim(); // Store the full command string
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         Map<String, String> existingAliases = model.getCommandAliases();
+        String commandWord = commandString.split(" ")[0]; // Get the actual command word from the command string
 
         // Rule 1: Alias name cannot be a built-in command.
         if (BUILT_IN_COMMANDS.contains(aliasName)) {
@@ -81,17 +84,29 @@ public class AliasCommand extends Command {
         }
 
         // Rule 2: The target command cannot be another alias (prevents chaining).
-        if (existingAliases.containsKey(commandString)) {
-            throw new CommandException(String.format(MESSAGE_CHAINED_ALIAS_NOT_ALLOWED, commandString));
+        if (existingAliases.containsKey(commandWord)) {
+            throw new CommandException(String.format(MESSAGE_CHAINED_ALIAS_NOT_ALLOWED, commandWord));
         }
 
         // Rule 3: The target command must be a valid built-in command.
-        if (!BUILT_IN_COMMANDS.contains(commandString)) {
-            throw new CommandException(String.format(MESSAGE_COMMAND_NOT_FOUND, commandString));
+        if (!BUILT_IN_COMMANDS.contains(commandWord)) {
+            throw new CommandException(String.format(MESSAGE_COMMAND_NOT_FOUND, commandWord));
         }
 
+        // Check if alias already exists to provide a warning
+        String feedbackMessage;
+        if (existingAliases.containsKey(aliasName)) {
+            String oldCommand = existingAliases.get(aliasName);
+            feedbackMessage = String.format(MESSAGE_ALIAS_OVERWRITTEN, aliasName, oldCommand, commandString);
+        } else {
+            feedbackMessage = String.format(MESSAGE_SUCCESS, aliasName, commandString);
+        }
+
+        // Add/Overwrite the alias
         model.addAlias(aliasName, commandString);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, aliasName, commandString));
+
+        // Return the appropriate message
+        return new CommandResult(feedbackMessage);
     }
 
     @Override
