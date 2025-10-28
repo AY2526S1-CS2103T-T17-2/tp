@@ -18,7 +18,6 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 2. [Features](#features)
 3. [FAQ](#faq)
 4. [Known Issues](#known-issues)
-5. [Command Summary](#command-summary)
 
 <page-nav-print />
 
