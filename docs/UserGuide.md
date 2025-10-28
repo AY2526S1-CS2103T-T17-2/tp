@@ -64,11 +64,13 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
    7. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
    8. [`exit`: Exiting the Program](#exiting-the-program--exit)
 2. [Command Summary](#command-summary)
-3. [Contact Details Panel](#command-summary)
-4. [Fields: Types of Information](#how-fields-work-)
-5. [Saving the Data](#saving-the-data)
-6. [Editing the Data File](#editing-the-data-file)
-7. [Archiving Data Files](#archiving-data-files-coming-in-v20)
+3. [Favorite Contacts Feature](#favorite-contacts-feature)
+4. [Command History Navigation](#command-history-navigation)
+5. [Contact Details Panel](#contact-details-panel-)
+6. [Fields: Types of Information](#how-fields-work-)
+7. [Saving the Data](#saving-the-data)
+8. [Editing the Data File](#editing-the-data-file)
+9. [Archiving Data Files](#archiving-data-files-coming-in-v20)
 --------------------------------------------------------------------------------------------------------------------
 ## Commands 
 
@@ -134,18 +136,20 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+* You can remove all the person's tags by typing `t/` without
     specifying any tags after it.
+* To mark a contact as favorite, use `fav/true`. To unmark, use `fav/false`.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `edit 3 fav/true` Marks the 3rd person as a favorite contact.
 
 ### Locating persons by multiple criteria: `find`
 
@@ -297,6 +301,68 @@ Format: `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
+## Favorite Contacts Feature
+
+Mark important contacts as favorites to keep them at the top of your contact list for quick access.
+
+### How it works:
+
+* **Adding favorites**: When adding a new contact, include `fav/true` to mark it as favorite immediately.
+  * Example: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 fav/true`
+
+* **Editing favorites**: Use the `edit` command with `fav/true` to mark an existing contact as favorite, or `fav/false` to unmark.
+  * Example: `edit 1 fav/true` marks the 1st contact as favorite.
+  * Example: `edit 2 fav/false` removes favorite status from the 2nd contact.
+
+* **Visual indicators**: Favorite contacts are displayed with:
+  * A gold star ★ next to their name
+  * A special background color to make them stand out
+
+* **Automatic sorting**: Favorite contacts are automatically displayed at the top of your contact list, followed by non-favorite contacts. This ordering is maintained across all list views.
+
+<box type="tip" seamless>
+
+**Tip:** Use favorites for contacts you access frequently, such as your project teammates, close friends, or important faculty members!
+</box>
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command History Navigation
+
+Navigate through your previously executed commands using keyboard shortcuts for faster command entry.
+
+### How it works:
+
+* **Up Arrow Key (↑)**: Press the up arrow key while in the command box to navigate to the previous command in your history.
+  * Keep pressing up to go further back through your command history.
+
+* **Down Arrow Key (↓)**: Press the down arrow key to navigate forward through your command history.
+  * When you reach the most recent command, pressing down again will restore any text you were typing before starting to navigate.
+
+* **History Storage**: CampusBook automatically saves up to 10 of your most recent commands.
+  * Commands are saved even after you close the application.
+  * Empty commands and consecutive duplicate commands are automatically filtered out.
+
+* **Editing Commands**: After navigating to a previous command, you can:
+  * Press Enter to execute it immediately
+  * Edit the command before executing
+  * Continue navigating to find a different command
+
+### Example Usage:
+
+1. You previously executed: `add n/John Doe p/98765432 e/johnd@example.com a/John street`
+2. Now you want to add a similar contact.
+3. Press the ↑ key to retrieve the previous command.
+4. Edit the retrieved command: change the name, phone, and email.
+5. Press Enter to execute the modified command.
+
+<box type="tip" seamless">
+
+**Tip:** Command history is especially useful when you need to execute similar commands repeatedly, such as adding multiple contacts with similar information or editing multiple contacts in sequence!
+</box>
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### How Fields Work : 
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
@@ -376,10 +442,10 @@ _Details coming soon ..._
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Alias**  | `alias ALIAS_NAME COMMAND_STRING`<br> e.g., `alias findcomp find f/computing`
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend fav/true`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`<br>or<br>`delete [n/NAME...] [t/TAG...]...`<br> e.g., `delete t/colleague`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com fav/true`
 **Exit**   | `exit`
 **Find**   | `find [n/NAME...] [t/TAG...]...`<br> e.g., `find n/James Jake t/friend`
 **List**   | `list`
