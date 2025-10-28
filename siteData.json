@@ -40,9 +40,11 @@
       "title": "Developer Guide",
       "headings": {
         "campusbook-developer-guide": "CampusBook Developer Guide",
+        "table-of-contents": "Table of Contents",
         "acknowledgements": "Acknowledgements",
         "setting-up-getting-started": "Setting up, getting started",
         "design": "Design",
+        "table-of-contents-2": "Table of Contents",
         "architecture": "Architecture",
         "ui-component": "UI component",
         "logic-component": "Logic component",
@@ -136,7 +138,7 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "addressbook-level-3": "AddressBook Level-3"
+        "campusbook": "CampusBook"
       },
       "headingKeywords": {}
     },
