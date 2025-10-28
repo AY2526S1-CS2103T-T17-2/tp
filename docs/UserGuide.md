@@ -4,11 +4,22 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# CampusBook User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+## Introduction
+
+CampusBook is a **desktop app for managing contacts, optimized for NUS Students' usage via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, CampusBook can get your contact management tasks done faster than traditional GUI apps.
+![Ui_Intro](images/Ui_Intro.png)
+> Every NUS Student's Personalised, CLI-Based Contact Management Application.
 
 <!-- * Table of Contents -->
+## Table of Contents
+1. [Quick Start](#quick-start)
+2. [Features](#features)
+3. [FAQ](#faq)
+4. [Known Issues](#known-issues)
+5. [Command Summary](#command-summary)
+
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
@@ -18,15 +29,15 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
@@ -39,33 +50,28 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
-
-<box type="info" seamless>
-
-**Notes about the command format:**<br>
-
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-
-* Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-
-* Parameters can be in any order.<br>
-  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
-
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
-
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</box>
+1. [Command List:](#commands)
+   1. [`help`: Viewing Help](#viewing-help--help)
+   2. [`add`: Adding a Person](#adding-a-person-add)
+   3. [`list`: Listing all Persons](#listing-all-persons--list)
+   4. [`edit`: Editing a Person](#editing-a-person--edit)
+   5. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
+   6. [`delete`: Deleting a Person](#deleting-a-person--delete)
+   7. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
+   8. [`exit`: Exiting the Program](#exiting-the-program--exit)
+2. [Command Summary](#command-summary)
+3. [Contact Details Panel](#command-summary)
+4. [Fields: Types of Information](#how-fields-work-)
+5. [Saving the Data](#saving-the-data)
+6. [Editing the Data File](#editing-the-data-file)
+7. [Archiving Data Files](#archiving-data-files-coming-in-v20)
+--------------------------------------------------------------------------------------------------------------------
+## Commands 
 
 ### Startup Motivational Message
 
@@ -83,21 +89,24 @@ Shows a message explaining how to access the help page.
 
 Format: `help`
 
+--------------------------------------------------------------------------------------------------------------------
 
 ### Adding a person: `add`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m/MODULE]… [fav/FAVORITE]…​`
 
 <box type="tip" seamless>
 
-**Tip:** A person can have any number of tags (including 0)
+**Tip:** A person can have any number of tags/faculties/modules (including 0)
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T f/`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal fav/true`
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Selecting a Faculty to Preload Contacts: `select`
 
@@ -119,6 +128,8 @@ Examples:
 Shows a list of all persons in the address book.
 
 Format: `list`
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Editing a person : `edit`
 
@@ -160,6 +171,8 @@ Examples:
 * `find t/friend colleague` returns all persons tagged with `friend` OR `colleague`.
 * `find n/alex david t/friend` returns all persons whose name contains `Alex` OR `David` AND are tagged as a `friend`.
 
+--------------------------------------------------------------------------------------------------------------------
+
 ### Deleting a person : `delete`
 
 Deletes the specified person from the address book. This can be done in two ways: by index or by criteria.
@@ -185,6 +198,8 @@ Examples:
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 * `delete t/expired` deletes all persons tagged with `expired`.
 * `delete n/John f/Science` deletes all persons from the `Science` faculty whose name contains `John`.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Clearing all entries : `clear`
 
@@ -240,9 +255,89 @@ Exits the program.
 
 Format: `exit`
 
+--------------------------------------------------------------------------------------------------------------------
+
+
+<box type="info" seamless>
+
+**Notes about the command format:**<br>
+
+* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
+  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+
+* Items in square brackets are optional.<br>
+  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+
+* Items with `…`​ after them can be used multiple times including zero times.<br>
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+
+* Parameters can be in any order.<br>
+  e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+
+* Tags, Faculties and Modules will be reordered and displayed in alphabetical/numerical order, regardless of input order.
+
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+
+* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+</box>
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command summary
+
+| Action     | Format, Examples                                                                                                                                                      |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| **Clear**  | `clear`                                                                                                                                                               |
+| **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
+| **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
+| **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
+| **List**   | `list`                                                                                                                                                                |
+| **Help**   | `help`                                                                                                                                                                |
+
+--------------------------------------------------------------------------------------------------------------------
+
+### How Fields Work : 
+Information in a contact (e.g., Name, Phone, Email) is stored as a field.
+When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
+
+Each Person can possess:
+
+| Field    | Prefix | Description                                                | Example                         |
+| :------- | :----- | :--------------------------------------------------------- | :------------------------------ |
+| Name     | `n/`   | Person’s full name                                         | `n/John Doe`                    |
+| Phone    | `p/`   | Contact number                                             | `p/91234567`                    |
+| Email    | `e/`   | Email address                                              | `e/johndoe@example.com`         |
+| Address  | `a/`   | Residential or mailing address                             | `a/311, Clementi Ave 2, #02-25` |
+| Tag      | `t/`   | Tag to categorize contacts (e.g., *friends*, *colleagues*) | `t/friend`                      |
+| Faculty  | `f/`   | Faculty or school the contact belongs to                   | `f/School of Computing`         |
+| Module   | `m/`   | Module the contact is related to                           | `m/CS2103T`                     |
+| Favorite | `fav/` | Mark the contact as a favorite contact                     | `fav/true`                      |
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Contact Details Panel : 
+
+Adds a person to the address book.
+
+How to Use: 
+1. Click into your preferred contact.
+2. The contact is now highlighted and its details will be displayed in the Contact Details Panel on the right: ![ContactDetailsPanel](images/ContactDetailsPanel.png)
+3. Subsequently, you can use the up/down arrow to navigate contacts.
+
+<box type="tip" seamless>
+
+**Tip:** Don't worry if you have very long/many fields because the Contact Details Panel is scrollable! 
+</box>
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Saving the data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Editing the data file
 
@@ -254,6 +349,8 @@ AddressBook data are saved automatically as a JSON file `[JAR file location]/dat
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Archiving data files `[coming in v2.0]`
 

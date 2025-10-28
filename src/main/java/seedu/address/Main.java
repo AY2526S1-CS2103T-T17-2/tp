@@ -22,6 +22,7 @@ import seedu.address.commons.core.LogsCenter;
  * to be the entry point of the application, we avoid this issue.
  */
 public class Main {
+
     private static Logger logger = LogsCenter.getLogger(Main.class);
     // small change to make PR (DELETE LATER)
     public static void main(String[] args) {
