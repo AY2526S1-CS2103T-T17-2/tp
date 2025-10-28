@@ -72,6 +72,14 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 --------------------------------------------------------------------------------------------------------------------
 ## Commands 
 
+### Startup Motivational Message
+
+When you launch CampusBook, a random motivational quote will appear in the result display area. This is designed to give you a little boost of encouragement for your day.
+
+<box type="info" seamless>
+This message is shown only at startup and will be replaced by the output of the first command you execute.
+</box>
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
@@ -99,6 +107,21 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
+### Selecting a Faculty to Preload Contacts: `select`
+
+Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your address book.
+
+Format: `select FACULTY`
+
+* Preloads contacts for the given `FACULTY`.
+* The `FACULTY` name must be one of the official NUS faculty names. The command will provide a list of valid faculties if an invalid one is entered.
+* If any of the contacts to be preloaded already exist in your address book, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
+
+Examples:
+* `select Engineering` preloads the contacts for the Faculty of Engineering.
+* `select Computing` preloads the contacts for the School of Computing.
+
+
 ### Listing all persons : `list`
 
 Shows a list of all persons in the address book.
@@ -124,31 +147,36 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
---------------------------------------------------------------------------------------------------------------------
+### Locating persons by multiple criteria: `find`
 
-### Locating persons by fields: `find`
+Finds all persons who match all of the specified criteria.
 
-Finds persons whose names contain any of the given keywords.
+Format: `find [n/NAME_KEYWORD [MORE_KEYWORDS]...] [t/TAG_KEYWORD [MORE_KEYWORDS]...] [m/MODULE_KEYWORD [MORE_KEYWORDS]...] [f/FACULTY_KEYWORD [MORE_KEYWORDS]...]`
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+* At least one parameter(among name,tag,module,faculty) must be provided.
+* The search is case-insensitive for all fields.
+* For a given field (e.g., name), the search is an `OR` search. It will match persons who have at least one of the keywords. e.g., `n/alex john` will find persons named `Alex` OR `John`.
+* Across different fields (e.g., name and tag), the search is an `AND` search. It will only match persons who satisfy the criteria for all provided fields.
+* Only full words will be matched e.g. `n/Han` will not match a person named `Hans`.
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+<box type="warning" seamless>
+
+**Caution:**
+The keywords for each field are separated by spaces. If you mistype a prefix (e.g., `ff/` instead of `f/`), it might be treated as a keyword for the previous field, leading to unexpected results. For example, `find n/alex ff/medicine` will be interpreted as searching for a person whose name contains `alex` OR `ff/medicine`. Stricter validation for prefixes will be considered in a future version.
+</box>
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find n/John` returns all persons whose name contains `John`.
+* `find t/friend colleague` returns all persons tagged with `friend` OR `colleague`.
+* `find n/alex david t/friend` returns all persons whose name contains `Alex` OR `David` AND are tagged as a `friend`.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ### Deleting a person : `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified person from the address book. This can be done in two ways: by index or by criteria.
+
+**Option 1: Delete by index**
 
 Format: `delete INDEX`
 
@@ -156,9 +184,19 @@ Format: `delete INDEX`
 * The index refers to the index number shown in the displayed person list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
+**Option 2: Delete by criteria (Batch Delete)**
+
+Format: `delete [n/NAME_KEYWORD...] [t/TAG_KEYWORD...] [m/MODULE_KEYWORD...] [f/FACULTY_KEYWORD...]`
+
+* Deletes all persons who match the specified criteria.
+* The search logic is identical to the `find` command.
+* This is a powerful command. Be careful, as it can delete multiple contacts at once.
+
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
+* `delete t/expired` deletes all persons tagged with `expired`.
+* `delete n/John f/Science` deletes all persons from the `Science` faculty whose name contains `John`.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -196,6 +234,51 @@ Examples:
 * `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
 --------------------------------------------------------------------------------------------------------------------
+### Creating a command alias: `alias`
+
+Creates a shortcut (alias) for a longer command.
+Format: `alias ALIAS_NAME COMMAND_STRING`
+
+* `ALIAS_NAME` is the short name you want to use. It must be a single word without spaces.
+* `COMMAND_STRING` is the full command you want to create a shortcut for.
+* Aliases are saved and will be available the next time you start the application.
+* If you use an `ALIAS_NAME` that already exists, the old alias will be overwritten. A warning will be displayed.
+
+<box type="warning" seamless>
+
+**Alias Rules & Restrictions:**
+* The `ALIAS_NAME` cannot be the same as any built-in command (e.g., `list`, `add`, `exit`).
+* The `COMMAND_STRING` must begin with a valid, built-in command.
+* The `COMMAND_STRING` cannot point to another alias (i.e., chained aliases are not allowed).
+
+</box>
+
+Examples:
+* `alias la list` creates an alias `la` that will execute the `list` command.
+* `alias findfriend find t/friend` creates an alias `findfriend` to find all contacts tagged as `friend`. You can then use it like `findfriend`.
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Removing a command alias: `unalias`
+
+Removes a previously created alias.
+
+Format: `unalias ALIAS_NAME` or `unalias --all`
+
+* Removes the specified alias.
+* Using the `--all` flag will remove all currently defined aliases.
+
+Example:
+* `unalias la`
+* `unalias --all`
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Listing all aliases: `listaliases`
+
+Shows a list of all currently defined aliases.
+
+Format: `listaliases`
 
 ### Exiting the program : `exit`
 
@@ -321,3 +404,20 @@ _Details coming soon ..._
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 --------------------------------------------------------------------------------------------------------------------
+
+## Command summary
+
+Action     | Format, Examples
+-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+**Alias**  | `alias ALIAS_NAME COMMAND_STRING`<br> e.g., `alias findcomp find f/computing`
+**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Clear**  | `clear`
+**Delete** | `delete INDEX`<br> e.g., `delete 3`<br>or<br>`delete [n/NAME...] [t/TAG...]...`<br> e.g., `delete t/colleague`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Exit**   | `exit`
+**Find**   | `find [n/NAME...] [t/TAG...]...`<br> e.g., `find n/James Jake t/friend`
+**List**   | `list`
+**List Aliases** | `listaliases`
+**Help**   | `help`
+**Select** | `select FACULTY`<br> e.g., `select Engineering`
+**Unalias**| `unalias ALIAS_NAME`<br> e.g., `unalias findcomp`<br>or<br>`unalias --all`
