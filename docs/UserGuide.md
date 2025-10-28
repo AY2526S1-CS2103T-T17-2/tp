@@ -64,8 +64,8 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
    7. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
    8. [`exit`: Exiting the Program](#exiting-the-program--exit)
 2. [Command Summary](#command-summary)
-3. [Favorite Contacts Feature](#favorite-contacts-feature)
-4. [Command History Navigation](#command-history-navigation)
+3. [Favorite Contacts](#favorite-contacts)
+4. [Navigating Command History](#navigating-command-history)
 5. [Contact Details Panel](#contact-details-panel-)
 6. [Fields: Types of Information](#how-fields-work-)
 7. [Saving the Data](#saving-the-data)
@@ -301,64 +301,47 @@ Format: `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Favorite Contacts Feature
+## Favorite Contacts
 
-Mark important contacts as favorites to keep them at the top of your contact list for quick access.
+You can mark important contacts as favorites. Favorite contacts appear at the top of your contact list with a gold star ★ for easy access.
 
-### How it works:
+**To mark a contact as favorite:**
+* When adding: `add n/NAME ... fav/true`
+* When editing: `edit INDEX fav/true`
 
-* **Adding favorites**: When adding a new contact, include `fav/true` to mark it as favorite immediately.
-  * Example: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 fav/true`
+**To remove favorite status:**
+* `edit INDEX fav/false`
 
-* **Editing favorites**: Use the `edit` command with `fav/true` to mark an existing contact as favorite, or `fav/false` to unmark.
-  * Example: `edit 1 fav/true` marks the 1st contact as favorite.
-  * Example: `edit 2 fav/false` removes favorite status from the 2nd contact.
-
-* **Visual indicators**: Favorite contacts are displayed with:
-  * A gold star ★ next to their name
-  * A special background color to make them stand out
-
-* **Automatic sorting**: Favorite contacts are automatically displayed at the top of your contact list, followed by non-favorite contacts. This ordering is maintained across all list views.
+Examples:
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 fav/true`
+* `edit 1 fav/true`
 
 <box type="tip" seamless>
 
-**Tip:** Use favorites for contacts you access frequently, such as your project teammates, close friends, or important faculty members!
+**Tip:** Mark your frequently contacted people (e.g., project teammates, close friends, professors) as favorites!
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command History Navigation
+## Navigating Command History
 
-Navigate through your previously executed commands using keyboard shortcuts for faster command entry.
+Use the up and down arrow keys to quickly access your previous commands.
 
-### How it works:
+**Usage:**
+* **↑ (Up Arrow)**: Navigate to previous commands
+* **↓ (Down Arrow)**: Navigate to more recent commands
 
-* **Up Arrow Key (↑)**: Press the up arrow key while in the command box to navigate to the previous command in your history.
-  * Keep pressing up to go further back through your command history.
+You can edit retrieved commands before executing them.
 
-* **Down Arrow Key (↓)**: Press the down arrow key to navigate forward through your command history.
-  * When you reach the most recent command, pressing down again will restore any text you were typing before starting to navigate.
+Example:
+1. Previously executed: `add n/John Doe p/98765432 e/johnd@example.com a/John street`
+2. Press ↑ to retrieve the command
+3. Edit the details (e.g., change name to `Jane Doe`)
+4. Press Enter to execute
 
-* **History Storage**: CampusBook automatically saves up to 10 of your most recent commands.
-  * Commands are saved even after you close the application.
-  * Empty commands and consecutive duplicate commands are automatically filtered out.
+<box type="tip" seamless>
 
-* **Editing Commands**: After navigating to a previous command, you can:
-  * Press Enter to execute it immediately
-  * Edit the command before executing
-  * Continue navigating to find a different command
-
-### Example Usage:
-
-1. You previously executed: `add n/John Doe p/98765432 e/johnd@example.com a/John street`
-2. Now you want to add a similar contact.
-3. Press the ↑ key to retrieve the previous command.
-4. Edit the retrieved command: change the name, phone, and email.
-5. Press Enter to execute the modified command.
-
-<box type="tip" seamless">
-
-**Tip:** Command history is especially useful when you need to execute similar commands repeatedly, such as adding multiple contacts with similar information or editing multiple contacts in sequence!
+**Tip:** Useful for repeating similar commands, like adding multiple contacts with similar information!
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
