@@ -67,6 +67,14 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
+### Startup Motivational Message
+
+When you launch CampusBook, a random motivational quote will appear in the result display area. This is designed to give you a little boost of encouragement for your day.
+
+<box type="info" seamless>
+This message is shown only at startup and will be replaced by the output of the first command you execute.
+</box>
+
 ### Viewing help : `help`
 
 Shows a message explaining how to access the help page.

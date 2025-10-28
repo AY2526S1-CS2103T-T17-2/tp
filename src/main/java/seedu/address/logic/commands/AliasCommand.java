@@ -7,6 +7,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.ImportCommand;
+import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -23,7 +29,9 @@ public class AliasCommand extends Command {
             + "Example 2: " + COMMAND_WORD + " findfriend find t/friend";
 
     public static final String MESSAGE_SUCCESS = "Alias defined: %1$s -> %2$s";
-    public static final String MESSAGE_ALIAS_OVERWRITTEN = "Warning: Existing alias '%1$s' (was: '%2$s') is now overwritten to: '%3$s'";
+    public static final String MESSAGE_ALIAS_OVERWRITTEN =
+            "Warning: Existing alias '%1$s' (was: '%2$s') "
+            + "is now overwritten to: '%3$s'";
     public static final String MESSAGE_ALIAS_IS_COMMAND = "Alias name '%1$s' is a built-in command and cannot be used.";
     public static final String MESSAGE_ALIAS_IS_EMPTY = "Alias name cannot be empty.";
     public static final String MESSAGE_COMMAND_IS_EMPTY = "Command string cannot be empty.";
