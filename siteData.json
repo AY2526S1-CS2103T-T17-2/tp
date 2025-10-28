@@ -124,6 +124,8 @@
         "locating-persons-by-multiple-criteria-find": "Locating persons by multiple criteria: find",
         "deleting-a-person-delete": "Deleting a person : delete",
         "clearing-all-entries-clear": "Clearing all entries : clear",
+        "exporting-data-export": "Exporting data : export",
+        "importing-data-import": "Importing data : import",
         "creating-a-command-alias-alias": "Creating a command alias: alias",
         "removing-a-command-alias-unalias": "Removing a command alias: unalias",
         "listing-all-aliases-listaliases": "Listing all aliases: listaliases",
