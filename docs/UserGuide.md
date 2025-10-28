@@ -169,6 +169,33 @@ Clears all entries from the address book.
 Format: `clear`
 
 --------------------------------------------------------------------------------------------------------------------
+### Exporting data : `export`
+
+Exports all entries from the address book and compiles then into a csv file.
+
+Format: `export`
+
+* The file will be downloaded in the user's `Downloads` folder with the format `Campusbook_contacts.csv`.
+* In the case where `Campusbook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
+
+--------------------------------------------------------------------------------------------------------------------
+### Importing data : `import`
+
+Imports all entries from a csv file and inserts them into the address book
+
+Format: `import [Absolute File Path] or [File name in Downloads]`
+
+* The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
+* The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
+* The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
+* Any duplicated data will be skipped.
+* Only a csv file is supported, if a different type of file is inserted then the import will fail.
+
+Examples:
+* `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
+--------------------------------------------------------------------------------------------------------------------
 
 ### Exiting the program : `exit`
 
@@ -208,7 +235,7 @@ Format: `exit`
 ## Command summary
 
 | Action     | Format, Examples                                                                                                                                                      |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
 | **Clear**  | `clear`                                                                                                                                                               |
 | **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
@@ -216,6 +243,8 @@ Format: `exit`
 | **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
 | **List**   | `list`                                                                                                                                                                |
 | **Help**   | `help`                                                                                                                                                                |
+| **Import** | `import [Absolute File Path] or [File name in Downloads]` <br> e.g., `import myContacts.csv`                                                                          |
+| **Export** | `export`                                                                                                                                                              |
 
 --------------------------------------------------------------------------------------------------------------------
 
