@@ -57,12 +57,18 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 1. [Command List:](#commands)
    1. [`help`: Viewing Help](#viewing-help--help)
    2. [`add`: Adding a Person](#adding-a-person-add)
-   3. [`list`: Listing all Persons](#listing-all-persons--list)
-   4. [`edit`: Editing a Person](#editing-a-person--edit)
-   5. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
-   6. [`delete`: Deleting a Person](#deleting-a-person--delete)
-   7. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
-   8. [`exit`: Exiting the Program](#exiting-the-program--exit)
+   3. [`select`: Selecting a Faculty](#selecting-a-faculty-to-preload-contacts-select)
+   4. [`list`: Listing all Persons](#listing-all-persons--list)
+   5. [`edit`: Editing a Person](#editing-a-person--edit)
+   6. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
+   7. [`delete`: Deleting a Person](#deleting-a-person--delete)
+   8. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
+   9. [`export`: Exporting Data](#exporting-data--export)
+   10. [`import`: Importing Data](#importing-data--import)
+   11. [`alias`: Creating an Alias](#creating-a-command-alias-alias)
+   12. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
+   13. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
+   14. [`exit`: Exiting the Program](#exiting-the-program--exit)
 2. [Command Summary](#command-summary)
 3. [Contact Details Panel](#command-summary)
 4. [Fields: Types of Information](#how-fields-work-)
@@ -121,6 +127,7 @@ Examples:
 * `select Engineering` preloads the contacts for the Faculty of Engineering.
 * `select Computing` preloads the contacts for the School of Computing.
 
+--------------------------------------------------------------------------------------------------------------------
 
 ### Listing all persons : `list`
 
@@ -146,6 +153,8 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### Locating persons by multiple criteria: `find`
 
@@ -206,6 +215,34 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+--------------------------------------------------------------------------------------------------------------------
+### Exporting data : `export`
+
+Exports all entries from the address book and compiles then into a csv file.
+
+Format: `export`
+
+* The file will be downloaded in the user's `Downloads` folder with the format `Campusbook_contacts.csv`.
+* In the case where `Campusbook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
+
+--------------------------------------------------------------------------------------------------------------------
+### Importing data : `import`
+
+Imports all entries from a csv file and inserts them into the address book
+
+Format: `import` or `import [File name in Downloads]` or `import [Absolute File Path]`
+
+* The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
+* The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
+* The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
+* Any duplicated data will be skipped.
+* Only a csv file is supported, if a different type of file is inserted then the import will fail.
+
+Examples:
+* `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
+--------------------------------------------------------------------------------------------------------------------
 ### Creating a command alias: `alias`
 
 Creates a shortcut (alias) for a longer command.
@@ -229,6 +266,8 @@ Examples:
 * `alias la list` creates an alias `la` that will execute the `list` command.
 * `alias findfriend find t/friend` creates an alias `findfriend` to find all contacts tagged as `friend`. You can then use it like `findfriend`.
 
+--------------------------------------------------------------------------------------------------------------------
+
 ### Removing a command alias: `unalias`
 
 Removes a previously created alias.
@@ -242,11 +281,16 @@ Example:
 * `unalias la`
 * `unalias --all`
 
+--------------------------------------------------------------------------------------------------------------------
+
 ### Listing all aliases: `listaliases`
 
 Shows a list of all currently defined aliases.
 
 Format: `listaliases`
+
+--------------------------------------------------------------------------------------------------------------------
+
 
 ### Exiting the program : `exit`
 
@@ -285,15 +329,22 @@ Format: `exit`
 
 ## Command summary
 
-| Action     | Format, Examples                                                                                                                                                      |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **Clear**  | `clear`                                                                                                                                                               |
-| **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
-| **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
-| **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
-| **List**   | `list`                                                                                                                                                                |
-| **Help**   | `help`                                                                                                                                                                |
+| Action          | Format, Examples                                                                                                                                                      |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| **Clear**       | `clear`                                                                                                                                                               |
+| **Select**      | `select`<br> e.g.,`select Computing`                                                                                                                                  |
+| **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
+| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
+| **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
+| **List**        | `list`                                                                                                                                                                |
+| **Help**        | `help`                                                                                                                                                                |
+| **Import**      | `import [Absolute File Path]` or `import [File name in Downloads]` <br> e.g., `import myContacts.csv`                                                                 |
+| **Export**      | `export`                                                                                                                                                              |
+| **Alias**       | `alias ALIAS_NAME COMMAND_STRING` <br> e.g., `alias la list`                                                                                                          |
+| **Unalias**     | `unalias ALIAS_NAME` or `unalias --all` <br> e.g., `unalias la`                                                                                                       |
+| **Listaliases** | `listaliases`                                                                                                                                                         |
+| **Exit**        | `exit`                                                                                                                                                                |
 
 --------------------------------------------------------------------------------------------------------------------
 
