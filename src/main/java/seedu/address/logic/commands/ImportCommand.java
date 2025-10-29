@@ -17,8 +17,6 @@ import seedu.address.model.person.Person;
  */
 public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
-    public static final String INVALID_PATH_ERROR = "Path input is not valid";
-    public static final String INVALID_FILE_ERROR = "File doesn't exist or isn't a csv file";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports contacts from a CSV file into the current address book. "
             + "Duplicate entries and invalid data formats will be ignored.\n"
@@ -48,18 +46,18 @@ public class ImportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         if (!java.nio.file.Files.exists(path)) {
-            throw new CommandException(INVALID_PATH_ERROR);
+            throw new CommandException(MESSAGE_USAGE);
         }
 
         if (!java.nio.file.Files.isRegularFile(path)) {
-            throw new CommandException(INVALID_FILE_ERROR);
+            throw new CommandException(MESSAGE_USAGE);
         }
 
         List<Person> contacts;
         try {
             contacts = CsvUtil.readContactsFromCsv(path);
         } catch (CsvValidationException | IOException e) {
-            throw new CommandException(INVALID_PATH_ERROR);
+            throw new CommandException(MESSAGE_USAGE);
         }
         int addedCount = 0;
         for (Person p : contacts) {
