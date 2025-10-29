@@ -76,7 +76,7 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 6. [Editing the Data File](#editing-the-data-file)
 7. [Archiving Data Files](#archiving-data-files-coming-in-v20)
 --------------------------------------------------------------------------------------------------------------------
-## Commands 
+## Commands
 
 ### Startup Motivational Message
 
@@ -200,6 +200,7 @@ Format: `delete [n/NAME_KEYWORD...] [t/TAG_KEYWORD...] [m/MODULE_KEYWORD...] [f/
 * Deletes all persons who match the specified criteria.
 * The search logic is identical to the `find` command.
 * This is a powerful command. Be careful, as it can delete multiple contacts at once.
+* Batch delete applies to entire address book, not just displayed contacts.
 
 Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
@@ -348,7 +349,7 @@ Format: `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
-### How Fields Work : 
+### How Fields Work :
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
 
@@ -367,18 +368,18 @@ Each Person can possess:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Contact Details Panel : 
+### Contact Details Panel :
 
 Adds a person to the address book.
 
-How to Use: 
+How to Use:
 1. Click into your preferred contact.
 2. The contact is now highlighted and its details will be displayed in the Contact Details Panel on the right: ![ContactDetailsPanel](images/ContactDetailsPanel.png)
 3. Subsequently, you can use the up/down arrow to navigate contacts.
 
 <box type="tip" seamless>
 
-**Tip:** Don't worry if you have very long/many fields because the Contact Details Panel is scrollable! 
+**Tip:** Don't worry if you have very long/many fields because the Contact Details Panel is scrollable!
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
