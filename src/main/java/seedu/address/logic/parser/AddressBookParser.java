@@ -3,14 +3,14 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
-import java.util.Map; // Import Map
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.AliasCommand; // Import new command
+import seedu.address.logic.commands.AliasCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -20,12 +20,12 @@ import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.commands.ListAliasesCommand; // Import new command
+import seedu.address.logic.commands.ListAliasesCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
-import seedu.address.logic.commands.UnaliasCommand; // Import new command
+import seedu.address.logic.commands.UnaliasCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model; // Import Model
+import seedu.address.model.Model;
 
 /**
  * Parses user input.
@@ -75,7 +75,7 @@ public class AddressBookParser {
             final String newCommandText = (aliasedCommand + " " + arguments).trim();
 
             logger.fine("Alias detected. Original: '" + userInput
-                        + "', Substituted: '" + newCommandText + "'");
+                    + "', Substituted: '" + newCommandText + "'");
 
             final Matcher newMatcher = BASIC_COMMAND_FORMAT.matcher(newCommandText);
 
@@ -104,24 +104,44 @@ public class AddressBookParser {
             return new DeleteCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
+            if (!arguments.trim().isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ClearCommand.MESSAGE_USAGE));
+            }
             return new ClearCommand();
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
+            if (!arguments.trim().isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+            }
             return new ListCommand();
 
         case ExitCommand.COMMAND_WORD:
+            if (!arguments.trim().isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExitCommand.MESSAGE_USAGE));
+            }
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
+            if (!arguments.trim().isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+            }
             return new HelpCommand();
 
         case SelectCommand.COMMAND_WORD:
             return new SelectCommandParser().parse(arguments);
 
         case ExportCommand.COMMAND_WORD:
+            if (!arguments.trim().isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ExportCommand.MESSAGE_USAGE));
+            }
             return new ExportCommand();
 
         case ImportCommand.COMMAND_WORD:
@@ -134,6 +154,10 @@ public class AddressBookParser {
             return new UnaliasCommandParser().parse(arguments);
 
         case ListAliasesCommand.COMMAND_WORD:
+            if (!arguments.trim().isEmpty()) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAliasesCommand.MESSAGE_USAGE));
+            }
             return new ListAliasesCommand();
 
         default:

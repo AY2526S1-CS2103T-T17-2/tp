@@ -20,6 +20,10 @@ import seedu.address.model.person.Person;
 public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
 
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exports the address book to a CSV file "
+            + "in the Downloads folder.\n"
+            + "Example: " + COMMAND_WORD;
+
     public static final String MESSAGE_EXPORT_ACKNOWLEDGEMENT = "AddressBook exported to CSV file in Downloads folder";
     public static final String FAILED_EXPORT = "Failed to export contacts to CSV";
     public static final String EMPTY_ADDRESSBOOK = "Unable to export due to empty address book";

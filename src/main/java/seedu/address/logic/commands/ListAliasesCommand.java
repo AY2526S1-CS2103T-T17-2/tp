@@ -14,6 +14,9 @@ public class ListAliasesCommand extends Command {
 
     public static final String COMMAND_WORD = "listaliases";
 
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all defined command aliases.\n"
+            + "Example: " + COMMAND_WORD;
+
     public static final String MESSAGE_SUCCESS = "Defined aliases:\n%1$s";
     public static final String MESSAGE_NO_ALIASES = "No aliases defined.";
 
