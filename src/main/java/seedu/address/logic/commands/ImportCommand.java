@@ -1,11 +1,12 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 import com.opencsv.exceptions.CsvValidationException;
 
+import seedu.address.commons.util.CsvResult;
 import seedu.address.commons.util.CsvUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -47,35 +48,45 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        if (!java.nio.file.Files.exists(path)) {
+        if (!Files.exists(path)) {
             throw new CommandException(INVALID_PATH_ERROR);
         }
 
-        if (!java.nio.file.Files.isRegularFile(path)) {
+        if (!Files.isRegularFile(path)) {
             throw new CommandException(INVALID_FILE_ERROR);
         }
 
-        List<Person> contacts;
+        CsvResult result;
         try {
-            contacts = CsvUtil.readContactsFromCsv(path);
+            result = CsvUtil.readContactsFromCsv(path);
         } catch (CsvValidationException | IOException e) {
-            throw new CommandException(INVALID_PATH_ERROR);
+            throw new CommandException("Failed to read file: " + e.getMessage());
         }
         int addedCount = 0;
-        for (Person p : contacts) {
+        for (Person p : result.getValidContacts()) {
             if (!model.hasPerson(p)) {
                 model.addPerson(p);
                 addedCount++;
             }
         }
-        int skippedCount = contacts.size() - addedCount;
+        int skippedCount = result.getValidContacts().size() - addedCount;
 
-        String message = String.format(
-                "Imported %d contact(s). Skipped %d duplicate row(s).",
-                addedCount, skippedCount
-        );
+        StringBuilder message = new StringBuilder();
+        int errorCount = result.getErrorMessages().size();
 
-        return new CommandResult(message);
+        message.append(String.format(
+                "Imported %d contact(s). Skipped %d duplicate row(s). Failed to import %d invalid row(s).\n",
+                addedCount, skippedCount, errorCount
+        ));
+
+        if (result.hasErrors()) {
+            message.append("\nSome rows could not be imported:\n");
+            for (String error : result.getErrorMessages()) {
+                message.append(error).append("\n");
+            }
+        }
+
+        return new CommandResult(message.toString());
     }
 
     public Path getPath() {

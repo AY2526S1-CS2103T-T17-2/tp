@@ -63,7 +63,8 @@ class CsvUtilTest {
 
         assertTrue(Files.exists(csvFile));
 
-        List<Person> readContacts = CsvUtil.readContactsFromCsv(csvFile);
+        CsvResult result = CsvUtil.readContactsFromCsv(csvFile);
+        List<Person> readContacts = result.getValidContacts();
 
         assertEquals(contacts.size(), readContacts.size());
 
@@ -91,7 +92,8 @@ class CsvUtilTest {
         Path emptyCsv = tempDir.resolve("empty.csv");
         Files.createFile(emptyCsv);
 
-        List<Person> contacts = CsvUtil.readContactsFromCsv(emptyCsv);
+        CsvResult result = CsvUtil.readContactsFromCsv(emptyCsv);
+        List<Person> contacts = result.getValidContacts();
         assertTrue(contacts.isEmpty());
     }
 
@@ -108,7 +110,8 @@ class CsvUtilTest {
         Files.writeString(csvFile, csvContent);
 
         // ✅ Act: Read CSV file
-        List<Person> contacts = CsvUtil.readContactsFromCsv(csvFile);
+        CsvResult result = CsvUtil.readContactsFromCsv(csvFile);
+        List<Person> contacts = result.getValidContacts();
 
         // ✅ Assert: Only one person read successfully
         assertEquals(1, contacts.size());
