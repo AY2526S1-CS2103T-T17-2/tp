@@ -37,7 +37,7 @@ alt single match found
     CommandBox -> CommandBox : setText("find ")
     activate CommandBox
     deactivate CommandBox
-    
+
     CommandBox -> CommandBox : positionCaret()
     activate CommandBox
     deactivate CommandBox
@@ -45,7 +45,7 @@ else multiple matches found
     CommandBox -> CommandBox : build suggestions string
     activate CommandBox
     deactivate CommandBox
-    
+
     CommandBox -> ResultDisplay : setFeedbackToUser(suggestions)
     activate ResultDisplay
     deactivate ResultDisplay

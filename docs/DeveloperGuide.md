@@ -409,7 +409,7 @@ The following sequence diagram shows how command autocomplete works:
 
 <puml src="diagrams/AutocompleteSequenceDiagram.puml" alt="AutocompleteSequenceDiagram" />
 
-The `CommandBox#handleTab()` method is triggered, which calls `autocomplete("fi")` to search through `BUILT_IN_COMMANDS` (which references `LogicManager.ALL_COMMANDS`). 
+The `CommandBox#handleTab()` method is triggered, which calls `autocomplete("fi")` to search through `BUILT_IN_COMMANDS` (which references `LogicManager.ALL_COMMANDS`).
 
 Step 3. Since only `find` matches, it automatically completes to `find ` and positions the cursor at the end.
 
