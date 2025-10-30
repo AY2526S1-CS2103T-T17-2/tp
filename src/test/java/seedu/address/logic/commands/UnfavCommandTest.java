@@ -71,8 +71,8 @@ public class UnfavCommandTest {
                 Messages.format(unfavoritedPerson));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        showPersonAtIndex(expectedModel, INDEX_FIRST_PERSON);
-        Person personInExpectedModel = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Person personInExpectedModel = expectedModel.getAddressBook().getPersonList()
+                .stream().filter(p -> p.isSamePerson(personToUnfav)).findFirst().get();
         Person favoritedPersonInExpectedModel = new PersonBuilder(personInExpectedModel).withFavorite(true).build();
         expectedModel.setPerson(personInExpectedModel, favoritedPersonInExpectedModel);
         expectedModel.setPerson(favoritedPersonInExpectedModel, unfavoritedPerson);
