@@ -262,11 +262,15 @@ Given below is an example usage scenario and how the favorite/unfavorite mechani
 
 Step 1. The user views their contact list and wants to mark contact #1 as a favorite.
 
-Step 2. The user executes `fav 1` command. The `FavCommand` retrieves the person at index 1 from the filtered list.
+Step 2. The user executes `fav 1` command to mark the first person in the displayed list as favorite.
 
-Step 3. A new `Person` object is created with the same details but with `favorite` set to `true`.
+The following sequence diagram shows how a fav operation goes through the `Logic` component:
 
-Step 4. The `Model` updates the person in the address book and triggers a re-sort, moving favorites to the top.
+<puml src="diagrams/FavSequenceDiagram-Logic.puml" alt="FavSequenceDiagram-Logic" />
+
+Step 3. The `FavCommand` retrieves the person at index 1 from the filtered list. A new `Person` object is created with the same details but with `favorite` set to `true`.
+
+Step 4. The `Model` updates the person in the address book via `setPerson()`, which automatically triggers a re-sort, moving favorites to the top.
 
 Step 5. The UI refreshes to show the updated list with the favorited contact at the top, marked with a star (★).
 
@@ -330,10 +334,17 @@ Step 3. Each successful command is added to the `CommandHistory` via `CommandHis
 
 Step 4. The user starts typing a new command but wants to reference a previous one.
 
-Step 5. The user presses the ↑ (up arrow) key. `CommandBox#handleUpArrow()` is triggered, which:
-   * Saves the current input as temporary input
+Step 5. The user presses the ↑ (up arrow) key in the command box.
+
+The following sequence diagram shows how command history navigation works when the user presses the Up Arrow key:
+
+<puml src="diagrams/CommandHistorySequenceDiagram.puml" alt="CommandHistorySequenceDiagram" />
+
+The `CommandBox#handleUpArrow()` method is triggered, which:
+   * Saves the current input as temporary input (if not already saved)
+   * Retrieves the command history from `Logic`
    * Calls `CommandHistory#getPreviousCommand()`
-   * Displays the previous command (`fav 1`)
+   * Displays the previous command (`fav 1`) if present
 
 Step 6. The user presses ↑ again to see `find Alice`, then ↑ again to see `list`.
 
@@ -392,11 +403,15 @@ Given below are example usage scenarios:
 
 Step 1. The user types `fi` in the command box.
 
-Step 2. The user presses TAB. `CommandBox#handleTab()` is triggered.
+Step 2. The user presses TAB.
 
-Step 3. The system searches `ALL_COMMANDS` for commands starting with "fi".
+The following sequence diagram shows how command autocomplete works:
 
-Step 4. Since only `find` matches, it automatically completes to `find `.
+<puml src="diagrams/AutocompleteSequenceDiagram.puml" alt="AutocompleteSequenceDiagram" />
+
+The `CommandBox#handleTab()` method is triggered, which calls `autocomplete("fi")` to search through `BUILT_IN_COMMANDS` (which references `LogicManager.ALL_COMMANDS`). 
+
+Step 3. Since only `find` matches, it automatically completes to `find ` and positions the cursor at the end.
 
 **Scenario 2: Multiple Matches**
 
