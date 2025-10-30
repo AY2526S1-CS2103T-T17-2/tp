@@ -39,9 +39,10 @@ public class CsvUtil {
      * @throws IOException if file access fails
      * @throws CsvValidationException if CSV is invalid
      */
-    public static List<Person> readContactsFromCsv(Path csvPath)
+    public static CsvResult readContactsFromCsv(Path csvPath)
             throws IOException, CsvValidationException {
         List<Person> contacts = new ArrayList<>();
+        List<String> errorMessages = new ArrayList<>();
 
 
         try (Reader r = Files.newBufferedReader(csvPath);
@@ -51,25 +52,32 @@ public class CsvUtil {
 
             //Skip the header row
             csvReader.readNext();
+            int lineNumber = 1;
 
             while ((nextLine = csvReader.readNext()) != null) {
+                lineNumber++;
+                try {
+                    Name name = new Name(nextLine[0].trim());
+                    Phone phoneNo = new Phone(nextLine[1].trim());
+                    Email email = new Email(nextLine[2].trim());
+                    Address address = new Address(nextLine[3]);
+                    Set<Tag> allTags = parseTags(nextLine[4]);
+                    Set<Module> allModules = parseModules(nextLine[5]);
+                    Set<Faculty> allFaculties = parseFaculties(nextLine[6]);
+                    Favorite favorite = new Favorite(Boolean.parseBoolean(nextLine[7].trim()));
 
-                Name name = new Name(nextLine[0].trim());
-                Phone phoneNo = new Phone(nextLine[1].trim());
-                Email email = new Email(nextLine[2].trim());
-                Address address = new Address(nextLine[3]);
-                Set<Tag> allTags = parseTags(nextLine[4]);
-                Set<Module> allModules = parseModules(nextLine[5]);
-                Set<Faculty> allFaculties = parseFaculties(nextLine[6]);
-                Favorite favorite = new Favorite(Boolean.parseBoolean(nextLine[7].trim()));
+                    Person newPerson = new Person(name, phoneNo, email, address, allTags, allModules, allFaculties,
+                            favorite);
 
-                Person newPerson = new Person(name, phoneNo, email, address, allTags, allModules, allFaculties,
-                        favorite);
-
-                contacts.add(newPerson);
+                    contacts.add(newPerson);
+                } catch (IllegalArgumentException e) {
+                    errorMessages.add("Line " + lineNumber + ": " + e.getMessage());
+                } catch (Exception e) {
+                    errorMessages.add("Unexpected error in line " + lineNumber + ": " + e.getMessage());
+                }
             }
         }
-        return contacts;
+        return new CsvResult(contacts, errorMessages);
     }
 
     /**

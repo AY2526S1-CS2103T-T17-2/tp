@@ -3,14 +3,14 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 
-import java.util.Map; // Import Map
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.AliasCommand; // Import new command
+import seedu.address.logic.commands.AliasCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -20,12 +20,11 @@ import seedu.address.logic.commands.ExportCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
-import seedu.address.logic.commands.ListAliasesCommand; // Import new command
+import seedu.address.logic.commands.ListAliasesCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
-import seedu.address.logic.commands.UnaliasCommand; // Import new command
+import seedu.address.logic.commands.UnaliasCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model; // Import Model
 
 /**
  * Parses user input.
@@ -38,17 +37,16 @@ public class AddressBookParser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
     private static final Logger logger = LogsCenter.getLogger(AddressBookParser.class);
 
-    // Add model field
-    private final Model model;
+    private final AliasProvider aliasProvider;
 
     /**
-     * Constructs an {@code AddressBookParser} that uses the given {@code Model}
+     * Constructs an {@code AddressBookParser} that uses the given {@code AliasProvider}
      * to resolve aliases.
      *
-     * @param model The model component to get alias definitions from.
+     * @param aliasProvider The component to get alias definitions from.
      */
-    public AddressBookParser(Model model) {
-        this.model = model;
+    public AddressBookParser(AliasProvider aliasProvider) {
+        this.aliasProvider = aliasProvider;
     }
 
 
@@ -68,23 +66,21 @@ public class AddressBookParser {
         String commandWord = matcher.group("commandWord");
         String arguments = matcher.group("arguments");
 
-        final Map<String, String> aliases = model.getCommandAliases();
+        final Map<String, String> aliases = aliasProvider.getCommandAliases();
 
         if (aliases.containsKey(commandWord)) {
             final String aliasedCommand = aliases.get(commandWord);
             final String newCommandText = (aliasedCommand + " " + arguments).trim();
 
             logger.fine("Alias detected. Original: '" + userInput
-                        + "', Substituted: '" + newCommandText + "'");
+                            + "', Substituted: '" + newCommandText + "'");
 
             final Matcher newMatcher = BASIC_COMMAND_FORMAT.matcher(newCommandText);
 
-            // This should always match, but we check for safety
             if (!newMatcher.matches()) {
                 throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
             }
 
-            // Update commandWord and arguments to the substituted values
             commandWord = newMatcher.group("commandWord");
             arguments = newMatcher.group("arguments");
         }

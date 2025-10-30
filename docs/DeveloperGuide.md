@@ -186,6 +186,53 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+Step 1.
+
+### Alias Feature
+
+#### Proposed Implementation
+
+The command alias mechanism allows users to create shortcuts for longer commands (e.g., `la` for `list`). This is primarily implemented within the `Logic` component, specifically in the `AddressBookParser`.
+
+1.  **Storage:** Aliases are stored as a map (`String` to `String`) within `UserPrefs`, which is managed by the `Model`.
+2.  **Modification:** The `AliasCommand` and `UnaliasCommand` are parsed like any other command and are responsible for modifying the alias map in the `Model`.
+3.  **Resolution:** When `LogicManager` calls `AddressBookParser#parseCommand(String commandText)`, the parser first attempts to resolve the `commandWord` (the first word) as an alias by checking the `Model`.
+4.  **Substitution:** If an alias is found, `AddressBookParser` substitutes the alias with its full command value (e.g., `f` becomes `find n/`). Crucially, it appends any arguments from the *original* command (e.g., `Alex` from `f Alex`) to the *end* of the substituted command string (e.g., `find n/ Alex`).
+5.  **Recursion:** The parser then *recursively* calls itself with this new, expanded command string to produce the final `Command` object.
+
+#### Usage Scenario
+
+Step 1. The user first executes `alias f find n/` to create a "find by name" alias.
+Step 2. The `AliasCommand` is executed, calling `model.addAlias("f", "find n/")`.
+Step 3. Later, the user executes `f Alex`.
+Step 4. `LogicManager` passes `"f Alex"` to `AddressBookParser`.
+Step 5. `AddressBookParser` checks the command word `"f"`. It queries the `Model` and finds it maps to `"find n/"`.
+Step 6. It constructs a new command string by combining the mapped value and the original arguments: `"find n/ Alex"`.
+Step 7. `AddressBookParser` recursively calls `parseCommand("find n/ Alex")`.
+Step 8. This time, the command word is `"find"`. The `FindCommandParser` is identified and used to parse the arguments `"n/ Alex"`.
+Step 9. A valid `FindCommand` is returned to `LogicManager` and executed.
+
+#### Diagrams
+
+<puml src="diagrams/AliasSequenceDiagram.puml" alt="AliasSequenceDiagram" />
+
+<box type="info" seamless>
+
+**Note:** The recursive call in `AddressBookParser` is the key to this implementation. It also includes protection against circular alias definitions (e.g., `alias a b` and `alias b a`) to prevent a `StackOverflowError`.
+
+</box>
+
+#### Design considerations:
+
+* **Alternative 1 (Current choice):** Substitution at the `AddressBookParser` level.
+    * **Pros:** Simple and transparent. All other `CommandParser` implementations (like `AddCommandParser`, `FindCommandParser`) are completely unaware that aliases exist.
+    * **Cons:** `AddressBookParser` becomes more complex, needing to handle state (like recursion depth) and interact with the `Model`, which most parsers do not.
+* **Alternative 2:** Substitution at the `LogicManager` level before parsing.
+    * **Pros:** `AddressBookParser` remains simple and stateless.
+    * **Cons:** `LogicManager`'s role becomes muddled, mixing execution logic with pre-parsing logic. This would also require `LogicManager` to have a direct dependency on the `Model` just for resolving aliases.
+
+
+
 ## Import/export feature
 
 The current import/export mechanism allows users to save and load contacts from CSV files. This is facilitated by the `CsvUtil` class, which handles serialization and deserialization between the AddressBook and .csv files.
@@ -217,7 +264,7 @@ The following sequence diagram shows how an import operation goes through the `L
 <puml src="diagrams/ImportSequenceDiagram-Logic.puml" alt="ImportSequenceDiagram-Logic" />
 
 
-Step 2. The user executes `export` command to export every contact in the address book. 
+Step 2. The user executes `export` command to export every contact in the address book.
 
 The following sequence diagram shows how an export operation goes through the `Logic` component:
 
@@ -393,7 +440,7 @@ Guarantees: Person will only be added into the list if all the required fields a
 
 **MSS**
 
-1.  User requests to list persons 
+1.  User requests to list persons
 2.  CampusBook shows a list of persons
 3.  User requests to add a specific person in the list
 4.  CampusBook adds the person
@@ -416,7 +463,7 @@ Guarantees: Person will only be deleted from the list if the index given is vali
 
 **MSS**
 
-1.  User requests to list persons 
+1.  User requests to list persons
 2.  CampusBook shows a list of persons
 3.  User requests to delete a specific person in the list
 4.  CampusBook deletes the person
@@ -442,7 +489,7 @@ Guarantees: Person will only be editted in the list if the index given, and fiel
 
 **MSS**
 
-1.  User requests to list persons 
+1.  User requests to list persons
 2.  CampusBook shows a list of persons
 3.  User requests to edit a specific person in the list
 4.  CampusBook edits the person
@@ -467,7 +514,7 @@ Guarantees: Person will only be found from the list if at least a part of the gi
 
 **MSS**
 
-1.  User requests to list persons 
+1.  User requests to list persons
 2.  CampusBook shows a list of persons
 3.  User requests to find a specific person in the list
 4.  CampusBook lists the person(s)
@@ -498,7 +545,7 @@ Guarantees: Person entries will be cleared
 
 **MSS**
 
-1.  User requests to list persons 
+1.  User requests to list persons
 2.  CampusBook shows a list of persons
 3.  User requests to clear all entries in the list
 4.  CampusBook clears the list
@@ -526,11 +573,11 @@ Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.  
+* 2a. The list is empty.
  Use case ends.
 
-* 3a. The given tag is invalid (e.g. contains spaces or special characters).  
-  * 3a1. CampusBook shows an error message.  
+* 3a. The given tag is invalid (e.g. contains spaces or special characters).
+  * 3a1. CampusBook shows an error message.
     Use case resumes at step 2.
 
 
@@ -547,12 +594,12 @@ Use case ends.
 
 **Extensions**
 
-* 1a. The given index is invalid.  
-  * 1a1. CampusBook shows an error message.  
+* 1a. The given index is invalid.
+  * 1a1. CampusBook shows an error message.
     Use case resumes at step 1.
 
-* 2a. The person is already a favorite.  
-  * 2a1. CampusBook shows a message to show the person is already marked as favourite  
+* 2a. The person is already a favorite.
+  * 2a1. CampusBook shows a message to show the person is already marked as favourite
     Use case ends.
 
 
@@ -574,7 +621,7 @@ Use case ends.
   * 1a1. CampusBook aborts the export process.
     Use case ends.
 
-* 2a. File cannot be created or written (e.g., invalid path or permission error) 
+* 2a. File cannot be created or written (e.g., invalid path or permission error)
   * 2a1. CampusBook notifies the user that the export failed and provides the error message.
 
 
@@ -593,12 +640,12 @@ Use case ends.
 
 **Extensions**
 
-* 2a. File is missing or corrupted.  
-  * 2a1. CampusBook shows an error message.  
+* 2a. File is missing or corrupted.
+  * 2a1. CampusBook shows an error message.
     Use case ends.
 
-* 3a. File contains duplicate persons.  
-  * 3a1. CampusBook skips duplicates and logs a warning.  
+* 3a. File contains duplicate persons.
+  * 3a1. CampusBook skips duplicates and logs a warning.
     Use case ends.
 
 **UC10: Select a faculty**
@@ -615,12 +662,12 @@ Use case ends.
 
 **Extensions**
 
-* 2a. The given faculty is invalid. 
+* 2a. The given faculty is invalid.
   * 2a1. CampusBook shows an error message and lists valid faculties.
     Use case resumes at step 1.
 
 * 3a. Some contacts already exist in the list.
-  * 3a1. CampusBook skips duplicates and logs a warning. 
+  * 3a1. CampusBook skips duplicates and logs a warning.
     Use case ends.
 
 **UC11: View command history**
@@ -639,7 +686,7 @@ Use case ends.
 
 **Extensions**
 
-* 2a. There is no command history. 
+* 2a. There is no command history.
   * 2a1. CampusBook shows a message indicating the history is empty.
     Use case ends.
 
@@ -658,7 +705,7 @@ Use case ends.
 - User must have previously executed at least one command (except in *2a*).
 - Command history is session-based and not saved after application exit (unless specified in future extensions).
 
---- 
+---
 
 --------------------------------------------------------------------------------------------------------------------
 
