@@ -21,6 +21,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.FavCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
@@ -28,6 +29,7 @@ import seedu.address.logic.commands.ListAliasesCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UnaliasCommand;
+import seedu.address.logic.commands.UnfavCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.AliasProvider;
@@ -61,7 +63,9 @@ public class LogicManager implements Logic {
         ImportCommand.COMMAND_WORD,
         AliasCommand.COMMAND_WORD,
         UnaliasCommand.COMMAND_WORD,
-        ListAliasesCommand.COMMAND_WORD
+        ListAliasesCommand.COMMAND_WORD,
+        FavCommand.COMMAND_WORD,
+        UnfavCommand.COMMAND_WORD
     };
 
     private final Logger logger = LogsCenter.getLogger(LogicManager.class);

@@ -50,7 +50,9 @@ public class AliasCommand extends Command {
             ImportCommand.COMMAND_WORD,
             AliasCommand.COMMAND_WORD,
             UnaliasCommand.COMMAND_WORD,
-            ListAliasesCommand.COMMAND_WORD
+            ListAliasesCommand.COMMAND_WORD,
+            FavCommand.COMMAND_WORD,
+            UnfavCommand.COMMAND_WORD
     ).collect(Collectors.toSet());
 
     private final String aliasName;

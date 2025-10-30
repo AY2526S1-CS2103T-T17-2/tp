@@ -17,6 +17,7 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.ExportCommand;
+import seedu.address.logic.commands.FavCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ImportCommand;
@@ -24,6 +25,7 @@ import seedu.address.logic.commands.ListAliasesCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UnaliasCommand;
+import seedu.address.logic.commands.UnfavCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -155,6 +157,12 @@ public class AddressBookParser {
                         String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListAliasesCommand.MESSAGE_USAGE));
             }
             return new ListAliasesCommand();
+
+        case FavCommand.COMMAND_WORD:
+            return new FavCommandParser().parse(arguments);
+
+        case UnfavCommand.COMMAND_WORD:
+            return new UnfavCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
