@@ -14,10 +14,10 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("delete n/Alice")
+[-> LogicManager : execute("delete 1")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("delete n/Alice")
+LogicManager -> AddressBookParser : parseCommand("delete 1")
 activate AddressBookParser
 
 create DeleteCommandParser
@@ -27,13 +27,11 @@ activate DeleteCommandParser
 DeleteCommandParser --> AddressBookParser
 deactivate DeleteCommandParser
 
-AddressBookParser -> DeleteCommandParser : parse("n/Alice")
+AddressBookParser -> DeleteCommandParser : parse("1")
 activate DeleteCommandParser
 
-note left: DeleteCommandParser creates\nNameContainsKeywordsPredicate
-
 create DeleteCommand
-DeleteCommandParser -> DeleteCommand : new(predicate)
+DeleteCommandParser -> DeleteCommand
 activate DeleteCommand
 
 DeleteCommand --> DeleteCommandParser :
@@ -41,7 +39,7 @@ deactivate DeleteCommand
 
 DeleteCommandParser --> AddressBookParser : d
 deactivate DeleteCommandParser
-
+'Hidden arrow to position the destroy marker below the end of the activation bar.
 DeleteCommandParser -[hidden]-> AddressBookParser
 destroy DeleteCommandParser
 
@@ -51,20 +49,14 @@ deactivate AddressBookParser
 LogicManager -> DeleteCommand : execute(m)
 activate DeleteCommand
 
-DeleteCommand -> Model : getFilteredPersonList()
+DeleteCommand -> Model : deletePerson(1)
 activate Model
-Model --> DeleteCommand : listToFilter
+
+Model --> DeleteCommand
 deactivate Model
 
-loop for each person in listToFilter matching predicate
-    DeleteCommand -> Model : deletePerson(person)
-    activate Model
-    Model --> DeleteCommand
-    deactivate Model
-end
-
 create CommandResult
-DeleteCommand -> CommandResult : new("Deleted X persons...")
+DeleteCommand -> CommandResult
 activate CommandResult
 
 CommandResult --> DeleteCommand
