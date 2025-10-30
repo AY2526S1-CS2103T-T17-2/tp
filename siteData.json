@@ -54,6 +54,9 @@
         "implementation": "Implementation",
         "alias-feature": "Alias Feature",
         "import-export-feature": "Import/export feature",
+        "favorite-unfavorite-feature": "Favorite/Unfavorite feature",
+        "command-history-feature": "Command History feature",
+        "command-autocomplete-feature": "Command Autocomplete feature",
         "proposed-undo-redo-feature": "[Proposed] Undo/redo feature",
         "documentation-logging-testing-configuration-dev-ops": "Documentation, logging, testing, configuration, dev-ops",
         "appendix-requirements": "Appendix: Requirements",
@@ -65,6 +68,9 @@
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
         "deleting-a-person": "Deleting a person",
+        "marking-and-unmarking-favorites": "Marking and unmarking favorites",
+        "command-history-navigation": "Command history navigation",
+        "command-autocomplete": "Command autocomplete",
         "saving-data": "Saving data"
       },
       "headingKeywords": {}
