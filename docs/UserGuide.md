@@ -54,7 +54,8 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
-1. [Command List:](#commands)
+1. [Startup Motivtional Message](#startup-motivational-message)
+2. [Command List:](#commands)
    1. [`help`: Viewing Help](#viewing-help--help)
    2. [`add`: Adding a Person](#adding-a-person-add)
    3. [`select`: Selecting a Faculty](#selecting-a-faculty-to-preload-contacts-select)
@@ -69,22 +70,24 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
    12. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
    13. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
    14. [`exit`: Exiting the Program](#exiting-the-program--exit)
-2. [Command Summary](#command-summary)
-3. [Contact Details Panel](#contact-details-panel-)
-4. [Fields: Types of Information](#how-fields-work-)
-5. [Saving the Data](#saving-the-data)
-6. [Editing the Data File](#editing-the-data-file)
-7. [Archiving Data Files](#archiving-data-files-coming-in-v20)
+3. [Command Summary](#command-summary)
+4. [Fields: Types of Information](#how-fields-work)
+5. [Contact Details Panel](#contact-details-panel)
+6. [Autocomplete commands and path files]()
+7. [Saving the Data](#saving-the-data)
+8. [Editing the Data File](#editing-the-data-file)
 --------------------------------------------------------------------------------------------------------------------
-## Commands
+## Startup Motivational Message
 
-### Startup Motivational Message
+Being a student is tough. We understand.
 
-When you launch CampusBook, a random motivational quote will appear in the result display area. This is designed to give you a little boost of encouragement for your day.
-
+Hence, when you launch CampusBook, a different motivational quote will appear in the result display area to give you a little boost of encouragement for your day:
+![Startup_Motivational Message](images/Startup_Motivational_Message.png)
 <box type="info" seamless>
 This message is shown only at startup and will be replaced by the output of the first command you execute.
 </box>
+
+## Commands
 
 ### Viewing help : `help`
 
@@ -238,8 +241,11 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped.
+* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
+* Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
+
+[Sample Data](Campusbook_contacts.csv)
 
 Examples:
 * `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
@@ -332,45 +338,45 @@ Format: `exit`
 
 ## Command summary
 
-| Action          | Format, Examples                                                                                                                                                      |
-|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add**         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **Clear**       | `clear`                                                                                                                                                               |
-| **Select**      | `select`<br> e.g.,`select Computing`                                                                                                                                  |
-| **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
-| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
-| **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
-| **List**        | `list`                                                                                                                                                                |
-| **Help**        | `help`                                                                                                                                                                |
-| **Import**      | `import [Absolute File Path]` or `import [File name in Downloads]` <br> e.g., `import myContacts.csv`                                                                 |
-| **Export**      | `export`                                                                                                                                                              |
-| **Alias**       | `alias ALIAS_NAME COMMAND_STRING` <br> e.g., `alias la list`                                                                                                          |
-| **Unalias**     | `unalias ALIAS_NAME` or `unalias --all` <br> e.g., `unalias la`                                                                                                       |
-| **Listaliases** | `listaliases`                                                                                                                                                         |
-| **Exit**        | `exit`                                                                                                                                                                |
+| Command         | Description                | Format / Example                                                                                                                                                     |
+| :-------------- | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **help**        | Viewing Help               | `help`                                                                                                                                                               |
+| **add**         | Adding a Person            | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`<br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| **select**      | Selecting a Faculty        | `select`<F>                                                                                                                                                          |
+| **list**        | Listing all Persons        | `list`                                                                                                                                                               |
+| **edit**        | Editing a Person           | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                          |
+| **find**        | Locating Persons by Fields | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                           |
+| **delete**      | Deleting a Person          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                  |
+| **clear**       | Clearing all Entries       | `clear`                                                                                                                                                              |
+| **export**      | Exporting Data             | `export`                                                                                                                                                             |
+| **import**      | Importing Data             | `import [Absolute File Path]` or `import [File name in Downloads]` <br> e.g., `import myContacts.csv`                                                                |
+| **alias**       | Creating an Alias          | `alias ALIAS_NAME COMMAND_STRING` <br> e.g., `alias la list`                                                                                                         |
+| **unalias**     | Removing an Alias          | `unalias ALIAS_NAME` or `unalias --all` <br> e.g., `unalias la`                                                                                                      |
+| **listaliases** | Listing all Aliases        | `listaliases`                                                                                                                                                        |
+| **exit**        | Exiting the Program        | `exit`                                                                                                                                                               |
 
 --------------------------------------------------------------------------------------------------------------------
 
-### How Fields Work :
+## How Fields Work
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
 
 Each Person can possess:
 
-| Field    | Prefix | Description                                                | Example                         |
-| :------- | :----- | :--------------------------------------------------------- | :------------------------------ |
-| Name     | `n/`   | Person’s full name                                         | `n/John Doe`                    |
-| Phone    | `p/`   | Contact number                                             | `p/91234567`                    |
-| Email    | `e/`   | Email address                                              | `e/johndoe@example.com`         |
-| Address  | `a/`   | Residential or mailing address                             | `a/311, Clementi Ave 2, #02-25` |
-| Tag      | `t/`   | Tag to categorize contacts (e.g., *friends*, *colleagues*) | `t/friend`                      |
-| Faculty  | `f/`   | Faculty or school the contact belongs to                   | `f/School of Computing`         |
-| Module   | `m/`   | Module the contact is related to                           | `m/CS2103T`                     |
-| Favorite | `fav/` | Mark the contact as a favorite contact                     | `fav/true`                      |
+| Field    | Prefix | Description                                                | Example                         | Valid Inputs |
+| :------- | :----- | :--------------------------------------------------------- | :------------------------------ | :---------- |
+| Name     | `n/`   | Person’s full name                                         | `n/John Doe`                    | Alphanumeric characters and spaces, and it should not be blank            |
+| Phone    | `p/`   | Contact number                                             | `p/91234567`                    | Only contain numbers, and it should be at least 3 digits long            |
+| Email    | `e/`   | Email address                                              | `e/johndoe@example.com`         | Follows the local-part@domain format<br>(Specific details can be found in the application)           |
+| Address  | `a/`   | Residential or mailing address                             | `a/311, Clementi Ave 2, #02-25` | Addresses can take any values, and it should not be blank            |
+| Tag      | `t/`   | Tag to categorize contacts (e.g., *friends*, *colleagues*) | `t/friend`                      | Tags names should be alphanumeric            |
+| Faculty  | `f/`   | Faculty or school the contact belongs to                   | `f/School of Computing`         | Faculty names should be only contain alphabets and spaces            |
+| Module   | `m/`   | Module the contact is related to                           | `m/CS2103T`, `m/GESS1000`, `m/DSA1101`, `m/CS1101DE`                     | Module names should consist of 2 to 4 uppercase letters, followed by 4 digits, and optionally ending with 1/2 uppercase letter        |
+| Favorite | `fav/` | Mark the contact as a favorite contact                     | `fav/true`                      | Favorite should be either 'true' or 'false'            |
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Contact Details Panel :
+## Contact Details Panel
 
 Adds a person to the address book.
 
@@ -378,11 +384,22 @@ How to Use:
 1. Click into your preferred contact.
 2. The contact is now highlighted and its details will be displayed in the Contact Details Panel on the right: ![ContactDetailsPanel](images/ContactDetailsPanel.png)
 3. Subsequently, you can use the up/down arrow to navigate contacts.
-
 <box type="tip" seamless>
 
 **Tip:** Don't worry if you have very long/many fields because the Contact Details Panel is scrollable!
 </box>
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Autocomplete Inputs
+
+Autocompletes some inputs based on the user's current input.
+
+Press **TAB** after clicking the input box to autocomplete. If there are multiple results, a list of the possible words will be listed.
+
+Supported autocompletes:
+1. All command's keyword
+2. When using `import`, detects a csv file in the user's `Downloads` folder based on the current input.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -392,7 +409,7 @@ AddressBook data are saved in the hard disk automatically after any command that
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Editing the data file
+## Editing the data file
 
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
@@ -402,12 +419,6 @@ AddressBook data are saved automatically as a JSON file `[JAR file location]/dat
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
-
---------------------------------------------------------------------------------------------------------------------
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -423,21 +434,4 @@ _Details coming soon ..._
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
---------------------------------------------------------------------------------------------------------------------
-
-## Command summary
-
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Alias**  | `alias ALIAS_NAME COMMAND_STRING`<br> e.g., `alias findcomp find f/computing`
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend fav/true`
-**Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`<br>or<br>`delete [n/NAME...] [t/TAG...]...`<br> e.g., `delete t/colleague`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com fav/true`
-**Exit**   | `exit`
-**Find**   | `find [n/NAME...] [t/TAG...]...`<br> e.g., `find n/James Jake t/friend`
-**List**   | `list`
-**List Aliases** | `listaliases`
-**Help**   | `help`
-**Select** | `select FACULTY`<br> e.g., `select Engineering`
-**Unalias**| `unalias ALIAS_NAME`<br> e.g., `unalias findcomp`<br>or<br>`unalias --all`
+--------------------------------------------------------------------------------------------------------------------                                                                                                                              |

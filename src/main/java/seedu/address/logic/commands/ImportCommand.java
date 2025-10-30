@@ -2,10 +2,10 @@ package seedu.address.logic.commands;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 import com.opencsv.exceptions.CsvValidationException;
 
+import seedu.address.commons.util.CsvResult;
 import seedu.address.commons.util.CsvUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -17,8 +17,6 @@ import seedu.address.model.person.Person;
  */
 public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
-    public static final String INVALID_PATH_ERROR = "Path input is not valid";
-    public static final String INVALID_FILE_ERROR = "File doesn't exist or isn't a csv file";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports contacts from a CSV file into the current address book. "
             + "Duplicate entries and invalid data formats will be ignored.\n"
@@ -48,34 +46,44 @@ public class ImportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         if (!java.nio.file.Files.exists(path)) {
-            throw new CommandException(INVALID_PATH_ERROR);
+            throw new CommandException(MESSAGE_USAGE);
         }
 
         if (!java.nio.file.Files.isRegularFile(path)) {
-            throw new CommandException(INVALID_FILE_ERROR);
+            throw new CommandException(MESSAGE_USAGE);
         }
 
-        List<Person> contacts;
+        CsvResult result;
         try {
-            contacts = CsvUtil.readContactsFromCsv(path);
+            result = CsvUtil.readContactsFromCsv(path);
         } catch (CsvValidationException | IOException e) {
-            throw new CommandException(INVALID_PATH_ERROR);
+            throw new CommandException(MESSAGE_USAGE);
         }
         int addedCount = 0;
-        for (Person p : contacts) {
+        for (Person p : result.getValidContacts()) {
             if (!model.hasPerson(p)) {
                 model.addPerson(p);
                 addedCount++;
             }
         }
-        int skippedCount = contacts.size() - addedCount;
+        int skippedCount = result.getValidContacts().size() - addedCount;
 
-        String message = String.format(
-                "Imported %d contact(s). Skipped %d duplicate row(s).",
-                addedCount, skippedCount
-        );
+        StringBuilder message = new StringBuilder();
+        int errorCount = result.getErrorMessages().size();
 
-        return new CommandResult(message);
+        message.append(String.format(
+                "Imported %d contact(s). Skipped %d duplicate row(s). Failed to import %d invalid row(s).\n",
+                addedCount, skippedCount, errorCount
+        ));
+
+        if (result.hasErrors()) {
+            message.append("\nSome rows could not be imported:\n");
+            for (String error : result.getErrorMessages()) {
+                message.append(error).append("\n");
+            }
+        }
+
+        return new CommandResult(message.toString());
     }
 
     public Path getPath() {
