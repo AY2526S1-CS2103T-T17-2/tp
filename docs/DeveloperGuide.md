@@ -187,74 +187,67 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 ---
-
-### Alias Feature
+## Alias Feature
 
 The command alias mechanism allows users to create shortcuts for common commands (e.g., `la` as an alias for `list`). This feature is designed to be decoupled and testable, avoiding direct dependencies between the parser and the data model.
 
-#### Implementation Overview
-
 The implementation involves the following key components:
 
-1. **`Model` Component**
-   * Alias data (a `Map<String, String>`) is persisted in `UserPrefs`, which is managed by the `Model`.
-   * `ModelManager` is responsible for reading/writing aliases and implements the `AliasProvider` interface to decouple from Logic.
+* **`Model` Component**: Alias data (a `Map<String, String>`) is persisted in `UserPrefs`, which is managed by the `Model`. `ModelManager` is responsible for the concrete logic of reading and writing aliases and implements the `AliasProvider` interface.
 
-2. **`Logic` Component**
-   * `AliasCommand` and `UnaliasCommand` handle adding/removing aliases via the `Model` API.
-   * `AddressBookParser` performs alias substitution using an injected `AliasProvider` instance.
+* **`Logic` Component**: `AliasCommand` and `UnaliasCommand` call the `Model`'s interface to add or remove aliases. `LogicManager` saves the updated `UserPrefs`. `AddressBookParser` holds a reference to an `AliasProvider` (injected by `LogicManager`) to perform alias substitution.
 
-The following class diagram shows how `AddressBookParser` depends on the `AliasProvider` interface, which is implemented by `ModelManager`.
+The following object diagram shows how `AddressBookParser` depends on the `AliasProvider` interface, which is implemented by `ModelManager`. This decouples the parser from the concrete `Model` implementation.
 
 <puml src="diagrams/AliasProviderClassDiagram.puml" width="250" />
 
-#### Design Considerations: Decoupling `AddressBookParser` from `Model`
+Design Considerations for Decoupling `AddressBookParser` from `Model`:
 
-**Problem:** The parser needs to access alias data from `Model`, but direct dependency violates architecture layering.
+* **Problem:** The `AddressBookParser` needs access to the alias list (stored in `Model`) to perform substitution, but a direct dependency would violate architectural principles and complicate testing.
 
-**Alternative 1:** Direct dependency on `Model`
-- **Pros:** Simple to implement.
-- **Cons:** Violates Dependency Inversion Principle and reduces testability.
+* **Alternative 1: Direct dependency on `Model`**: This is simple to implement initially. However, it violates the Dependency Inversion Principle, tightly couples `AddressBookParser` to the `Model`, and makes unit testing difficult (`AddressBookParserTest` would need a complete mocked `Model`).
 
-**Alternative 2 (Current choice):** Use an `AliasProvider` interface
-- **Implementation:**  
-  1. Define `AliasProvider` in `logic.parser`.  
-  2. `ModelManager` implements it.  
-  3. `LogicManager` injects it into `AddressBookParser`.  
-- **Pros:** Parser depends only on abstraction; easily mockable in tests.
+* **Alternative 2 (Current Choice): Use an `AliasProvider` interface**: An `AliasProvider` interface is defined in the `logic.parser` package, (exposing `getCommandAliases()`). `ModelManager` implements this interface. `LogicManager` constructs `AddressBookParser` by injecting `ModelManager` as the `AliasProvider` type. This achieves
+**Decoupling** (parser only depends on the abstraction) and **Testability** (a simple stub can be injected for tests).
 
----
+## Import/export feature
 
-### Import/Export Feature
+The current import/export mechanism allows users to save and load contacts from CSV files. This is facilitated by the `CsvUtil` class, which handles serialization and deserialization between the AddressBook and .csv files.
 
-The import/export mechanism allows users to save and load contacts from CSV files. This is handled by the `CsvUtil` utility, which performs serialization and deserialization between AddressBook and `.csv`.
+The feature introduces two new commands:
 
-**New Commands:**
-* `ImportCommand`: Imports contacts from a specified CSV file.
-* `ExportCommand`: Exports current contacts to a CSV file.
+* `ImportCommand`: Imports person data from a specified CSV file into the AddressBook.
 
-**Internal Workflow:**
-* `ImportCommand#execute(Path filePath)` reads and merges contact data from the CSV.
-* `ExportCommand#execute()` writes the current data to disk.
-* `CsvUtil#readContactsFromCsv(Path csvPath)` parses the CSV file into `Person` objects.
-* `CsvUtil#writeContactsToCsv(Path csvPath, List<Person> contacts)` converts contact data to CSV format.
+* `ExportCommand`: Exports the current AddressBook data into a specified CSV file.
 
-**Usage Flow:**
-1. User runs `import myData.csv` to import contacts.
-2. The command is handled through the Logic component.
-3. The following diagram shows the flow:
+Internally, the ImportCommand and ExportCommand interact with the Model component through the following operations:
 
-<puml src="diagrams/ImportSequenceDiagram-Logic.puml" alt="Import Sequence Diagram - Logic" />
+* `ImportCommand#execute(Path filePath)` Reads and merges contact data from the given CSV file into the current AddressBook.
+
+* `ExportCommand#execute()` Writes the current AddressBook data into the default destination.
+
+The import/export logic is encapsulated within CsvUtil, which defines:
+
+* `CsvUtil#readContactsFromCsv(Path csvPath)` — Parses the CSV file into a list of Person objects.
+
+* `CsvUtil#writeContactsToCsv(Path csvPath, List<Person> contacts)` — Converts the contact's data into a CSV representation and writes it to the file.
+
+Given below is an example usage scenario and how the import/export mechanism behaves at each step.
+
+Step 1. The user executes `import myData.csv` command to import their contacts from the `myData` file into the address book. This will add on the imported contacts into their already existing ones.
+
+The following sequence diagram shows how an import operation goes through the `Logic` component:
+
+<puml src="diagrams/ImportSequenceDiagram-Logic.puml" alt="ImportSequenceDiagram-Logic" />
+
+Step 2. The user executes `export` command to export every contact in the address book.
+
+The following sequence diagram shows how an export operation goes through the `Logic` component:
+
+<puml src="diagrams/ExportSequenceDiagram-Logic.puml" alt="ExportSequenceDiagram-Logic" />
 
 
-*   **Alternative 2 (Current Choice): Use an `AliasProvider` interface**
-    *   **Implementation**:
-        1.  An `AliasProvider` interface is defined in the `logic.parser` package, exposing a single method: `getCommandAliases()`.
-        2.  `ModelManager` implements this `AliasProvider` interface, providing access to the aliases stored in `UserPrefs`.
-        3.  `LogicManager` constructs `AddressBookParser` by injecting the `ModelManager` instance, but cast as the `AliasProvider` type.
-    *   **Pros**:
-        *   **Decoupling**: `AddressBookParser` depends only on the `AliasProvider` abstraction, not the concrete `ModelManager`. It has no knowledge of the `Model` component.
-        *   **Testability**: `AddressBookParserTest` can inject a simple test stub or mock of `AliasProvider`, isolating the parser from the `Model` and making tests cleaner and more focused.
+
 
 
 
