@@ -1,0 +1,70 @@
+@startuml
+!include style.puml
+skinparam BoxPadding 0
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":FavCommandParser" as FavCommandParser LOGIC_COLOR
+participant "f:FavCommand" as FavCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("fav 1")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("fav 1")
+activate AddressBookParser
+
+create FavCommandParser
+AddressBookParser -> FavCommandParser : parse("1")
+activate FavCommandParser
+
+create FavCommand
+FavCommandParser -> FavCommand
+activate FavCommand
+
+FavCommand --> FavCommandParser
+deactivate FavCommand
+
+FavCommandParser --> AddressBookParser : f
+deactivate FavCommandParser
+destroy FavCommandParser
+
+AddressBookParser --> LogicManager : f
+deactivate AddressBookParser
+
+LogicManager -> FavCommand : execute()
+activate FavCommand
+
+FavCommand -> Model : getFilteredPersonList()
+activate Model
+
+Model --> FavCommand : personList
+deactivate Model
+
+FavCommand -> Model : setPerson(target, editedPerson)
+activate Model
+
+Model --> FavCommand
+deactivate Model
+
+FavCommand -> Model : updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)
+activate Model
+
+Model --> FavCommand
+deactivate Model
+
+FavCommand --> LogicManager : result
+deactivate FavCommand
+FavCommand -[hidden]-> LogicManager : result
+destroy FavCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
+

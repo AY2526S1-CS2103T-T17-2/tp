@@ -255,6 +255,229 @@ The following activity diagram summarizes what happens when a user executes an `
 
 <puml src="diagrams/ImportActivityDiagram.puml" width="250" />
 
+--------------------------------------------------------------------------------------------------------------------
+
+## Favorite/Unfavorite feature
+
+The favorite/unfavorite feature allows users to mark contacts as favorites and sort them to the top of the contact list. This is implemented through the `FavCommand` and `UnfavCommand` classes.
+
+The feature introduces two new commands:
+
+* `FavCommand`: Marks a person as favorite based on their index in the displayed list.
+* `UnfavCommand`: Removes the favorite status from a person based on their index in the displayed list.
+
+The favorite status is stored as part of the `Person` object through a `Favorite` field, which is:
+* Persisted in the JSON storage file (`JsonAdaptedPerson`)
+* Used for sorting the contact list (favorites appear first)
+* Displayed in the UI with a star icon (★)
+
+Key components involved:
+
+* `FavCommand#execute(Model model)` — Marks the person at the specified index as favorite
+* `UnfavCommand#execute(Model model)` — Removes the favorite status from the person at the specified index
+* `ModelManager#setPerson(Person target, Person editedPerson)` — Updates the person in the address book
+* `ModelManager#updateFilteredPersonList(Predicate predicate)` — Refreshes the displayed list
+* `ModelManager#sortPersons()` — Sorts persons with favorites at the top
+* `JsonAdaptedPerson` — Serializes/deserializes the `favorite` field
+
+Given below is an example usage scenario and how the favorite/unfavorite mechanism behaves at each step.
+
+Step 1. The user views their contact list and wants to mark contact #1 as a favorite.
+
+Step 2. The user executes `fav 1` command to mark the first person in the displayed list as favorite.
+
+The following sequence diagram shows how a fav operation goes through the `Logic` component:
+
+<puml src="diagrams/FavSequenceDiagram-Logic.puml" alt="FavSequenceDiagram-Logic" />
+
+Step 3. The `FavCommand` retrieves the person at index 1 from the filtered list. A new `Person` object is created with the same details but with `favorite` set to `true`.
+
+Step 4. The `Model` updates the person in the address book via `setPerson()`, which automatically triggers a re-sort, moving favorites to the top.
+
+Step 5. The UI refreshes to show the updated list with the favorited contact at the top, marked with a star (★).
+
+Step 6. The changes are automatically saved to the JSON storage file.
+
+#### Design Considerations
+
+**Aspect: How to store favorite status:**
+
+* **Alternative 1 (current choice):** Store as a field in the `Person` class.
+  * Pros: Simple to implement, easy to persist, integrates naturally with existing edit operations.
+  * Cons: Adds another field to every person object.
+
+* **Alternative 2:** Maintain a separate list of favorite person IDs.
+  * Pros: Potentially more memory efficient if few contacts are favorited.
+  * Cons: More complex to maintain consistency, harder to persist, requires additional data structure.
+
+**Aspect: How to sort favorites:**
+
+* **Alternative 1 (current choice):** Automatic sorting in `ModelManager` when list is updated.
+  * Pros: Ensures favorites are always at the top, consistent user experience.
+  * Cons: Performance impact on every list update.
+
+* **Alternative 2:** Manual sorting only when user requests.
+  * Pros: Better performance for large contact lists.
+  * Cons: Inconsistent display, user needs to remember to sort.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command History feature
+
+The command history feature allows users to navigate through previously entered commands using arrow keys. The history is persisted across application sessions.
+
+The command history mechanism is facilitated by the `CommandHistory` class, which stores up to 10 recent commands and provides navigation capabilities.
+
+Key components involved:
+
+* `CommandHistory#addCommand(String command)` — Adds a new command to the history
+* `CommandHistory#getPreviousCommand()` — Retrieves the previous command in the history
+* `CommandHistory#getNextCommand()` — Retrieves the next command in the history
+* `CommandBox#handleUpArrow()` — Navigates to the previous command
+* `CommandBox#handleDownArrow()` — Navigates to the next command
+* `CommandHistoryStorage` — Interface for reading/writing command history
+* `JsonCommandHistoryStorage` — JSON-based implementation of command history storage
+* `JsonSerializableCommandHistory` — JSON-friendly wrapper for command history data
+
+The implementation has the following key features:
+
+* **Limited Size:** The history stores a maximum of 10 commands. When this limit is reached, the oldest command is removed (FIFO queue).
+* **Smart Filtering:** Empty or whitespace-only commands are not added to history. Consecutive duplicate commands are not added (non-consecutive duplicates are allowed).
+* **Persistence:** The command history is saved to `commandhistory.json` and loaded on application startup.
+* **Navigation State:** The `CommandHistory` maintains a `currentPosition` pointer for navigation. Up arrow moves backward through history (decrements position), down arrow moves forward through history (increments position), and at the end of history, the original input is restored.
+
+Given below is an example usage scenario and how the command history mechanism behaves at each step.
+
+Step 1. The user launches the application. `LogicManager` loads the command history from `commandhistory.json`.
+
+Step 2. The user executes several commands: `list`, `find Alice`, `fav 1`.
+
+Step 3. Each successful command is added to the `CommandHistory` via `CommandHistory#addCommand()`.
+
+Step 4. The user starts typing a new command but wants to reference a previous one.
+
+Step 5. The user presses the ↑ (up arrow) key in the command box.
+
+The following sequence diagram shows how command history navigation works when the user presses the Up Arrow key:
+
+<puml src="diagrams/CommandHistorySequenceDiagram.puml" alt="CommandHistorySequenceDiagram" />
+
+The `CommandBox#handleUpArrow()` method is triggered, which:
+   * Saves the current input as temporary input (if not already saved)
+   * Retrieves the command history from `Logic`
+   * Calls `CommandHistory#getPreviousCommand()`
+   * Displays the previous command (`fav 1`) if present
+
+Step 6. The user presses ↑ again to see `find Alice`, then ↑ again to see `list`.
+
+Step 7. The user presses ↓ (down arrow) to navigate forward through the history.
+
+Step 8. When reaching the end of the history, the command box restores the original input that was saved in Step 5.
+
+Step 9. When the user exits the application, the command history is saved to `commandhistory.json` via `Storage#saveCommandHistory()`.
+
+#### Design Considerations
+
+**Aspect: History size limit:**
+
+* **Alternative 1 (current choice):** Fixed limit of 10 commands.
+  * Pros: Bounded memory usage, predictable behavior, sufficient for most use cases.
+  * Cons: Very active users may want more history.
+
+* **Alternative 2:** Unlimited history per session, cleared on exit.
+  * Pros: No arbitrary limit during session.
+  * Cons: Potential memory issues with very long sessions, loses history on restart.
+
+**Aspect: History persistence:**
+
+* **Alternative 1 (current choice):** Persist history across sessions.
+  * Pros: Convenient for users, maintains context across work sessions.
+  * Cons: Requires additional storage file, slightly more complex implementation.
+
+* **Alternative 2:** Clear history on application exit.
+  * Pros: Simpler implementation, no storage needed, privacy benefit.
+  * Cons: Users lose convenient access to previous commands.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Command Autocomplete feature
+
+The command autocomplete feature allows users to quickly complete commands and file paths by pressing the TAB key. This improves typing efficiency and reduces errors.
+
+The autocomplete mechanism is facilitated by the `CommandBox` UI component, which intercepts TAB key presses and provides suggestions based on the current input.
+
+Key components involved:
+
+* `CommandBox#handleTab()` — Handles TAB key press and performs autocompletion
+* `CommandBox#getCommandSuggestions(String input)` — Returns list of matching commands
+* `CommandBox#getFileSuggestions(String input)` — Returns list of matching files (for `import` command)
+* `LogicManager.ALL_COMMANDS` — Static array containing all available command words for autocompletion
+
+The implementation supports the following:
+
+* **Command Word Completion:** When the user types part of a command word and presses TAB, if there's a single match, it completes the command word automatically. If there are multiple matches, it shows a list of possible completions.
+* **File Path Completion:** For the `import` command specifically, it detects CSV files in the user's Downloads folder and suggests matching file names based on the current input, supporting both absolute paths and filenames.
+* **Smart Matching:** The autocomplete uses prefix matching to find relevant suggestions.
+
+Given below are example usage scenarios:
+
+**Scenario 1: Command Completion**
+
+Step 1. The user types `fi` in the command box.
+
+Step 2. The user presses TAB.
+
+The following sequence diagram shows how command autocomplete works:
+
+<puml src="diagrams/AutocompleteSequenceDiagram.puml" alt="AutocompleteSequenceDiagram" />
+
+The `CommandBox#handleTab()` method is triggered, which calls `autocomplete("fi")` to search through `BUILT_IN_COMMANDS` (which references `LogicManager.ALL_COMMANDS`).
+
+Step 3. Since only `find` matches, it automatically completes to `find ` and positions the cursor at the end.
+
+**Scenario 2: Multiple Matches**
+
+Step 1. The user types `a` in the command box.
+
+Step 2. The user presses TAB.
+
+Step 3. Multiple commands match (`add`, `alias`).
+
+Step 4. The system displays a list of matching commands in the result display.
+
+**Scenario 3: File Path Completion**
+
+Step 1. The user types `import cont` in the command box.
+
+Step 2. The user presses TAB.
+
+Step 3. The system detects this is an `import` command and searches the Downloads folder for CSV files starting with "cont".
+
+Step 4. If `contacts.csv` is found, it completes to `import contacts.csv`.
+
+#### Design Considerations
+
+**Aspect: Scope of autocomplete:**
+
+* **Alternative 1 (current choice):** Autocomplete commands and import file paths only.
+  * Pros: Focused on high-value use cases, simpler implementation.
+  * Cons: Could be extended to other parameters.
+
+* **Alternative 2:** Autocomplete all command parameters.
+  * Pros: More comprehensive assistance.
+  * Cons: Complex to implement, may be intrusive for experienced users.
+
+**Aspect: File path search location:**
+
+* **Alternative 1 (current choice):** Search only in Downloads folder.
+  * Pros: Matches common user behavior, reduces search scope.
+  * Cons: May not work if files are stored elsewhere.
+
+* **Alternative 2:** Search entire file system.
+  * Pros: More flexible, finds files anywhere.
+  * Cons: Performance issues, security concerns, overwhelming number of matches.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ### \[Proposed\] Undo/redo feature
 
@@ -416,20 +639,19 @@ Guarantees: Person will only be added into the list if all the required fields a
 
 **MSS**
 
-1.  User requests to list persons
-2.  CampusBook shows a list of persons
-3.  User requests to add a specific person in the list
-4.  CampusBook adds the person
+1.  User requests to add a new person with required details
+2.  CampusBook adds the person to the contact list
+3.  CampusBook displays success message
 
     Use case ends.
 
 **Extensions**
 
-* 3a. The given command is invalid.
+* 1a. The given command is invalid or missing required fields.
 
-    * 3a1. CampusBook shows an error message.
+    * 1a1. CampusBook shows an error message.
 
-      Use case resumes at step 2.
+      Use case ends.
 
 
 
@@ -490,28 +712,29 @@ Guarantees: Person will only be found from the list if at least a part of the gi
 
 **MSS**
 
-1.  User requests to list persons
-2.  CampusBook shows a list of persons
-3.  User requests to find a specific person in the list
-4.  CampusBook lists the person(s)
+1.  User requests to find a person by name
+2.  CampusBook searches for matching contacts
+3.  CampusBook displays the matching person
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. The given command is invalid.
 
-  Use case ends.
+    * 1a1. CampusBook shows an error message.
 
-* 3a. The given command is invalid.
+      Use case ends.
 
-    * 3a1. CampusBook shows an error message.
+* 3a. There are no matches for the given name.
 
-      Use case resumes at step 2.
+    * 3a1. CampusBook shows a message indicating no person matched.
 
-* 4a. There are no matches for the given name.
+      Use case ends.
 
-    * 3a1. CampusBook shows no person matched.
+* 3b. Multiple persons match the search criteria.
+
+    * 3b1. CampusBook displays all matching persons.
 
       Use case ends.
 
@@ -542,40 +765,45 @@ Guarantees: Tags will only be added if they follow a valid format (no spaces, al
 
 1. User requests to list persons
 2. CampusBook shows a list of persons
-3. User requests to tag a specific person in the list
-4. CampusBook adds the tag(s) to the person
+3. User requests to add a tag to a specific person in the list
+4. CampusBook adds the tag to the person
 
 Use case ends.
 
 **Extensions**
 
 * 2a. The list is empty.
- Use case ends.
+  Use case ends.
 
 * 3a. The given tag is invalid (e.g. contains spaces or special characters).
   * 3a1. CampusBook shows an error message.
     Use case resumes at step 2.
 
 
-**UC07: Mark or unmark a person as favorite**
+**UC07: Mark a person as favorite**
 
 Guarantees: Favorite contacts will always appear at the top of the contact list when listed.
 
 **MSS**
 
-1. User requests to mark a specific person as favorite
-2. CampusBook marks that person as favorite and updates the display order
+1. User requests to list persons
+2. CampusBook shows a list of persons
+3. User requests to mark a specific person as favorite using their index
+4. CampusBook marks that person as favorite and updates the display order
 
 Use case ends.
 
 **Extensions**
 
-* 1a. The given index is invalid.
-  * 1a1. CampusBook shows an error message.
-    Use case resumes at step 1.
+* 2a. The list is empty.
+  Use case ends.
 
-* 2a. The person is already a favorite.
-  * 2a1. CampusBook shows a message to show the person is already marked as favourite
+* 3a. The given index is invalid.
+  * 3a1. CampusBook shows an error message.
+    Use case resumes at step 2.
+
+* 4a. The person is already a favorite.
+  * 4a1. CampusBook shows a message indicating the person is already marked as favorite.
     Use case ends.
 
 
@@ -610,7 +838,8 @@ Precondition: The imported file is a valid CSV file that follows the format.
 
 1. User requests to import contacts from a CSV file
 2. CampusBook validates the file format
-3. CampusBook imports all valid contacts and ignores invalid ones
+3. CampusBook imports all contacts from the file
+4. CampusBook displays success message with number of contacts imported
 
 Use case ends.
 
@@ -620,9 +849,15 @@ Use case ends.
   * 2a1. CampusBook shows an error message.
     Use case ends.
 
-* 3a. File contains duplicate persons.
-  * 3a1. CampusBook skips duplicates and logs a warning.
-    Use case ends.
+* 3a. File contains invalid contact entries.
+  * 3a1. CampusBook skips invalid entries and imports only valid ones.
+  * 3a2. CampusBook logs a warning for each skipped entry.
+    Use case resumes at step 4.
+
+* 3b. File contains duplicate persons.
+  * 3b1. CampusBook skips duplicates.
+  * 3b2. CampusBook logs a warning for duplicates.
+    Use case resumes at step 4.
 
 **UC10: Select a faculty**
 
@@ -646,40 +881,92 @@ Use case ends.
   * 3a1. CampusBook skips duplicates and logs a warning.
     Use case ends.
 
-**UC11: View command history**
+**UC11: Navigate command history**
 
-Guarantees: User can view and reuse previously executed commands in the current session.
+Guarantees: User can navigate and reuse previously executed commands (up to the last 10 commands).
 
 **MSS**
 
-1. User requests to view command history.
-2. CampusBook shows the list of previously executed commands
-3. User selects a command from history to reuse.
-4. CampusBook loads the selected command into the command box
-5. User edits or executes the command.
+1. User presses the Up Arrow key in the command box.
+2. CampusBook loads the most recent command from history into the command box.
+3. User presses Up Arrow again.
+4. CampusBook loads the previous command from history.
+5. User executes the displayed command.
 
 Use case ends.
 
 **Extensions**
 
-* 2a. There is no command history.
-  * 2a1. CampusBook shows a message indicating the history is empty.
+* 1a. There is no command history.
+  * 1a1. CampusBook does nothing (command box remains unchanged).
     Use case ends.
 
-* 3a. The given selection is invalid.
-  * 3a1. CampusBook shows an error message.
-  Use case resumes at step 2.
+* 3a. User is at the oldest command and presses Up Arrow.
+  * 3a1. CampusBook keeps displaying the oldest command.
+    Use case resumes at step 5.
 
-* 3b. User navigates the command history using keyboard (e.g. Up/Down keys).
-  * 3b1. CampusBook cycles through previous commands without executing.
-  Use case resumes at step 5.
+* 3b. User presses Down Arrow instead of Up Arrow.
+  * 3b1. CampusBook loads the next command in history (or restores original input if at the end).
+    Use case resumes at step 5.
+
+* 5a. User edits the displayed command instead of executing it directly.
+  * 5a1. User modifies the command text.
+  * 5a2. User executes the modified command.
+    Use case ends.
+
+* 5b. User types new text while viewing history.
+  * 5b1. CampusBook resets navigation and treats the new text as current input.
+    Use case ends.
 
 ---
 
 **Notes / Preconditions**
 
-- User must have previously executed at least one command (except in *2a*).
-- Command history is session-based and not saved after application exit (unless specified in future extensions).
+- Command history stores up to 10 most recent commands.
+- Empty commands and consecutive duplicate commands are not saved to history.
+- Command history is persistent across application sessions (saved to `commandhistory.json`).
+
+---
+
+**UC12: Use command autocomplete**
+
+Guarantees: User can quickly complete command words and file paths using TAB key.
+
+**MSS**
+
+1. User types a partial command word in the command box.
+2. User presses the TAB key.
+3. CampusBook searches for matching commands.
+4. CampusBook finds exactly one match and autocompletes the command word.
+
+Use case ends.
+
+**Extensions**
+
+* 3a. Multiple matches are found.
+  * 3a1. CampusBook displays a list of all matching commands in the result display.
+  * 3a2. User types more characters to narrow down the match.
+  * 3a3. User presses TAB again.
+    Use case resumes at step 3.
+
+* 3b. No matches are found.
+  * 3b1. CampusBook does nothing (input remains unchanged).
+    Use case ends.
+
+* 1a. User is typing an `import` command with a partial file path.
+  * 1a1. User presses TAB after typing `import` and part of a filename.
+  * 1a2. CampusBook searches for matching CSV files in the Downloads folder.
+  * 1a3. If exactly one match is found, CampusBook autocompletes the filename.
+  * 1a4. If multiple matches are found, CampusBook displays a list of matching files.
+    Use case ends.
+
+---
+
+**Notes / Preconditions**
+
+- Autocomplete works for all command keywords defined in `LogicManager.ALL_COMMANDS`.
+- File path autocomplete only works for `import` command and searches the Downloads folder.
+- Autocomplete uses prefix matching (case-insensitive for commands).
 
 ---
 
@@ -795,6 +1082,114 @@ testers are expected to do more *exploratory* testing.
       Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Marking and unmarking favorites
+
+1. Marking a person as favorite
+
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Contact at index 1 is not marked as favorite.
+
+   1. Test case: `fav 1`<br>
+      Expected: First contact is marked as favorite. A star (★) appears next to their name. The contact moves to the top of the list. Success message shown in the status message.
+
+   1. Test case: `fav 1` (executed again)<br>
+      Expected: Message indicating the person is already marked as favorite.
+
+   1. Test case: `fav 0`<br>
+      Expected: No person is marked as favorite. Error details shown in the status message.
+
+   1. Other incorrect fav commands to try: `fav`, `fav x`, `fav -1` (where x is larger than the list size)<br>
+      Expected: Error message shown.
+
+1. Unmarking a favorite
+
+   1. Prerequisites: Contact at index 1 is marked as favorite (has a star ★).
+
+   1. Test case: `unfav 1`<br>
+      Expected: First contact is unmarked as favorite. The star (★) disappears. The contact may move down in the list. Success message shown in the status message.
+
+   1. Test case: `unfav 1` (executed again on a non-favorite contact)<br>
+      Expected: Message indicating the person is not marked as favorite.
+
+   1. Other incorrect unfav commands to try: `unfav`, `unfav 0`, `unfav x` (where x is larger than the list size)<br>
+      Expected: Error message shown.
+
+1. Sorting behavior
+
+   1. Prerequisites: Have at least 3 contacts, with contacts named "Alice", "Bob", and "Charlie" (in alphabetical order).
+
+   1. Test case: Mark "Charlie" as favorite using `fav 3`<br>
+      Expected: "Charlie" moves to position 1 in the list.
+
+   1. Test case: Mark "Bob" as favorite using `fav 2` (Bob is now at index 2)<br>
+      Expected: Both favorites appear at the top, sorted alphabetically: "Bob" at position 1, "Charlie" at position 2.
+
+   1. Test case: Unmark "Bob" using `unfav 1`<br>
+      Expected: "Bob" moves below all favorited contacts but above non-favorited contacts in alphabetical order.
+
+### Command history navigation
+
+1. Basic navigation
+
+   1. Prerequisites: Start the app with an existing command history, or execute several commands like `list`, `find Alice`, `fav 1`.
+
+   1. Test case: Click in the command box and press ↑ (Up Arrow)<br>
+      Expected: The most recent command appears in the command box.
+
+   1. Test case: Press ↑ again<br>
+      Expected: The previous command appears.
+
+   1. Test case: Press ↓ (Down Arrow)<br>
+      Expected: The next command in history appears.
+
+   1. Test case: Keep pressing ↑ until at the oldest command, then press ↑ again<br>
+      Expected: The command box remains showing the oldest command.
+
+   1. Test case: Keep pressing ↓ until at the newest position, then press ↓ again<br>
+      Expected: The command box clears (or shows your original input before navigation started).
+
+1. Temporary input preservation
+
+   1. Prerequisites: Command history contains at least one command.
+
+   1. Test case: Type `find` (but don't execute it), then press ↑<br>
+      Expected: Previous command appears, replacing "find".
+
+   1. Test case: Press ↓ to return to the end of history<br>
+      Expected: The original text "find" is restored.
+
+1. History persistence
+
+   1. Prerequisites: Execute several commands like `list`, `add n/Test p/12345678 e/test@example.com a/Test Address`.
+
+   1. Test case: Exit the application using `exit`, then relaunch it. Press ↑ in the command box<br>
+      Expected: The most recent command from the previous session appears.
+
+   1. Test case: Execute more than 10 commands, then press ↑ repeatedly<br>
+      Expected: Only the 10 most recent commands are accessible.
+
+### Command autocomplete
+
+1. Command word autocomplete
+
+   1. Test case: Type `fi` in the command box and press TAB<br>
+      Expected: The text autocompletes to `find `.
+
+   1. Test case: Type `a` in the command box and press TAB<br>
+      Expected: A list of matching commands (`add`, `alias`) is shown in the result display.
+
+   1. Test case: Type `xyz` and press TAB<br>
+      Expected: No autocomplete occurs (no matching commands).
+
+1. File path autocomplete (for import command)
+
+   1. Prerequisites: Have a file named `contacts.csv` in your Downloads folder.
+
+   1. Test case: Type `import cont` and press TAB<br>
+      Expected: The text autocompletes to `import contacts.csv`.
+
+   1. Test case: Type `import` and press TAB<br>
+      Expected: A list of all CSV files in the Downloads folder is shown.
 
 ### Saving data
 
