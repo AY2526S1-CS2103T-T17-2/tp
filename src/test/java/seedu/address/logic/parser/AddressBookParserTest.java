@@ -8,7 +8,9 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -23,8 +25,6 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -33,8 +33,25 @@ import seedu.address.testutil.PersonUtil;
 
 public class AddressBookParserTest {
 
-    private final Model model = new ModelManager();
-    private final AddressBookParser parser = new AddressBookParser(model);
+    /**
+     * A stub for {@code AliasProvider} that returns a fixed map of aliases.
+     * For most tests, we return an empty map as they test non-aliased commands.
+     */
+    private static class TestAliasProvider implements AliasProvider {
+        private final Map<String, String> aliases;
+
+        public TestAliasProvider(Map<String, String> aliases) {
+            this.aliases = aliases;
+        }
+
+        @Override
+        public Map<String, String> getCommandAliases() {
+            return aliases;
+        }
+    }
+
+    private final AliasProvider aliasProvider = new TestAliasProvider(Collections.emptyMap());
+    private final AddressBookParser parser = new AddressBookParser(aliasProvider);
 
     @Test
     public void parseCommand_add() throws Exception {

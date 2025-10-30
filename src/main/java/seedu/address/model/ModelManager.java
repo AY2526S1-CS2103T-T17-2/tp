@@ -6,7 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map; // Required for alias
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -14,12 +14,13 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.parser.AliasProvider;
 import seedu.address.model.person.Person;
 
 /**
  * Represents the in-memory model of the address book data.
  */
-public class ModelManager implements Model {
+public class ModelManager implements Model, AliasProvider {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
@@ -35,10 +36,9 @@ public class ModelManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
-        this.userPrefs = new UserPrefs(userPrefs); // Ensures we have a mutable UserPrefs
+        this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
 
-        // Sort the address book by favorite status on initialization
         sortByFavoriteStatus();
     }
 
@@ -98,7 +98,6 @@ public class ModelManager implements Model {
      */
     @Override
     public void addAlias(String alias, String commandString) {
-        // The mutable UserPrefs object held by ModelManager is updated
         userPrefs.addAlias(alias, commandString);
     }
 
@@ -109,7 +108,6 @@ public class ModelManager implements Model {
      */
     @Override
     public boolean removeAlias(String alias) {
-        // The mutable UserPrefs object held by ModelManager is updated
         return userPrefs.removeAlias(alias) != null;
     }
 
@@ -141,7 +139,6 @@ public class ModelManager implements Model {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
-        // If adding a favorite contact, place it at the top
         if (person.getFavorite().getIsFavorite()) {
             sortByFavoriteStatus(person);
         }
@@ -151,13 +148,10 @@ public class ModelManager implements Model {
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
-        // Check if favorite status has actually changed
         boolean favoriteStatusChanged = !target.getFavorite().equals(editedPerson.getFavorite());
 
-        // Update the person data
         addressBook.setPerson(target, editedPerson);
 
-        // Only sort if favorite status has changed
         if (favoriteStatusChanged) {
             sortByFavoriteStatus(editedPerson);
         }
@@ -198,21 +192,17 @@ public class ModelManager implements Model {
      * @param editedPerson The person whose favorite status was changed, or null for general sorting
      */
     private void sortByFavoriteStatus(Person editedPerson) {
-        // Get the complete underlying list (not affected by filters)
         ObservableList<Person> personList = addressBook.getPersonList();
         List<Person> allPersons = new ArrayList<>(personList);
 
         List<Person> favorites = new ArrayList<>();
         List<Person> nonFavorites = new ArrayList<>();
 
-        // If editedPerson is newly favorited, add them first
         if (editedPerson != null && editedPerson.getFavorite().getIsFavorite()) {
             favorites.add(editedPerson);
         }
 
-        // Separate remaining contacts, preserving original order within each group
         for (Person person : allPersons) {
-            // Skip the editedPerson as it's already handled
             if (editedPerson != null && person.equals(editedPerson)) {
                 continue;
             }
@@ -224,17 +214,14 @@ public class ModelManager implements Model {
             }
         }
 
-        // If editedPerson is unfavorited, add them last to non-favorites
         if (editedPerson != null && !editedPerson.getFavorite().getIsFavorite()) {
             nonFavorites.add(editedPerson);
         }
 
-        // Recombine: favorites first, then non-favorites
         List<Person> sortedList = new ArrayList<>();
         sortedList.addAll(favorites);
         sortedList.addAll(nonFavorites);
 
-        // Update the underlying list
         addressBook.setPersons(sortedList);
     }
 
@@ -244,7 +231,6 @@ public class ModelManager implements Model {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof ModelManager)) {
             return false;
         }
