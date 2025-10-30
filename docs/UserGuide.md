@@ -73,8 +73,9 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 3. [Command Summary](#command-summary)
 4. [Fields: Types of Information](#how-fields-work)
 5. [Contact Details Panel](#contact-details-panel)
-6. [Saving the Data](#saving-the-data)
-7. [Editing the Data File](#editing-the-data-file)
+6. [Autocomplete commands and path files]()
+7. [Saving the Data](#saving-the-data)
+8. [Editing the Data File](#editing-the-data-file)
 --------------------------------------------------------------------------------------------------------------------
 ## Startup Motivational Message
 
@@ -240,8 +241,11 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped.
+* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
+* Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
+
+[Sample Data](Campusbook_contacts.csv)
 
 Examples:
 * `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
@@ -387,7 +391,19 @@ How to Use:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Saving the data
+### Autocomplete Inputs
+
+Autocompletes some inputs based on the user's current input.
+
+Press **TAB** after clicking the input box to autocomplete. If there are multiple results, a list of the possible words will be listed.
+
+Supported autocompletes:
+1. All command's keyword
+2. When using `import`, detects a csv file in the user's `Downloads` folder based on the current input.
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Saving the data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
@@ -418,4 +434,4 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
---------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------                                                                                                                              |
