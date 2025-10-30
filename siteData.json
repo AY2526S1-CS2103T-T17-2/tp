@@ -53,7 +53,7 @@
         "common-classes": "Common classes",
         "implementation": "Implementation",
         "alias-feature": "Alias Feature",
-        "import-export-feature": "Import/Export Feature",
+        "import-export-feature": "Import/export feature",
         "proposed-undo-redo-feature": "[Proposed] Undo/redo feature",
         "documentation-logging-testing-configuration-dev-ops": "Documentation, logging, testing, configuration, dev-ops",
         "appendix-requirements": "Appendix: Requirements",
