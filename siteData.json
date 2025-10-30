@@ -115,8 +115,8 @@
         "table-of-contents": "Table of Contents",
         "quick-start": "Quick start",
         "features": "Features",
-        "commands": "Commands",
         "startup-motivational-message": "Startup Motivational Message",
+        "commands": "Commands",
         "viewing-help-help": "Viewing help : help",
         "adding-a-person-add": "Adding a person: add",
         "selecting-a-faculty-to-preload-contacts-select": "Selecting a Faculty to Preload Contacts: select",
@@ -132,14 +132,12 @@
         "listing-all-aliases-listaliases": "Listing all aliases: listaliases",
         "exiting-the-program-exit": "Exiting the program : exit",
         "command-summary": "Command summary",
-        "how-fields-work": "How Fields Work :",
-        "contact-details-panel": "Contact Details Panel :",
+        "how-fields-work": "How Fields Work",
+        "contact-details-panel": "Contact Details Panel",
         "saving-the-data": "Saving the data",
         "editing-the-data-file": "Editing the data file",
-        "archiving-data-files-coming-in-v2-0": "Archiving data files [coming in v2.0]",
         "faq": "FAQ",
-        "known-issues": "Known issues",
-        "command-summary-2": "Command summary"
+        "known-issues": "Known issues"
       },
       "headingKeywords": {}
     },
