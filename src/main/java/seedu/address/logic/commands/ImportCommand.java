@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.opencsv.exceptions.CsvValidationException;
