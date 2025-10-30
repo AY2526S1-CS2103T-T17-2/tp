@@ -188,48 +188,7 @@ This section describes some noteworthy details on how certain features are imple
 
 Step 1.
 
-### Alias Feature
 
-#### Proposed Implementation
-
-The command alias mechanism allows users to create shortcuts for longer commands (e.g., `la` for `list`). This is primarily implemented within the `Logic` component, specifically in the `AddressBookParser`.
-
-1.  **Storage:** Aliases are stored as a map (`String` to `String`) within `UserPrefs`, which is managed by the `Model`.
-2.  **Modification:** The `AliasCommand` and `UnaliasCommand` are parsed like any other command and are responsible for modifying the alias map in the `Model`.
-3.  **Resolution:** When `LogicManager` calls `AddressBookParser#parseCommand(String commandText)`, the parser first attempts to resolve the `commandWord` (the first word) as an alias by checking the `Model`.
-4.  **Substitution:** If an alias is found, `AddressBookParser` substitutes the alias with its full command value (e.g., `f` becomes `find n/`). Crucially, it appends any arguments from the *original* command (e.g., `Alex` from `f Alex`) to the *end* of the substituted command string (e.g., `find n/ Alex`).
-5.  **Recursion:** The parser then *recursively* calls itself with this new, expanded command string to produce the final `Command` object.
-
-#### Usage Scenario
-
-Step 1. The user first executes `alias f find n/` to create a "find by name" alias.
-Step 2. The `AliasCommand` is executed, calling `model.addAlias("f", "find n/")`.
-Step 3. Later, the user executes `f Alex`.
-Step 4. `LogicManager` passes `"f Alex"` to `AddressBookParser`.
-Step 5. `AddressBookParser` checks the command word `"f"`. It queries the `Model` and finds it maps to `"find n/"`.
-Step 6. It constructs a new command string by combining the mapped value and the original arguments: `"find n/ Alex"`.
-Step 7. `AddressBookParser` recursively calls `parseCommand("find n/ Alex")`.
-Step 8. This time, the command word is `"find"`. The `FindCommandParser` is identified and used to parse the arguments `"n/ Alex"`.
-Step 9. A valid `FindCommand` is returned to `LogicManager` and executed.
-
-#### Diagrams
-
-<puml src="diagrams/AliasSequenceDiagram.puml" alt="AliasSequenceDiagram" />
-
-<box type="info" seamless>
-
-**Note:** The recursive call in `AddressBookParser` is the key to this implementation. It also includes protection against circular alias definitions (e.g., `alias a b` and `alias b a`) to prevent a `StackOverflowError`.
-
-</box>
-
-#### Design considerations:
-
-* **Alternative 1 (Current choice):** Substitution at the `AddressBookParser` level.
-    * **Pros:** Simple and transparent. All other `CommandParser` implementations (like `AddCommandParser`, `FindCommandParser`) are completely unaware that aliases exist.
-    * **Cons:** `AddressBookParser` becomes more complex, needing to handle state (like recursion depth) and interact with the `Model`, which most parsers do not.
-* **Alternative 2:** Substitution at the `LogicManager` level before parsing.
-    * **Pros:** `AddressBookParser` remains simple and stateless.
-    * **Cons:** `LogicManager`'s role becomes muddled, mixing execution logic with pre-parsing logic. This would also require `LogicManager` to have a direct dependency on the `Model` just for resolving aliases.
 
 
 
