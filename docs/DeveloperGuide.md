@@ -186,19 +186,47 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-Step 1.
-
 ## Import/export feature
+
+The current import/export mechanism allows users to save and load contacts from CSV files. This is facilitated by the `CsvUtil` class, which handles serialization and deserialization between the AddressBook and .csv files.
+
+The feature introduces two new commands:
+
+* `ImportCommand`: Imports person data from a specified CSV file into the AddressBook.
+
+* `ExportCommand`: Exports the current AddressBook data into a specified CSV file.
+
+Internally, the ImportCommand and ExportCommand interact with the Model component through the following operations:
+
+* `ImportCommand#execute(Path filePath)` Reads and merges contact data from the given CSV file into the current AddressBook.
+
+* `ExportCommand#execute()` Writes the current AddressBook data into the default destination.
+
+The import/export logic is encapsulated within CsvUtil, which defines:
+
+* `CsvUtil#readContactsFromCsv(Path csvPath)` — Parses the CSV file into a list of Person objects.
+
+* `CsvUtil#writeContactsToCsv(Path csvPath, List<Person> contacts)` — Converts the contact's data into a CSV representation and writes it to the file.
 
 Given below is an example usage scenario and how the import/export mechanism behaves at each step.
 
-Step 1. BLA BLA BLA
+Step 1. The user executes `import myData.csv` command to import their contacts from the `myData` file into the address book. This will add on the imported contacts into their already existing ones.
+
+The following sequence diagram shows how an import operation goes through the `Logic` component:
+
+<puml src="diagrams/ImportSequenceDiagram-Logic.puml" alt="ImportSequenceDiagram-Logic" />
+
 
 Step 2. The user executes `export` command to export every contact in the address book. 
 
 The following sequence diagram shows how an export operation goes through the `Logic` component:
 
 <puml src="diagrams/ExportSequenceDiagram-Logic.puml" alt="ExportSequenceDiagram-Logic" />
+
+The following activity diagram summarizes what happens when a user executes an `import` command
+
+<puml src="diagrams/ImportActivityDiagram.puml" width="250" />
+
 
 ### \[Proposed\] Undo/redo feature
 

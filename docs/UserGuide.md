@@ -71,10 +71,11 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
    14. [`exit`: Exiting the Program](#exiting-the-program--exit)
 2. [Command Summary](#command-summary)
 3. [Contact Details Panel](#contact-details-panel-)
-4. [Fields: Types of Information](#how-fields-work-)
-5. [Saving the Data](#saving-the-data)
-6. [Editing the Data File](#editing-the-data-file)
-7. [Archiving Data Files](#archiving-data-files-coming-in-v20)
+4. [Autocomplete commands and path files]()
+5. [Fields: Types of Information](#how-fields-work-)
+6. [Saving the Data](#saving-the-data)
+7. [Editing the Data File](#editing-the-data-file)
+8. [Archiving Data Files](#archiving-data-files-coming-in-v20)
 --------------------------------------------------------------------------------------------------------------------
 ## Commands
 
@@ -238,8 +239,11 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped.
+* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
+* Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
+
+[Sample Data](Campusbook_contacts.csv)
 
 Examples:
 * `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
@@ -386,6 +390,18 @@ How to Use:
 
 --------------------------------------------------------------------------------------------------------------------
 
+### Autocomplete Inputs
+
+Autocompletes some inputs based on the user's current input.
+
+Press **TAB** after clicking the input box to autocomplete. If there are multiple results, a list of the possible words will be listed.
+
+Supported autocompletes:
+1. All command's keyword
+2. When using `import`, detects a csv file in the user's `Downloads` folder based on the current input.
+
+--------------------------------------------------------------------------------------------------------------------
+
 ### Saving the data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
@@ -427,17 +443,17 @@ _Details coming soon ..._
 
 ## Command summary
 
-Action     | Format, Examples
------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Alias**  | `alias ALIAS_NAME COMMAND_STRING`<br> e.g., `alias findcomp find f/computing`
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend fav/true`
-**Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`<br>or<br>`delete [n/NAME...] [t/TAG...]...`<br> e.g., `delete t/colleague`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com fav/true`
-**Exit**   | `exit`
-**Find**   | `find [n/NAME...] [t/TAG...]...`<br> e.g., `find n/James Jake t/friend`
-**List**   | `list`
-**List Aliases** | `listaliases`
-**Help**   | `help`
-**Select** | `select FACULTY`<br> e.g., `select Engineering`
-**Unalias**| `unalias ALIAS_NAME`<br> e.g., `unalias findcomp`<br>or<br>`unalias --all`
+| Action           | Format, Examples                                                                                                                                                                                             |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Alias**        | `alias ALIAS_NAME COMMAND_STRING`<br> e.g., `alias findcomp find f/computing`                                                                                                                                |
+| **Add**          | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend fav/true` |
+| **Clear**        | `clear`                                                                                                                                                                                                      |
+| **Delete**       | `delete INDEX`<br> e.g., `delete 3`<br>or<br>`delete [n/NAME...] [t/TAG...]...`<br> e.g., `delete t/colleague`                                                                                               |
+| **Edit**         | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com fav/true`                               |
+| **Exit**         | `exit`                                                                                                                                                                                                       |
+| **Find**         | `find [n/NAME...] [t/TAG...]...`<br> e.g., `find n/James Jake t/friend`                                                                                                                                      |
+| **List**         | `list`                                                                                                                                                                                                       |
+| **List Aliases** | `listaliases`                                                                                                                                                                                                |
+| **Help**         | `help`                                                                                                                                                                                                       |
+| **Select**       | `select FACULTY`<br> e.g., `select Engineering`                                                                                                                                                              |
+| **Unalias**      | `unalias ALIAS_NAME`<br> e.g., `unalias findcomp`<br>or<br>`unalias --all`                                                                                                                                   |
