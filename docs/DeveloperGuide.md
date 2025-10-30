@@ -239,8 +239,6 @@ The following activity diagram summarizes what happens when a user executes an `
 
 The favorite/unfavorite feature allows users to mark contacts as favorites and sort them to the top of the contact list. This is implemented through the `FavCommand` and `UnfavCommand` classes.
 
-### Implementation
-
 The feature introduces two new commands:
 
 * `FavCommand`: Marks a person as favorite based on their index in the displayed list.
@@ -301,8 +299,6 @@ Step 6. The changes are automatically saved to the JSON storage file.
 ## Command History feature
 
 The command history feature allows users to navigate through previously entered commands using arrow keys. The history is persisted across application sessions.
-
-### Implementation
 
 The command history mechanism is facilitated by the `CommandHistory` class, which stores up to 10 recent commands and provides navigation capabilities.
 
@@ -374,8 +370,6 @@ Step 9. When the user exits the application, the command history is saved to `co
 ## Command Autocomplete feature
 
 The command autocomplete feature allows users to quickly complete commands and file paths by pressing the TAB key. This improves typing efficiency and reduces errors.
-
-### Implementation
 
 The autocomplete mechanism is facilitated by the `CommandBox` UI component, which intercepts TAB key presses and provides suggestions based on the current input.
 
