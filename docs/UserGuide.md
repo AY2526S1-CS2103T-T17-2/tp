@@ -64,18 +64,21 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
    6. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
    7. [`delete`: Deleting a Person](#deleting-a-person--delete)
    8. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
-   9. [`export`: Exporting Data](#exporting-data--export)
-   10. [`import`: Importing Data](#importing-data--import)
-   11. [`alias`: Creating an Alias](#creating-a-command-alias-alias)
-   12. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
-   13. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
-   14. [`exit`: Exiting the Program](#exiting-the-program--exit)
+   9. [`fav`: Marking a Contact as Favorite](#marking-a-contact-as-favorite-fav)
+   10. [`unfav`: Unmarking a Favorite Contact](#unmarking-a-favorite-contact-unfav)
+   11. [`export`: Exporting Data](#exporting-data--export)
+   12. [`import`: Importing Data](#importing-data--import)
+   13. [`alias`: Creating an Alias](#creating-a-command-alias-alias)
+   14. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
+   15. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
+   16. [`exit`: Exiting the Program](#exiting-the-program--exit)
 3. [Command Summary](#command-summary)
 4. [Fields: Types of Information](#how-fields-work)
 5. [Contact Details Panel](#contact-details-panel)
 6. [Autocomplete commands and path files]()
-7. [Saving the Data](#saving-the-data)
-8. [Editing the Data File](#editing-the-data-file)
+7. [Command History Navigation](#command-history-navigation)
+8. [Saving the Data](#saving-the-data)
+9. [Editing the Data File](#editing-the-data-file)
 --------------------------------------------------------------------------------------------------------------------
 ## Startup Motivational Message
 
@@ -222,6 +225,40 @@ Clears all entries from the address book.
 Format: `clear`
 
 --------------------------------------------------------------------------------------------------------------------
+
+### Marking a contact as favorite: `fav`
+
+Marks a contact as favorite. Favorite contacts are displayed with a star (★) icon and automatically appear at the top of your contact list.
+
+Format: `fav INDEX`
+
+* Marks the person at the specified `INDEX` as favorite.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* If the person is already marked as favorite, an error message will be shown.
+
+Examples:
+* `list` followed by `fav 2` marks the 2nd person in the address book as favorite.
+* `find John` followed by `fav 1` marks the 1st person in the results of the `find` command as favorite.
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Unmarking a favorite contact: `unfav`
+
+Removes the favorite status from a contact.
+
+Format: `unfav INDEX`
+
+* Removes the favorite status from the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+* If the person is not marked as favorite, an error message will be shown.
+
+Examples:
+* `list` followed by `unfav 2` removes the favorite status from the 2nd person in the address book.
+* `find John` followed by `unfav 1` removes the favorite status from the 1st person in the results of the `find` command.
+
+--------------------------------------------------------------------------------------------------------------------
 ### Exporting data : `export`
 
 Exports all entries from the address book and compiles then into a csv file.
@@ -348,6 +385,8 @@ Format: `exit`
 | **find**        | Locating Persons by Fields | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                           |
 | **delete**      | Deleting a Person          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                  |
 | **clear**       | Clearing all Entries       | `clear`                                                                                                                                                              |
+| **fav**         | Marking a Contact as Favorite | `fav INDEX`<br> e.g., `fav 1`                                                                                                                                     |
+| **unfav**       | Unmarking a Favorite Contact | `unfav INDEX`<br> e.g., `unfav 1`                                                                                                                                  |
 | **export**      | Exporting Data             | `export`                                                                                                                                                             |
 | **import**      | Importing Data             | `import [Absolute File Path]` or `import [File name in Downloads]` <br> e.g., `import myContacts.csv`                                                                |
 | **alias**       | Creating an Alias          | `alias ALIAS_NAME COMMAND_STRING` <br> e.g., `alias la list`                                                                                                         |
@@ -400,6 +439,24 @@ Press **TAB** after clicking the input box to autocomplete. If there are multipl
 Supported autocompletes:
 1. All command's keyword
 2. When using `import`, detects a csv file in the user's `Downloads` folder based on the current input.
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Command History Navigation
+
+Navigate through your previously entered commands using the up and down arrow keys in the command box.
+
+How to Use:
+1. Click into the command box at the top of the application.
+2. Press the **↑ (Up Arrow)** key to view your previous command.
+3. Press **↑** repeatedly to navigate further back in your command history.
+4. Press the **↓ (Down Arrow)** key to navigate forward in your command history.
+5. When you reach the end of the history, the command box returns to your current input.
+
+<box type="tip" seamless>
+
+**Tip:** Your command history is automatically saved and will be available even after restarting the application!
+</box>
 
 --------------------------------------------------------------------------------------------------------------------
 
