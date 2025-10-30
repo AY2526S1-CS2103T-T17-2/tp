@@ -30,6 +30,7 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UnaliasCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
+import seedu.address.logic.parser.AliasProvider;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
@@ -78,8 +79,8 @@ public class LogicManager implements Logic {
         this.model = model;
         this.storage = storage;
 
-        // Pass the model to the parser to allow alias resolution
-        addressBookParser = new AddressBookParser(model);
+        // Pass the model as an AliasProvider to the parser
+        addressBookParser = new AddressBookParser((AliasProvider) model);
 
         // Load command history from storage
         CommandHistory loadedHistory;
@@ -99,19 +100,15 @@ public class LogicManager implements Logic {
 
         CommandResult commandResult;
 
-        // The parser will now resolve aliases *before* returning the command
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
-        // Add command to history after successful execution
         commandHistory.addCommand(commandText);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
             storage.saveCommandHistory(commandHistory.getHistory());
 
-            // Save UserPrefs if an alias command was executed
-            // This ensures new aliases persist immediately
             if (command instanceof AliasCommand || command instanceof UnaliasCommand) {
                 storage.saveUserPrefs(model.getUserPrefs());
             }
