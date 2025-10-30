@@ -55,6 +55,9 @@ public class Messages {
         builder.append("; Faculties: ");
         person.getFaculties().forEach(builder::append);
 
+        builder.append("; Favorite: ");
+        builder.append(person.getFavorite());
+
         return builder.toString();
     }
 

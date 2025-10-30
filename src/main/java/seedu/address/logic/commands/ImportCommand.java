@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.opencsv.exceptions.CsvValidationException;
@@ -18,8 +17,6 @@ import seedu.address.model.person.Person;
  */
 public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
-    public static final String INVALID_PATH_ERROR = "Path input is not valid";
-    public static final String INVALID_FILE_ERROR = "File doesn't exist or isn't a csv file";
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Imports contacts from a CSV file into the current address book. "
             + "Duplicate entries and invalid data formats will be ignored.\n"
@@ -48,19 +45,19 @@ public class ImportCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        if (!Files.exists(path)) {
-            throw new CommandException(INVALID_PATH_ERROR);
+        if (!java.nio.file.Files.exists(path)) {
+            throw new CommandException(MESSAGE_USAGE);
         }
 
-        if (!Files.isRegularFile(path)) {
-            throw new CommandException(INVALID_FILE_ERROR);
+        if (!java.nio.file.Files.isRegularFile(path)) {
+            throw new CommandException(MESSAGE_USAGE);
         }
 
         CsvResult result;
         try {
             result = CsvUtil.readContactsFromCsv(path);
         } catch (CsvValidationException | IOException e) {
-            throw new CommandException("Failed to read file: " + e.getMessage());
+            throw new CommandException(MESSAGE_USAGE);
         }
         int addedCount = 0;
         for (Person p : result.getValidContacts()) {
