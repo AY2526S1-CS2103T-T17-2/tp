@@ -186,64 +186,48 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-Step 1.
-
 ### Alias Feature
 
-#### Proposed Implementation
+The command alias mechanism allows users to create shortcuts for common commands (e.g., `la` as an alias for `list`). This feature is designed to be decoupled and testable, avoiding direct dependencies between the parser and the data model.
 
-The command alias mechanism allows users to create shortcuts for longer commands (e.g., `la` for `list`). This is primarily implemented within the `Logic` component, specifically in the `AddressBookParser`.
+#### Implementation Overview
 
-1.  **Storage:** Aliases are stored as a map (`String` to `String`) within `UserPrefs`, which is managed by the `Model`.
-2.  **Modification:** The `AliasCommand` and `UnaliasCommand` are parsed like any other command and are responsible for modifying the alias map in the `Model`.
-3.  **Resolution:** When `LogicManager` calls `AddressBookParser#parseCommand(String commandText)`, the parser first attempts to resolve the `commandWord` (the first word) as an alias by checking the `Model`.
-4.  **Substitution:** If an alias is found, `AddressBookParser` substitutes the alias with its full command value (e.g., `f` becomes `find n/`). Crucially, it appends any arguments from the *original* command (e.g., `Alex` from `f Alex`) to the *end* of the substituted command string (e.g., `find n/ Alex`).
-5.  **Recursion:** The parser then *recursively* calls itself with this new, expanded command string to produce the final `Command` object.
+The implementation involves the following key components:
 
-#### Usage Scenario
+1.  **`Model` Component**:
+    *   Alias data (a `Map<String, String>`) is persisted in `UserPrefs`, which is managed by the `Model`.
+    *   `ModelManager` is responsible for the concrete logic of reading and writing aliases. To provide this functionality to the `Logic` component without creating a tight coupling, it implements the `AliasProvider` interface.
 
-Step 1. The user first executes `alias f find n/` to create a "find by name" alias.
-Step 2. The `AliasCommand` is executed, calling `model.addAlias("f", "find n/")`.
-Step 3. Later, the user executes `f Alex`.
-Step 4. `LogicManager` passes `"f Alex"` to `AddressBookParser`.
-Step 5. `AddressBookParser` checks the command word `"f"`. It queries the `Model` and finds it maps to `"find n/"`.
-Step 6. It constructs a new command string by combining the mapped value and the original arguments: `"find n/ Alex"`.
-Step 7. `AddressBookParser` recursively calls `parseCommand("find n/ Alex")`.
-Step 8. This time, the command word is `"find"`. The `FindCommandParser` is identified and used to parse the arguments `"n/ Alex"`.
-Step 9. A valid `FindCommand` is returned to `LogicManager` and executed.
+2.  **`Logic` Component**:
+    *   `AliasCommand` and `UnaliasCommand` are responsible for calling the `Model`'s interface to add or remove aliases. When these commands are executed, `LogicManager` saves the updated `UserPrefs` to storage.
+    *   `AddressBookParser` handles alias substitution at the beginning of the parsing stage. It holds a reference to an `AliasProvider`, which is injected by `LogicManager` during its construction.
 
-#### Diagrams
+The following object diagram shows how `AddressBookParser` depends on the `AliasProvider` interface, which is implemented by `ModelManager`. This decouples the parser from the concrete `Model` implementation.
 
-<puml src="diagrams/AliasSequenceDiagram.puml" alt="AliasSequenceDiagram" />
-
-<box type="info" seamless>
-
-**Note:** The recursive call in `AddressBookParser` is the key to this implementation. It also includes protection against circular alias definitions (e.g., `alias a b` and `alias b a`) to prevent a `StackOverflowError`.
-
-</box>
-
-#### Design considerations:
-
-* **Alternative 1 (Current choice):** Substitution at the `AddressBookParser` level.
-    * **Pros:** Simple and transparent. All other `CommandParser` implementations (like `AddCommandParser`, `FindCommandParser`) are completely unaware that aliases exist.
-    * **Cons:** `AddressBookParser` becomes more complex, needing to handle state (like recursion depth) and interact with the `Model`, which most parsers do not.
-* **Alternative 2:** Substitution at the `LogicManager` level before parsing.
-    * **Pros:** `AddressBookParser` remains simple and stateless.
-    * **Cons:** `LogicManager`'s role becomes muddled, mixing execution logic with pre-parsing logic. This would also require `LogicManager` to have a direct dependency on the `Model` just for resolving aliases.
+<puml src="diagrams/AliasProviderClassDiagram.puml" width="250" />
 
 
+#### Design Considerations: Decoupling `AddressBookParser` from `Model`
 
-## Import/export feature
+*   **Problem**: The `AddressBookParser` needs access to the alias list (stored in `Model`) to perform substitution, but a direct dependency from the `Logic` layer to the `Model` layer for this purpose would violate architectural principles and complicate testing.
 
-Given below is an example usage scenario and how the import/export mechanism behaves at each step.
+*   **Alternative 1: Direct dependency on `Model`**
+    *   **Pros**: Simple to implement initially.
+    *   **Cons**:
+        *   Violates the Dependency Inversion Principle by having a low-level component (`AddressBookParser`) depend directly on a high-level component (`Model`).
+        *   Tightly couples `AddressBookParser` to the `Model`, making it less modular.
+        *   Makes unit testing difficult. `AddressBookParserTest` would be forced to depend on a complete, mocked `Model` instance just to test parsing logic.
 
-Step 1. BLA BLA BLA
+*   **Alternative 2 (Current Choice): Use an `AliasProvider` interface**
+    *   **Implementation**:
+        1.  An `AliasProvider` interface is defined in the `logic.parser` package, exposing a single method: `getCommandAliases()`.
+        2.  `ModelManager` implements this `AliasProvider` interface, providing access to the aliases stored in `UserPrefs`.
+        3.  `LogicManager` constructs `AddressBookParser` by injecting the `ModelManager` instance, but cast as the `AliasProvider` type.
+    *   **Pros**:
+        *   **Decoupling**: `AddressBookParser` depends only on the `AliasProvider` abstraction, not the concrete `ModelManager`. It has no knowledge of the `Model` component.
+        *   **Testability**: `AddressBookParserTest` can inject a simple test stub or mock of `AliasProvider`, isolating the parser from the `Model` and making tests cleaner and more focused.
 
-Step 2. The user executes `export` command to export every contact in the address book.
 
-The following sequence diagram shows how an export operation goes through the `Logic` component:
-
-<puml src="diagrams/ExportSequenceDiagram-Logic.puml" alt="ExportSequenceDiagram-Logic" />
 
 ### \[Proposed\] Undo/redo feature
 
@@ -337,11 +321,6 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Cons: We must ensure that the implementation of each individual command are correct.
 
 _{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 
 --------------------------------------------------------------------------------------------------------------------
 
