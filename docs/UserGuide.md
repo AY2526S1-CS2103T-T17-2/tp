@@ -453,9 +453,11 @@ How to Use:
 4. Press the **↓ (Down Arrow)** key to navigate forward in your command history.
 5. When you reach the end of the history, the command box returns to your current input.
 
-<box type="tip" seamless>
+<box type="info" seamless>
 
-**Tip:** Your command history is automatically saved and will be available even after restarting the application!
+**Persistence:** Your command history is **automatically saved** to disk and will be **retained even after exiting and restarting the application**. This means your last 10 commands will always be available for navigation.
+
+**History Limit:** The application stores up to **10 most recent commands**. When this limit is reached, the oldest command is removed to make room for new ones. Empty commands and consecutive duplicate commands are not added to the history.
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
