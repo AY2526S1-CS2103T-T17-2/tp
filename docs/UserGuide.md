@@ -261,7 +261,7 @@ Examples:
 --------------------------------------------------------------------------------------------------------------------
 ### Exporting data : `export`
 
-Exports all entries from the address book and compiles then into a csv file.
+Exports all entries from the address book and compiles them into a csv file.
 
 Format: `export`
 
