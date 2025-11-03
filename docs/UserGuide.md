@@ -56,7 +56,7 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 ## Features
 1. [Startup Motivtional Message](#startup-motivational-message)
 2. [Command List:](#commands)
-   1. [`help`: Viewing Help](#command-help)
+   1. [`help`: Viewing Help](#viewing-help--help)
    2. [`add`: Adding a Person](#adding-a-person-add)
    3. [`select`: Selecting a Faculty](#selecting-a-faculty-to-preload-contacts-select)
    4. [`list`: Listing all Persons](#listing-all-persons--list)
@@ -92,7 +92,7 @@ This message is shown only at startup and will be replaced by the output of the 
 
 ## Commands
 
-### Viewing help : `help` {#command-help}
+### Viewing help : `help`
 
 Shows a message explaining how to access the help page.
 
