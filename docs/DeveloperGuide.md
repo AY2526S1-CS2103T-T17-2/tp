@@ -23,6 +23,8 @@
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
+AI Usage Declaration: I, Nicholas Lim ZiXian, used ChatGPT, after writing the required code myself, to generate alternative implementations, compare, and use that experience to improve my coding skills. I also used ChatGPT to help with troubleshooting/debugging.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -92,7 +94,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/se-
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `ContactDetailsPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -152,14 +154,6 @@ The `Model` component,
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
-
-<box type="info" seamless>
-
-**Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
-
-</box>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -607,8 +601,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 | Priority | As a …​                                   | I want to …​                                                      | So that I can…​                                                             |
 |----------|-------------------------------------------|-------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| `* * *`  | new user                                  | see usage instructions                                            | refer to instructions when I forget how to use the App                      |
-| `* * *`  | new user                                  | select my faculty                                                 | preload faculty admin contacts                                              |
+| `* * *`  | new user                                  | see usage instructions                                            | refer to instructions to learn how to use the various commands                      |
+| `* * *`  | new user                                  | select my faculty                                                 | preload faculty admin contacts without having to search on official NUS websites                                              |
 | `* * *`  | user                                      | add a new person                                                  | keep a list of contacts of people in school                                 |
 | `* * *`  | user                                      | delete a person                                                   | remove entries that I no longer need                                        |
 | `* * *`  | user                                      | list contacts                                                     | view all my saved contacts                                                  |
@@ -621,7 +615,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | neat student                              | color-code tags or contacts                                       | visually distinguish categories easily                                      |
 | `*`      | user                                      | see the last update time of a contact                             | know how recent the information is                                          |
 | `*`      | user with many people in the address book | sort persons by a certain field                                   | locate a person easily                                                      |
-| `*`      |  frequent user                             | use command aliases                                               | operate faster by typing less               |
+| `*`      |  frequent user                             | use command aliases                                               | create command shortcuts and increase typing efficiency               |
 | `*`      | cautious user                             | detect duplicates                                                 | prevent creating multiple entries for the same person                       |
 | `*`      | cautious user                             | be able to preview all my changes before saving                   | double-check all my changes                                                 |
 | `*`      | efficient user                            | have tab autocomplete                                             | type the commands easily, without having to type the full command manually  |
