@@ -46,7 +46,7 @@ public class ImportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         if (!java.nio.file.Files.exists(path)) {
-            throw new CommandException(MESSAGE_USAGE);
+            throw new CommandException("Couldn't find file \n" + MESSAGE_USAGE);
         }
 
         if (!java.nio.file.Files.isRegularFile(path)) {
