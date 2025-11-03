@@ -2,6 +2,8 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
@@ -28,6 +30,17 @@ public class PersonListPanel extends UiPart<Region> {
         super(FXML);
         personListView.setItems(personList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
+
+        personList.addListener((ListChangeListener.Change<? extends Person> c) -> {
+            Platform.runLater(() -> {
+                personListView.getSelectionModel().selectFirst();
+                personListView.scrollTo(0);
+            });
+        });
+
+        Platform.runLater(() -> {
+            personListView.getSelectionModel().selectFirst();
+        });
     }
 
     /**
@@ -49,6 +62,13 @@ public class PersonListPanel extends UiPart<Region> {
 
     public MultipleSelectionModel<Person> getSelectionModel() {
         return personListView.getSelectionModel();
+    }
+
+    /**
+     * Returns the ListView component.
+     */
+    public ListView<Person> getListView() {
+        return personListView;
     }
 
 }

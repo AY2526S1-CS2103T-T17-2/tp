@@ -209,6 +209,10 @@ public class MainWindow extends UiPart<Stage> {
                 handleExit();
             }
 
+            if (!commandResult.isShowHelp() && !commandResult.isExit()) {
+                personListPanel.getListView().requestFocus();
+            }
+
             return commandResult;
         } catch (CommandException | ParseException e) {
             logger.info("An error occurred while executing command: " + commandText);
