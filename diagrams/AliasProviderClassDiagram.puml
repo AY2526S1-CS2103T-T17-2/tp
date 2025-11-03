@@ -5,19 +5,27 @@ skinparam arrowColor LOGIC_COLOR
 skinparam classBackgroundColor LOGIC_COLOR
 
 package "Logic" as LogicPackage {
+    class LogicManager
 
-class LogicManager
-class AddressBookParser
-interface AliasProvider
-
+    package "Parser" as ParserPackage {
+        class AddressBookParser
+        interface AliasProvider
+    }
 }
 
 package "Model" as ModelPackage {
-class ModelManager
+    interface Model
+    class ModelManager
 }
 
+
 LogicManager --> AddressBookParser
+
+
 AddressBookParser ..> AliasProvider
-ModelManager .up.|> AliasProvider
+
+Model .up.|> AliasProvider
+
+ModelManager .up.|> Model
 
 @enduml
