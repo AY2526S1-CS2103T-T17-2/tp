@@ -23,7 +23,7 @@ public class ImportCommand extends Command {
             + "The CSV file must include valid 'name', 'email', 'phone', and 'address' columns.\n"
             + "Parameters: [FILEPATH]\n"
             + "If FILEPATH is:\n"
-            + "1. Empty — the app will look for 'Campusbook_contacts.csv' in your Downloads folder.\n"
+            + "1. Empty — the app will look for 'CampusBook_contacts.csv' in your Downloads folder.\n"
             + "2. A file name — it will be resolved relative to your Downloads folder.\n"
             + "3. An absolute path — it will use the specified file directly.\n"
             + "Example:\n"
@@ -46,11 +46,11 @@ public class ImportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         if (!java.nio.file.Files.exists(path)) {
-            throw new CommandException(MESSAGE_USAGE);
+            throw new CommandException("Couldn't find file \n" + MESSAGE_USAGE);
         }
 
         if (!java.nio.file.Files.isRegularFile(path)) {
-            throw new CommandException(MESSAGE_USAGE);
+            throw new CommandException("The specified path is not a file or is a directory \n" + MESSAGE_USAGE);
         }
 
         CsvResult result;

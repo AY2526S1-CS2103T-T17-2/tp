@@ -28,9 +28,9 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-T17-2/tp/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+3. Copy the file to the folder you want to use as the _home folder_ for your CampusBook.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
@@ -152,7 +152,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FA
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+* When editing tags, the existing tags of the person will be removed i.e., adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without
     specifying any tags after it.
 * To mark a contact as favorite, use `fav/true`. To unmark, use `fav/false`.
@@ -170,7 +170,7 @@ Finds all persons who match all of the specified criteria.
 
 Format: `find [n/NAME_KEYWORD [MORE_KEYWORDS]...] [t/TAG_KEYWORD [MORE_KEYWORDS]...] [m/MODULE_KEYWORD [MORE_KEYWORDS]...] [f/FACULTY_KEYWORD [MORE_KEYWORDS]...]`
 
-* At least one parameter(among name,tag,module,faculty) must be provided.
+* At least one parameter (among name,tag,module,faculty) must be provided.
 * The search is case-insensitive for all fields.
 * For a given field (e.g., name), the search is an `OR` search. It will match persons who have at least one of the keywords. e.g., `n/alex john` will find persons named `Alex` OR `John`.
 * Across different fields (e.g., name and tag), the search is an `AND` search. It will only match persons who satisfy the criteria for all provided fields.
@@ -261,12 +261,12 @@ Examples:
 --------------------------------------------------------------------------------------------------------------------
 ### Exporting data : `export`
 
-Exports all entries from the address book and compiles then into a csv file.
+Exports all entries from the address book and compiles them into a csv file.
 
 Format: `export`
 
 * The file will be downloaded in the user's `Downloads` folder with the format `Campusbook_contacts.csv`.
-* In the case where `Campusbook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
+* In the case where `CampusBook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Importing data : `import`
@@ -278,14 +278,14 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names)
+* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e., 2 contacts with the same name but different details will be considered duplicates)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
-* Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
+* Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
-[Sample Data](Campusbook_contacts.csv)
+[Sample Data](CampusBook_contacts.csv)
 
 Examples:
-* `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import` finds a file called `CampusBook_contacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
 --------------------------------------------------------------------------------------------------------------------
@@ -464,19 +464,19 @@ How to Use:
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+CampusBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+CampusBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <box type="warning" seamless>
 
 **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, CampusBook will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the CampusBook to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -484,7 +484,7 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
