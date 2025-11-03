@@ -280,7 +280,7 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
 * Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
-* Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
+* Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
 [Sample Data](CampusBook_contacts.csv)
 
