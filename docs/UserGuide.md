@@ -54,7 +54,7 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
-1. [Startup Motivtional Message](#startup-motivational-message)
+1. [Startup Motivational Message](#startup-motivational-message)
 2. [Command List:](#commands)
    1. [`help`: Viewing Help](#viewing-help--help)
    2. [`add`: Adding a Person](#adding-a-person-add)
@@ -365,9 +365,6 @@ Format: `exit`
 
 * Tags, Faculties and Modules will be reordered and displayed in alphabetical/numerical order, regardless of input order.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
-
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
@@ -379,11 +376,11 @@ Format: `exit`
 | :-------------- | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **help**        | Viewing Help               | `help`                                                                                                                                                               |
 | **add**         | Adding a Person            | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`<br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **select**      | Selecting a Faculty        | `select`<F>                                                                                                                                                          |
+| **select**      | Selecting a Faculty        | `select FACULTY` <br> e.g., `select Engineering`                                                                                                                            <F>                                                                                                                                                          |
 | **list**        | Listing all Persons        | `list`                                                                                                                                                               |
 | **edit**        | Editing a Person           | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                          |
-| **find**        | Locating Persons by Fields | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                           |
-| **delete**      | Deleting a Person          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                  |
+| **find**        | Locating Persons by Fields | `find [n/NAME] [t/TAG] [m/MODULE] [f/FACULTY]`    <br> e.g., `find n/alex t/friend`                                                                                               |
+| **delete** | Deleting all persons matching the specified index or criteria |  `delete INDEX` or `delete [n/NAME] [t/TAG] [m/MODULE] [f/FACULTY]` <br> e.g. `delete n/alex t/friends`<br> |                                                                                                              |
 | **clear**       | Clearing all Entries       | `clear`                                                                                                                                                              |
 | **fav**         | Marking a Contact as Favorite | `fav INDEX`<br> e.g., `fav 1`                                                                                                                                     |
 | **unfav**       | Unmarking a Favorite Contact | `unfav INDEX`<br> e.g., `unfav 1`                                                                                                                                  |
