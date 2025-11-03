@@ -282,10 +282,10 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
 * Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
 
-[Sample Data](Campusbook_contacts.csv)
+[Sample Data](CampusBook_contacts.csv)
 
 Examples:
-* `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import` finds a file called `CampusBook_contacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
 --------------------------------------------------------------------------------------------------------------------
