@@ -8,9 +8,15 @@
 
 ## Introduction
 
-CampusBook is a **desktop app for managing contacts, optimized for NUS Students' usage via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, CampusBook can get your contact management tasks done faster than traditional GUI apps.
+CampusBook is a **desktop app for managing contacts, optimized for NUS Students' usage via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). 
+
+With features like a **motivational message** to cheer you up everytime you start the application, as well as **pre-loaded NUS faculty admin contact details** you can easily add into your CampusBook, it is definitely the choice for NUS students to manage contacts in a single application.
+
+Moreover, features like **command aliases** can optimize and improve the efficiency of typing, empowering you to add contacts with efficiency and customisability.
+
+If you are an **NUS student** looking for a **centralised and efficient** contact management application... then look no further because CampusBook is here!
 ![Ui_Intro](images/Ui_Intro.png)
-> Every NUS Student's Personalised, CLI-Based Contact Management Application.
+> ***CampusBook - Connect Smarter, Study Harder.***
 
 <!-- * Table of Contents -->
 ## Table of Contents
@@ -33,7 +39,7 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 3. Copy the file to the folder you want to use as the _home folder_ for your CampusBook.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar CampusBook.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data. This is the default data when you start the application for the first time.<br>
    ![Ui](images/Ui.png)
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
@@ -82,7 +88,7 @@ CampusBook is a **desktop app for managing contacts, optimized for NUS Students'
 --------------------------------------------------------------------------------------------------------------------
 ## Startup Motivational Message
 
-Being a student is tough. We understand.
+Being a student is tough. We totally understand.
 
 Hence, when you launch CampusBook, a different motivational quote will appear in the result display area to give you a little boost of encouragement for your day:
 ![Startup_Motivational Message](images/Startup_Motivational_Message.png)
@@ -114,7 +120,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m
 </box>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T f/`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal fav/true`
 
 --------------------------------------------------------------------------------------------------------------------
@@ -405,7 +411,7 @@ Each Person can possess:
 | Phone    | `p/`   | Contact number                                             | `p/91234567`                    | Only contain numbers, and it should be at least 3 digits long            |
 | Email    | `e/`   | Email address                                              | `e/johndoe@example.com`         | Follows the local-part@domain format<br>(Specific details can be found in the application)           |
 | Address  | `a/`   | Residential or mailing address                             | `a/311, Clementi Ave 2, #02-25` | Addresses can take any values, and it should not be blank            |
-| Tag      | `t/`   | Tag to categorize contacts (e.g., *friends*, *colleagues*) | `t/friend`                      | Tags names should be alphanumeric            |
+| Tag      | `t/`   | Tag to categorize contacts (e.g., *friends*, *colleagues*) | `t/friend`                      | Tags names should be alphanumeric, without any spaces           |
 | Faculty  | `f/`   | Faculty or school the contact belongs to                   | `f/School of Computing`         | Faculty names should be only contain alphabets and spaces            |
 | Module   | `m/`   | Module the contact is related to                           | `m/CS2103T`, `m/GESS1000`, `m/DSA1101`, `m/CS1101DE`                     | Module names should consist of 2 to 4 uppercase letters, followed by 4 digits, and optionally ending with 1/2 uppercase letter        |
 | Favorite | `fav/` | Mark the contact as a favorite contact                     | `fav/true`                      | Favorite should be either 'true' or 'false'            |
@@ -481,13 +487,17 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.<br>
+
+**Q**: Why does the application not allow same names (e.g. John & John) to be added, even if the other fields are different?<br>
+**A**: It is unlikely that two people will have the same full name (e.g. John Doe Xiao Ming). If the first name of two contacts you are trying to add clashes, consider adding their full names.<br>
+
+**Q**: Why does the applicaiton allow same names with different capitalisation (e.g. John & john) to be added?<br>
+**A**: This is to prevent overzealous input validation, as there are some names with the same characters, but different capitalisation (e.g. McKenzie & Mckenzie).<br>
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-
---------------------------------------------------------------------------------------------------------------------                                                                                                                              |
+2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.                                                      

@@ -50,13 +50,13 @@ StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
 ContactDetailsPanel --|> UiPart
 
+ContactDetailsPanel ..> Model
 PersonCard ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
 
-ContactDetailsPanel -[hidden]left- HelpWindow
-PersonListPanel -[hidden]left- ContactDetailsPanel
 HelpWindow -[hidden]left- CommandBox
+PersonListPanel -[hidden]left- ContactDetailsPanel
 CommandBox -[hidden]left- ResultDisplay
 ResultDisplay -[hidden]left- StatusBarFooter
 
