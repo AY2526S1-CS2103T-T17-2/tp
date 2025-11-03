@@ -60,7 +60,7 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
-1. [Startup Motivtional Message](#startup-motivational-message)
+1. [Startup Motivational Message](#startup-motivational-message)
 2. [Command List:](#commands)
    1. [`help`: Viewing Help](#viewing-help--help)
    2. [`add`: Adding a Person](#adding-a-person-add)
@@ -158,7 +158,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FA
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+* When editing tags, the existing tags of the person will be removed i.e., adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without
     specifying any tags after it.
 * To mark a contact as favorite, use `fav/true`. To unmark, use `fav/false`.
@@ -176,7 +176,7 @@ Finds all persons who match all of the specified criteria.
 
 Format: `find [n/NAME_KEYWORD [MORE_KEYWORDS]...] [t/TAG_KEYWORD [MORE_KEYWORDS]...] [m/MODULE_KEYWORD [MORE_KEYWORDS]...] [f/FACULTY_KEYWORD [MORE_KEYWORDS]...]`
 
-* At least one parameter(among name,tag,module,faculty) must be provided.
+* At least one parameter (among name,tag,module,faculty) must be provided.
 * The search is case-insensitive for all fields.
 * For a given field (e.g., name), the search is an `OR` search. It will match persons who have at least one of the keywords. e.g., `n/alex john` will find persons named `Alex` OR `John`.
 * Across different fields (e.g., name and tag), the search is an `AND` search. It will only match persons who satisfy the criteria for all provided fields.
@@ -267,12 +267,12 @@ Examples:
 --------------------------------------------------------------------------------------------------------------------
 ### Exporting data : `export`
 
-Exports all entries from the address book and compiles then into a csv file.
+Exports all entries from the address book and compiles them into a csv file.
 
 Format: `export`
 
 * The file will be downloaded in the user's `Downloads` folder with the format `Campusbook_contacts.csv`.
-* In the case where `Campusbook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
+* In the case where `CampusBook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Importing data : `import`
@@ -284,14 +284,14 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names)
+* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e., 2 contacts with the same name but different details will be considered duplicates)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
-* Any incorrect data will be pointed out, a message containing whats wrong and in which line will be displayed.
+* Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
-[Sample Data](Campusbook_contacts.csv)
+[Sample Data](CampusBook_contacts.csv)
 
 Examples:
-* `import` finds a file called `Campusbook_contacts.csv` inside the user's Downloads folder and imports the contacts.
+* `import` finds a file called `CampusBook_contacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
 --------------------------------------------------------------------------------------------------------------------
@@ -371,9 +371,6 @@ Format: `exit`
 
 * Tags, Faculties and Modules will be reordered and displayed in alphabetical/numerical order, regardless of input order.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
-
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
@@ -385,11 +382,11 @@ Format: `exit`
 | :-------------- | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **help**        | Viewing Help               | `help`                                                                                                                                                               |
 | **add**         | Adding a Person            | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`<br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **select**      | Selecting a Faculty        | `select`<F>                                                                                                                                                          |
+| **select**      | Selecting a Faculty        | `select FACULTY` <br> e.g., `select Engineering`                                                                                                                            <F>                                                                                                                                                          |
 | **list**        | Listing all Persons        | `list`                                                                                                                                                               |
 | **edit**        | Editing a Person           | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                          |
-| **find**        | Locating Persons by Fields | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                           |
-| **delete**      | Deleting a Person          | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                  |
+| **find**        | Locating Persons by Fields | `find [n/NAME] [t/TAG] [m/MODULE] [f/FACULTY]`    <br> e.g., `find n/alex t/friend`                                                                                               |
+| **delete** | Deleting all persons matching the specified index or criteria |  `delete INDEX` or `delete [n/NAME] [t/TAG] [m/MODULE] [f/FACULTY]` <br> e.g. `delete n/alex t/friends`<br> |                                                                                                              |
 | **clear**       | Clearing all Entries       | `clear`                                                                                                                                                              |
 | **fav**         | Marking a Contact as Favorite | `fav INDEX`<br> e.g., `fav 1`                                                                                                                                     |
 | **unfav**       | Unmarking a Favorite Contact | `unfav INDEX`<br> e.g., `unfav 1`                                                                                                                                  |

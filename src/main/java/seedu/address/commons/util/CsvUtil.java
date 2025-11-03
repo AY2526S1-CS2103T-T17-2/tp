@@ -64,7 +64,8 @@ public class CsvUtil {
                     Set<Tag> allTags = parseTags(nextLine[4]);
                     Set<Module> allModules = parseModules(nextLine[5]);
                     Set<Faculty> allFaculties = parseFaculties(nextLine[6]);
-                    Favorite favorite = new Favorite(Boolean.parseBoolean(nextLine[7].trim()));
+                    Favorite favorite = nextLine[7].trim().isEmpty() ? Favorite.DEFAULT_NOT_FAVORITE
+                                                                     : new Favorite(nextLine[7].trim());
 
                     Person newPerson = new Person(name, phoneNo, email, address, allTags, allModules, allFaculties,
                             favorite);

@@ -24,7 +24,7 @@ public class ExportCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_EXPORT_ACKNOWLEDGEMENT = "AddressBook exported to CSV file in Downloads folder"
-            + "as Campusbook_contacts.csv";
+            + " as CampusBook_contacts.csv";
     public static final String FAILED_EXPORT = "Failed to export contacts to CSV";
     public static final String EMPTY_ADDRESSBOOK = "Unable to export due to empty address book";
 
