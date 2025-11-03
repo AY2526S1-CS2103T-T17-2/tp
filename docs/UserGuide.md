@@ -152,7 +152,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FA
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+* When editing tags, the existing tags of the person will be removed i.e., adding of tags is not cumulative.
 * You can remove all the person's tags by typing `t/` without
     specifying any tags after it.
 * To mark a contact as favorite, use `fav/true`. To unmark, use `fav/false`.
@@ -170,7 +170,7 @@ Finds all persons who match all of the specified criteria.
 
 Format: `find [n/NAME_KEYWORD [MORE_KEYWORDS]...] [t/TAG_KEYWORD [MORE_KEYWORDS]...] [m/MODULE_KEYWORD [MORE_KEYWORDS]...] [f/FACULTY_KEYWORD [MORE_KEYWORDS]...]`
 
-* At least one parameter(among name,tag,module,faculty) must be provided.
+* At least one parameter (among name,tag,module,faculty) must be provided.
 * The search is case-insensitive for all fields.
 * For a given field (e.g., name), the search is an `OR` search. It will match persons who have at least one of the keywords. e.g., `n/alex john` will find persons named `Alex` OR `John`.
 * Across different fields (e.g., name and tag), the search is an `AND` search. It will only match persons who satisfy the criteria for all provided fields.
@@ -266,7 +266,7 @@ Exports all entries from the address book and compiles them into a csv file.
 Format: `export`
 
 * The file will be downloaded in the user's `Downloads` folder with the format `Campusbook_contacts.csv`.
-* In the case where `Campusbook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
+* In the case where `CampusBook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Importing data : `import`
@@ -278,7 +278,7 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e 2 contacts with the same name but different details will be considered duplicates)
+* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e., 2 contacts with the same name but different details will be considered duplicates)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
 * Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
