@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,8 @@ public class CsvUtil {
                     Set<Tag> allTags = parseTags(nextLine[4]);
                     Set<Module> allModules = parseModules(nextLine[5]);
                     Set<Faculty> allFaculties = parseFaculties(nextLine[6]);
-                    Favorite favorite = new Favorite(nextLine[7].trim());
+                    Favorite favorite = Objects.equals(nextLine[7].trim(), "") ? new Favorite(false)
+                                                                                  : new Favorite(nextLine[7].trim());
 
                     Person newPerson = new Person(name, phoneNo, email, address, allTags, allModules, allFaculties,
                             favorite);
