@@ -29,7 +29,7 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Quick start
+## Quick start {#quick-start}
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
@@ -59,7 +59,7 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Features
+## Features {#features}
 1. [Startup Motivational Message](#startup-motivational-message)
 2. [Command List:](#commands)
    1. [`help`: Viewing Help](#viewing-help--help)
@@ -81,12 +81,12 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 3. [Command Summary](#command-summary)
 4. [Fields: Types of Information](#how-fields-work)
 5. [Contact Details Panel](#contact-details-panel)
-6. [Autocomplete commands and path files]()
+6. [Autocomplete commands and path files](#autocomplete-inputs)
 7. [Command History Navigation](#command-history-navigation)
 8. [Saving the Data](#saving-the-data)
 9. [Editing the Data File](#editing-the-data-file)
 --------------------------------------------------------------------------------------------------------------------
-## Startup Motivational Message
+## Startup Motivational Message {#startup-motivational-message}
 
 Being a student is tough. We totally understand.
 
@@ -96,9 +96,9 @@ Hence, when you launch CampusBook, a different motivational quote will appear in
 This message is shown only at startup and will be replaced by the output of the first command you execute.
 </box>
 
-## Commands
+## Commands {#commands}
 
-### Viewing help : `help`
+### Viewing help : `help` {#viewing-help--help}
 
 Shows a message explaining how to access the help page.
 
@@ -108,7 +108,7 @@ Format: `help`
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Adding a person: `add`
+### Adding a person: `add` {#adding-a-person-add}
 
 Adds a person to the address book.
 
@@ -125,7 +125,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Selecting a Faculty to Preload Contacts: `select`
+### Selecting a Faculty to Preload Contacts: `select` {#selecting-a-faculty-to-preload-contacts-select}
 
 Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your address book.
 
@@ -141,7 +141,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Listing all persons : `list`
+### Listing all persons : `list` {#listing-all-persons--list}
 
 Shows a list of all persons in the address book.
 
@@ -149,7 +149,7 @@ Format: `list`
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Editing a person : `edit`
+### Editing a person : `edit` {#editing-a-person--edit}
 
 Edits an existing person in the address book.
 
@@ -170,7 +170,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Locating persons by multiple criteria: `find`
+### Locating persons by multiple criteria: `find` {#locating-persons-by-name-find}
 
 Finds all persons who match all of the specified criteria.
 
@@ -195,7 +195,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Deleting a person : `delete`
+### Deleting a person : `delete` {#deleting-a-person--delete}
 
 Deletes the specified person from the address book. This can be done in two ways: by index or by criteria.
 
@@ -224,7 +224,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Clearing all entries : `clear`
+### Clearing all entries : `clear` {#clearing-all-entries--clear}
 
 Clears all entries from the address book.
 
@@ -232,7 +232,7 @@ Format: `clear`
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Marking a contact as favorite: `fav`
+### Marking a contact as favorite: `fav` {#marking-a-contact-as-favorite-fav}
 
 Marks a contact as favorite. Favorite contacts are displayed with a star (★) icon and automatically appear at the top of your contact list.
 
@@ -249,7 +249,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Unmarking a favorite contact: `unfav`
+### Unmarking a favorite contact: `unfav` {#unmarking-a-favorite-contact-unfav}
 
 Removes the favorite status from a contact.
 
@@ -265,7 +265,7 @@ Examples:
 * `find John` followed by `unfav 1` removes the favorite status from the 1st person in the results of the `find` command.
 
 --------------------------------------------------------------------------------------------------------------------
-### Exporting data : `export`
+### Exporting data : `export` {#exporting-data--export}
 
 Exports all entries from the address book and compiles them into a csv file.
 
@@ -275,7 +275,7 @@ Format: `export`
 * In the case where `CampusBook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
 
 --------------------------------------------------------------------------------------------------------------------
-### Importing data : `import`
+### Importing data : `import` {#importing-data--import}
 
 Imports all entries from a csv file and inserts them into the address book
 
@@ -295,7 +295,7 @@ Examples:
 * `import myContacts` finds a file called `myContacts.csv` inside the user's Downloads folder and imports the contacts.
 * `import "C:\Users\djsud\TempFile\myContacts.csv"` finds the file specified from the path and imports the contacts.
 --------------------------------------------------------------------------------------------------------------------
-### Creating a command alias: `alias`
+### Creating a command alias: `alias` {#creating-a-command-alias-alias}
 
 Creates a shortcut (alias) for a longer command.
 Format: `alias ALIAS_NAME COMMAND_STRING`
@@ -320,7 +320,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Removing a command alias: `unalias`
+### Removing a command alias: `unalias` {#removing-a-command-alias-unalias}
 
 Removes a previously created alias.
 
@@ -335,7 +335,7 @@ Example:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Listing all aliases: `listaliases`
+### Listing all aliases: `listaliases` {#listing-all-aliases-listaliases}
 
 Shows a list of all currently defined aliases.
 
@@ -344,7 +344,7 @@ Format: `listaliases`
 --------------------------------------------------------------------------------------------------------------------
 
 
-### Exiting the program : `exit`
+### Exiting the program : `exit` {#exiting-the-program--exit}
 
 Exits the program.
 
@@ -376,7 +376,7 @@ Format: `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command summary
+## Command summary {#command-summary}
 
 | Command         | Description                | Format / Example                                                                                                                                                     |
 | :-------------- | :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -399,7 +399,7 @@ Format: `exit`
 
 --------------------------------------------------------------------------------------------------------------------
 
-## How Fields Work
+## How Fields Work {#how-fields-work}
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
 
@@ -418,7 +418,7 @@ Each Person can possess:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Contact Details Panel
+## Contact Details Panel {#contact-details-panel}
 
 Adds a person to the address book.
 
@@ -433,7 +433,7 @@ How to Use:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Autocomplete Inputs
+### Autocomplete Inputs {#autocomplete-inputs}
 
 Autocompletes some inputs based on the user's current input.
 
@@ -445,7 +445,7 @@ Supported autocompletes:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Command History Navigation
+### Command History Navigation {#command-history-navigation}
 
 Navigate through your previously entered commands using the up and down arrow keys in the command box.
 
@@ -465,13 +465,13 @@ How to Use:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Saving the data
+### Saving the data {#saving-the-data}
 
 CampusBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Editing the data file
+## Editing the data file {#editing-the-data-file}
 
 CampusBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
@@ -484,7 +484,7 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 
 --------------------------------------------------------------------------------------------------------------------
 
-## FAQ
+## FAQ {#faq}
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.<br>
@@ -497,7 +497,7 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Known issues
+## Known issues {#known-issues}
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.                                                      

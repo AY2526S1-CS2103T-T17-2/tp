@@ -19,7 +19,7 @@
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Acknowledgements**
+## **Acknowledgements** {#acknowledgements}
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
@@ -27,13 +27,13 @@ AI Usage Declaration: I, Nicholas Lim ZiXian, used ChatGPT, after writing the re
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Setting up, getting started**
+## **Setting up, getting started** {#setting-up-getting-started}
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Design**
+## **Design** {#design}
 
 <!-- * Table of Contents -->
 ### Table of Contents
@@ -46,7 +46,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Architecture
+### Architecture {#architecture}
 
 <puml src="diagrams/ArchitectureDiagram.puml" width="280" />
 
@@ -88,7 +88,7 @@ The sections below give more details of each component.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### UI component
+### UI component {#ui-component}
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
@@ -107,7 +107,7 @@ The `UI` component,
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Logic component
+### Logic component {#logic-component}
 
 **API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
@@ -142,7 +142,7 @@ How the parsing works:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Model component
+### Model component {#model-component}
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
@@ -157,7 +157,7 @@ The `Model` component,
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Storage component
+### Storage component {#storage-component}
 
 **API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
@@ -170,13 +170,13 @@ The `Storage` component,
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Common classes
+### Common classes {#common-classes}
 
 Classes used by multiple components are in the `seedu.address.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Implementation**
+## **Implementation** {#implementation}
 
 This section describes some noteworthy details on how certain features are implemented.
 
@@ -568,7 +568,7 @@ _{more aspects and alternatives to be added}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Documentation, logging, testing, configuration, dev-ops**
+## **Documentation, logging, testing, configuration, dev-ops** {#documentation-logging-testing-configuration-dev-ops}
 
 * [Documentation guide](Documentation.md)
 * [Testing guide](Testing.md)
@@ -578,7 +578,7 @@ _{more aspects and alternatives to be added}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Appendix: Requirements**
+## **Appendix: Requirements** {#appendix-requirements}
 
 ### Product scope
 
@@ -1032,7 +1032,7 @@ Use case ends.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Appendix: Instructions for manual testing**
+## **Appendix: Instructions for manual testing** {#appendix-instructions-for-manual-testing}
 
 Given below are instructions to test the app manually.
 
