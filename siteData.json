@@ -67,11 +67,18 @@
         "glossary": "Glossary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
+        "adding-a-person": "Adding a person",
+        "editing-a-person": "Editing a person",
+        "finding-persons": "Finding persons",
+        "selecting-a-faculty": "Selecting a faculty",
         "deleting-a-person": "Deleting a person",
+        "exporting-data": "Exporting data",
+        "importing-data": "Importing data",
+        "creating-listing-and-removing-aliases": "Creating, listing, and removing aliases",
         "marking-and-unmarking-favorites": "Marking and unmarking favorites",
         "command-history-navigation": "Command history navigation",
         "command-autocomplete": "Command autocomplete",
-        "saving-data": "Saving data"
+        "appendix-instructions-for-manual-testing-2": "Appendix: Instructions for manual testing"
       },
       "headingKeywords": {}
     },
