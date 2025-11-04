@@ -584,7 +584,7 @@ _{more aspects and alternatives to be added}_
 
 **Target user profile**:
 
-* is a NUS Student
+* is an NUS Student
 * has a need to manage a significant number of contacts
 * prefer desktop apps over other types
 * can type fast

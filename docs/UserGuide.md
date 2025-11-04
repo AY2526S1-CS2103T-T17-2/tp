@@ -62,26 +62,26 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 ## Features
 1. [Startup Motivational Message](#startup-motivational-message)
 2. [Command List:](#commands)
-   1. [`help`: Viewing Help](#viewing-help--help)
+   1. [`help`: Viewing Help](#viewing-help-help)
    2. [`add`: Adding a Person](#adding-a-person-add)
    3. [`select`: Selecting a Faculty](#selecting-a-faculty-to-preload-contacts-select)
-   4. [`list`: Listing all Persons](#listing-all-persons--list)
-   5. [`edit`: Editing a Person](#editing-a-person--edit)
-   6. [`find`: Locating Persons by Fields](#locating-persons-by-name-find)
-   7. [`delete`: Deleting a Person](#deleting-a-person--delete)
-   8. [`clear`: Clearing all Entries](#clearing-all-entries--clear)
+   4. [`list`: Listing all Persons](#listing-all-persons-list)
+   5. [`edit`: Editing a Person](#editing-a-person-edit)
+   6. [`find`: Locating Persons by Fields](#locating-persons-by-multiple-criteria-find)
+   7. [`delete`: Deleting a Person](#deleting-a-person-delete)
+   8. [`clear`: Clearing all Entries](#clearing-all-entries-clear)
    9. [`fav`: Marking a Contact as Favorite](#marking-a-contact-as-favorite-fav)
    10. [`unfav`: Unmarking a Favorite Contact](#unmarking-a-favorite-contact-unfav)
-   11. [`export`: Exporting Data](#exporting-data--export)
-   12. [`import`: Importing Data](#importing-data--import)
+   11. [`export`: Exporting Data](#exporting-data-export)
+   12. [`import`: Importing Data](#importing-data-import)
    13. [`alias`: Creating an Alias](#creating-a-command-alias-alias)
    14. [`unalias`: Removing an Alias](#removing-a-command-alias-unalias)
    15. [`listaliases`: Listing all Aliases](#listing-all-aliases-listaliases)
-   16. [`exit`: Exiting the Program](#exiting-the-program--exit)
+   16. [`exit`: Exiting the Program](#exiting-the-program-exit)
 3. [Command Summary](#command-summary)
 4. [Fields: Types of Information](#how-fields-work)
 5. [Contact Details Panel](#contact-details-panel)
-6. [Autocomplete commands and path files]()
+6. [Autocomplete commands and path files](#autocomplete-inputs)
 7. [Command History Navigation](#command-history-navigation)
 8. [Saving the Data](#saving-the-data)
 9. [Editing the Data File](#editing-the-data-file)
@@ -98,7 +98,7 @@ This message is shown only at startup and will be replaced by the output of the 
 
 ## Commands
 
-### Viewing help : `help`
+### Viewing help: `help`
 
 Shows a message explaining how to access the help page.
 
@@ -151,7 +151,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Listing all persons : `list`
+### Listing all persons: `list`
 
 Shows a list of all persons in your contact list.
 
@@ -159,7 +159,7 @@ Format: `list`
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Editing a person : `edit`
+### Editing a person: `edit`
 
 Edits an existing person in your contact list.
 
@@ -205,7 +205,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Deleting a person : `delete`
+### Deleting a person: `delete`
 
 Deletes the specified person from your contact list. This can be done in two ways: by index or by criteria.
 
@@ -234,7 +234,7 @@ Examples:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Clearing all entries : `clear`
+### Clearing all entries: `clear`
 
 Clears all entries from your contact list.
 
@@ -275,7 +275,7 @@ Examples:
 * `find John` followed by `unfav 1` removes the favorite status from the 1st person in the results of the `find` command.
 
 --------------------------------------------------------------------------------------------------------------------
-### Exporting data : `export`
+### Exporting data: `export`
 
 Exports all entries from your contact list and compiles them into a csv file.
 
@@ -285,7 +285,7 @@ Format: `export`
 * In the case where `CampusBook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
 
 --------------------------------------------------------------------------------------------------------------------
-### Importing data : `import`
+### Importing data: `import`
 
 Imports all entries from a csv file and inserts them into your contact list
 
@@ -354,7 +354,7 @@ Format: `listaliases`
 --------------------------------------------------------------------------------------------------------------------
 
 
-### Exiting the program : `exit`
+### Exiting the program: `exit`
 
 Exits the program.
 
@@ -411,8 +411,10 @@ Format: `exit`
 
 ## How Fields Work
 
+<box type="tip" seamless>
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
+</box>
 
 Each Person can possess:
 
