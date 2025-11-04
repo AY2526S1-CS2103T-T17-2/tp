@@ -1112,7 +1112,6 @@ Expected: Error message shown, no changes made.
    Test case: `find n/john`  
    Expected: Same results as `find n/John`.
 
-
 ### Selecting a faculty
 
 1. Valid faculty selection  
@@ -1313,3 +1312,69 @@ Expected: All aliases cleared.
 
    2. Test case: Type `import cont` and press TAB<br>
       Expected: The text autocompletes to `import contacts.csv`.
+
+## **Appendix: Instructions for manual testing**
+Team size: 4
+
+The following list outlines planned enhancements that address known feature flaws which we were not allowed to fix in v1.6.
+These improvements are targeted for the next release and will focus on refining user experience, improving error feedback, and handling edge cases more gracefully.
+Each enhancement below corresponds to an existing feature — no new features are introduced.
+
+1. **Improve error messages for failed deletions**
+
+Current behavior: The app shows a generic message “Operation failed!” when a deletion fails (e.g., invalid index, nonexistent contact).
+Planned enhancement: Display a more specific message such as
+
+`The contact at index 10 could not be deleted — index out of range.`
+This helps users understand the exact reason for the failure.
+
+2. **Stricter prefix validation for the find command**
+
+Current behavior: Mistyped prefixes (e.g., ff/Computing) are treated as keywords, producing confusing results.
+Planned enhancement: Validate all prefixes strictly and reject commands with unknown prefixes.
+Example:
+
+Input: `find ff/Computing`
+Output: `Unknown prefix ‘ff/’. Did you mean ‘f/’?`
+
+3. **Better duplicate handling in import**
+
+Current behavior: When duplicates are skipped during CSV import, only a general warning is shown.
+Planned enhancement: List skipped contacts explicitly in the result message, e.g.:
+
+`3 duplicates skipped: John Doe, Alice Tan, Ben Lim.`
+
+4. **Clearer error message for malformed CSV files**
+
+Current behavior: Importing a CSV file with missing headers or fields shows only “Import failed.”
+Planned enhancement: Provide the exact line number and missing field in the message, e.g.:
+
+`Error at line 5 — missing Email field.`
+
+5. **Autocomplete improvements**
+
+Current behavior: Autocomplete sometimes fails to show all possible matches or re-triggers suggestions unnecessarily.
+Planned enhancement: Optimize autocomplete suggestions to be context-sensitive (e.g., show prefixes after command word).
+Example:
+
+Typing add then pressing `TAB` shows valid prefixes such as n/, p/, e/, a/.
+
+6. **Sorting consistency after editing favorites**
+
+Current behavior: When unmarking a favorite contact, list order updates only after executing another command (e.g., list).
+Planned enhancement: Automatically refresh list order immediately after changing a contact’s favorite status.
+
+7. **Faculty preload confirmation**
+
+Current behavior: The select command preloads faculty contacts without confirmation.
+Planned enhancement: Display a confirmation dialog summarizing the number of contacts to be added and skipped duplicates before insertion.
+Example:
+
+`You are about to preload 12 contacts for School of Computing (2 duplicates will be skipped). Proceed?`
+
+8. **Alias overwrite warning clarification**
+
+Current behavior: When overwriting an existing alias, a warning message appears but doesn’t show which alias was replaced.
+Planned enhancement: Improve clarity, e.g.:
+
+`Alias ‘la’ has been overwritten. Previously mapped to ‘listaliases’, now mapped to ‘list’.`
