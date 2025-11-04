@@ -47,7 +47,7 @@ Person *--> Address
 Person *--> "*" Tag
 Person *--> "*" Faculty
 Person *--> "*" Module
-Person *--> "0..1" Favorite
+Person *--> "1" Favorite
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
