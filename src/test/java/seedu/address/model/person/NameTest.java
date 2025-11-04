@@ -45,6 +45,11 @@ public class NameTest {
         assertTrue(Name.isValidName("Mary-Jane")); // contains hyphen
         assertTrue(Name.isValidName("Dr. Smith")); // contains period
         assertTrue(Name.isValidName("Jean-Pierre O'Connor")); // multiple special characters
+
+        // names with command prefix-like patterns (without space before prefix)
+        // These are valid at the Name validation level, but will cause parsing issues if used in commands
+        assertTrue(Name.isValidName("Johnn/Smith")); // prefix-like pattern without space before slash
+        assertTrue(Name.isValidName("Alicep/123")); // prefix-like pattern without space
     }
 
     @Test
