@@ -15,10 +15,9 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_PERSON_DISPLAYED_INDEX = "The person index provided is invalid";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
-    public static final String MESSAGE_PERSON_LISTED_OVERVIEW = "%1$d person listed!";
-    public static final String MESSAGE_DELETE_PERSONS_SUCCESS = "Deleted %1$d persons.";
-    public static final String MESSAGE_NO_PERSONS_FOUND = "No persons found matching the criteria.";
+    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d person(s) listed!";
+    public static final String MESSAGE_DELETE_PERSONS_SUCCESS = "Deleted %1$d person(s).";
+    public static final String MESSAGE_NO_PERSONS_FOUND = "No person(s) found matching the criteria.";
 
 
     /**
@@ -30,10 +29,9 @@ public class Messages {
         Set<String> duplicateFields =
                 Stream.of(duplicatePrefixes).map(Prefix::toString).collect(Collectors.toSet());
 
-        String fieldWord = (duplicateFields.size() == 1) ? "field" : "fields";
-
-        return String.format("Multiple values specified for the following single-valued %s: %s",
-                fieldWord, String.join(" ", duplicateFields));
+        return String.format(
+                "Multiple values specified for the following single-valued field(s): %s",
+                String.join(" ", duplicateFields));
     }
 
     /**

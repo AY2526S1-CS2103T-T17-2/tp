@@ -109,8 +109,8 @@ public class DeleteCommandTest {
         // Use the new constructor that accepts a List<Predicate>
         DeleteCommand deleteCommand = new DeleteCommand(List.of(predicate));
 
-        // Expect the singular success message for 1 person
-        String expectedMessage = "Deleted 1 person.";
+        // Expect the success message for 1 person
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, 1);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(ALICE); // Manually delete Alice from the expected model
@@ -161,7 +161,7 @@ public class DeleteCommandTest {
         assertEquals(BENSON, personsToDelete.get(0));
 
         // Expect success message for 1 person
-        String expectedMessage = "Deleted 1 person.";
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, 1);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.deletePerson(BENSON);

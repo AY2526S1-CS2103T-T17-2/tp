@@ -71,13 +71,9 @@ public class ImportCommand extends Command {
         StringBuilder message = new StringBuilder();
         int errorCount = result.getErrorMessages().size();
 
-        String contactMsg = (addedCount == 1) ? "contact" : "contacts";
-        String duplicateMsg = (skippedCount == 1) ? "duplicate row" : "duplicate rows";
-        String errorMsg = (errorCount == 1) ? "invalid row" : "invalid rows";
-
         message.append(String.format(
-                "Imported %d %s. Skipped %d %s. Failed to import %d %s.\n",
-                addedCount, contactMsg, skippedCount, duplicateMsg, errorCount, errorMsg
+                "Imported %d contact(s). Skipped %d duplicate row(s). Failed to import %d invalid row(s).\n",
+                addedCount, skippedCount, errorCount
         ));
 
         if (result.hasErrors()) {
