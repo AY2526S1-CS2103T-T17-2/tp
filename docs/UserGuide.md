@@ -503,6 +503,9 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 **Q**: Why does the application not allow contacts with the same phone number or the same name to be added?<br>
 **A**: Phone numbers and names are unique identifiers for contacts. The application prevents duplicate phone numbers or names to ensure data integrity and avoid confusion. Two contacts are considered duplicates if they have the same phone number OR the same name.<br>
 
+**Q**: Why does the application allow same names with different capitalisation (e.g. John & john) to be added?<br>
+**A**: This is to prevent overzealous input validation, as there are some names with the same characters, but different capitalisation (e.g. McKenzie & Mckenzie).<br>
+
 **Q**: Can I add contacts with special characters in their names (e.g. O'Connor, José)?<br>
 **A**: Yes! The application supports names with special characters such as apostrophes (`'`), hyphens (`-`), slashes (`/`), periods (`.`), and accented characters (e.g. é, ó). This allows for realistic names like `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, and `José`.<br>
 **Note**: Special characters in names should not include any command prefixes (e.g., `n/`, `p/`, `e/`, `a/`, `t/`, `m/`, `f/`, `fav/`). If a command prefix appears in a name (especially when preceded by a space), it will be interpreted as command syntax and cause parsing errors.<br>
