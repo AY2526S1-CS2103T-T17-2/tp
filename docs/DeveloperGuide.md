@@ -1060,7 +1060,7 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a person
+### Deleting a person {#deleting-a-person-manual-test}
 
 1. Deleting a person while all persons are being shown
 
@@ -1121,7 +1121,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Unmark "Bob" using `unfav 1`<br>
       Expected: "Bob" moves below all favorited contacts but above non-favorited contacts in alphabetical order.
 
-### Command history navigation
+### Command history navigation {#command-history-navigation-manual-test}
 
 1. Basic navigation
 
@@ -1162,7 +1162,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Execute more than 10 commands, then press ↑ repeatedly<br>
       Expected: Only the 10 most recent commands are accessible.
 
-### Command autocomplete
+### Command autocomplete {#command-autocomplete-manual-test}
 
 1. Command word autocomplete
 
@@ -1185,7 +1185,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Type `import` and press TAB<br>
       Expected: A list of all CSV files in the Downloads folder is shown.
 
-### Saving data
+### Saving data {#saving-data-manual-test}
 
 1. Dealing with missing/corrupted data files
 
