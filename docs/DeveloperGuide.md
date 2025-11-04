@@ -1049,16 +1049,86 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+   2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+2. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+   2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Adding a person
+1. Adding a valid person
+
+   1. Prerequisites: None.
+   2. Test case: `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T`
+   Expected: New contact John Doe is added and appears in the list. Status message confirms addition.
+
+2. Adding a person with missing mandatory fields  
+   1. Test cases: 
+   * `add p/98765432 e/john@example.com a/John Street`
+   * `add n/John Doe e/john@example.com`  
+Expected: Error message displayed indicating missing required fields.
+
+3. Adding a person with duplicate name
+
+   1. Prerequisites: A person named John Doe already exists.
+
+   2. Test case: Add another contact with the same name but different details.  
+   
+    Expected: Duplicate warning shown, contact not added.
+
+### Editing a person
+
+1. Editing existing details
+
+   1. Prerequisites: Have at least one person in the list.
+
+   2. Test case: `edit 1 p/91234567 e/johndoe@example.com`  
+   Expected: The first person’s phone and email are updated. Success message shown.
+
+2. Clearing all tags  
+   Test case: `edit 1 t/`  
+   Expected: All tags removed for the first contact.
+
+3. Incorrect edit commands to try:
+   * `edit`
+   * `edit 0`
+   * `edit 1 invalidprefix/value`  
+Expected: Error message shown, no changes made.
+
+### Finding persons
+
+1. Finding by single criterion
+   Test case: `find n/John`  
+   Expected: Displays only persons whose names contain “John”.
+
+2. Finding by multiple fields  
+   Test case: `find n/John t/friend`  
+   Expected: Shows contacts whose name includes “John” and tag includes “friend”.
+
+3. Case sensitivity
+   Test case: `find n/john`  
+   Expected: Same results as `find n/John`.
+
+
+### Selecting a faculty
+
+1. Valid faculty selection  
+    1. Test case: `select Computing`  
+    Expected: Displays a message indicating that default School of Computing contacts are being preloaded. The new contacts appear in the list.
+
+2. Invalid faculty selection  
+   1. Test case: `select UnknownFaculty`  
+   Expected: Error message shown with a list of valid faculties.
+
+3. Duplicate handling
+
+   1. Prerequisites: The preloaded faculty contacts are already in the address book.
+
+   2. Test case: `select Computing` again  
+   Expected: Warning shown for skipped duplicate contacts.
 
 ### Deleting a person
 
@@ -1066,59 +1136,102 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
 
-   1. Test case: `delete 1`<br>
+   2. Test case: `delete 1`<br>
       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
 
-   1. Test case: `delete 0`<br>
+   3. Test case: `delete 0`<br>
       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+### Exporting data
 
+1. Test case: `export`  
+Expected: A CSV file named `CampusBook_contacts.csv` is created in the Downloads folder. File content matches the address book data.
+
+2. Test case: Run `export` again after editing contacts  
+Expected: Existing file is replaced with the updated contacts.
+
+### Importing data
+
+1. Test case: `import` (with default file in Downloads folder)  
+Expected: Contacts from `CampusBook_contacts.csv` are imported. Duplicates skipped with warning.
+
+2. Test case: `import myContacts` (file exists)
+Expected: Imports `myContacts.csv` from Downloads folder.  
+
+3. Test case: Invalid format or missing headers
+Expected: Import fails with clear error message specifying the problematic line.
+
+### Creating, listing, and removing aliases
+
+1. Creating an alias  
+Test case: `alias la list`  
+Expected: Alias created. Typing `la` executes the `list` command.
+
+2. Overwriting an existing alias  
+Test case: `alias la listaliases`  
+Expected: Warning shown that alias was overwritten.
+
+3. Invalid alias creation  
+Test cases: `alias list find` (conflicts with built-in command)  
+`alias short alias long` (chained alias)  
+Expected: Error message shown.
+
+4. Listing aliases  
+Test case: `listaliases`  
+Expected: Displays all active aliases and their command mappings.
+
+5. Removing an alias  
+Test case: `unalias la`  
+Expected: Alias removed; `la` no longer works.
+
+6. Removing all aliases  
+Test case: `unalias --all`  
+Expected: All aliases cleared.
 ### Marking and unmarking favorites
 
 1. Marking a person as favorite
 
    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list. Contact at index 1 is not marked as favorite.
 
-   1. Test case: `fav 1`<br>
+   2. Test case: `fav 1`<br>
       Expected: First contact is marked as favorite. A star (★) appears next to their name. The contact moves to the top of the list. Success message shown in the status message.
 
-   1. Test case: `fav 1` (executed again)<br>
+   3. Test case: `fav 1` (executed again)<br>
       Expected: Message indicating the person is already marked as favorite.
 
-   1. Test case: `fav 0`<br>
+   4. Test case: `fav 0`<br>
       Expected: No person is marked as favorite. Error details shown in the status message.
 
-   1. Other incorrect fav commands to try: `fav`, `fav x`, `fav -1` (where x is larger than the list size)<br>
+   5. Other incorrect fav commands to try: `fav`, `fav x`, `fav -1` (where x is larger than the list size)<br>
       Expected: Error message shown.
 
-1. Unmarking a favorite
+2. Unmarking a favorite
 
    1. Prerequisites: Contact at index 1 is marked as favorite (has a star ★).
 
-   1. Test case: `unfav 1`<br>
+   2. Test case: `unfav 1`<br>
       Expected: First contact is unmarked as favorite. The star (★) disappears. The contact may move down in the list. Success message shown in the status message.
 
-   1. Test case: `unfav 1` (executed again on a non-favorite contact)<br>
+   3. Test case: `unfav 1` (executed again on a non-favorite contact)<br>
       Expected: Message indicating the person is not marked as favorite.
 
-   1. Other incorrect unfav commands to try: `unfav`, `unfav 0`, `unfav x` (where x is larger than the list size)<br>
+   4. Other incorrect unfav commands to try: `unfav`, `unfav 0`, `unfav x` (where x is larger than the list size)<br>
       Expected: Error message shown.
 
-1. Sorting behavior
+3. Sorting behavior
 
    1. Prerequisites: Have at least 3 contacts, with contacts named "Alice", "Bob", and "Charlie" (in alphabetical order).
 
-   1. Test case: Mark "Charlie" as favorite using `fav 3`<br>
+   2. Test case: Mark "Charlie" as favorite using `fav 3`<br>
       Expected: "Charlie" moves to position 1 in the list.
 
-   1. Test case: Mark "Bob" as favorite using `fav 2` (Bob is now at index 2)<br>
+   3. Test case: Mark "Bob" as favorite using `fav 2` (Bob is now at index 2)<br>
       Expected: Both favorites appear at the top, sorted alphabetically: "Bob" at position 1, "Charlie" at position 2.
 
-   1. Test case: Unmark "Bob" using `unfav 1`<br>
+   4. Test case: Unmark "Bob" using `unfav 1`<br>
       Expected: "Bob" moves below all favorited contacts but above non-favorited contacts in alphabetical order.
 
 ### Command history navigation
@@ -1127,39 +1240,39 @@ testers are expected to do more *exploratory* testing.
 
    1. Prerequisites: Start the app with an existing command history, or execute several commands like `list`, `find Alice`, `fav 1`.
 
-   1. Test case: Click in the command box and press ↑ (Up Arrow)<br>
+   2. Test case: Click in the command box and press ↑ (Up Arrow)<br>
       Expected: The most recent command appears in the command box.
 
-   1. Test case: Press ↑ again<br>
+   3. Test case: Press ↑ again<br>
       Expected: The previous command appears.
 
-   1. Test case: Press ↓ (Down Arrow)<br>
+   4. Test case: Press ↓ (Down Arrow)<br>
       Expected: The next command in history appears.
 
-   1. Test case: Keep pressing ↑ until at the oldest command, then press ↑ again<br>
+   5. Test case: Keep pressing ↑ until at the oldest command, then press ↑ again<br>
       Expected: The command box remains showing the oldest command.
 
-   1. Test case: Keep pressing ↓ until at the newest position, then press ↓ again<br>
+   6. Test case: Keep pressing ↓ until at the newest position, then press ↓ again<br>
       Expected: The command box clears (or shows your original input before navigation started).
 
-1. Temporary input preservation
+2. Temporary input preservation
 
    1. Prerequisites: Command history contains at least one command.
 
-   1. Test case: Type `find` (but don't execute it), then press ↑<br>
+   2. Test case: Type `find` (but don't execute it), then press ↑<br>
       Expected: Previous command appears, replacing "find".
 
-   1. Test case: Press ↓ to return to the end of history<br>
+   3. Test case: Press ↓ to return to the end of history<br>
       Expected: The original text "find" is restored.
 
-1. History persistence
+3. History persistence
 
    1. Prerequisites: Execute several commands like `list`, `add n/Test p/12345678 e/test@example.com a/Test Address`.
 
-   1. Test case: Exit the application using `exit`, then relaunch it. Press ↑ in the command box<br>
+   2. Test case: Exit the application using `exit`, then relaunch it. Press ↑ in the command box<br>
       Expected: The most recent command from the previous session appears.
 
-   1. Test case: Execute more than 10 commands, then press ↑ repeatedly<br>
+   3. Test case: Execute more than 10 commands, then press ↑ repeatedly<br>
       Expected: Only the 10 most recent commands are accessible.
 
 ### Command autocomplete
@@ -1169,26 +1282,15 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Type `fi` in the command box and press TAB<br>
       Expected: The text autocompletes to `find `.
 
-   1. Test case: Type `a` in the command box and press TAB<br>
+   2. Test case: Type `a` in the command box and press TAB<br>
       Expected: A list of matching commands (`add`, `alias`) is shown in the result display.
 
-   1. Test case: Type `xyz` and press TAB<br>
+   3. Test case: Type `xyz` and press TAB<br>
       Expected: No autocomplete occurs (no matching commands).
 
-1. File path autocomplete (for import command)
+2. File path autocomplete (for import command)
 
    1. Prerequisites: Have a file named `contacts.csv` in your Downloads folder.
 
-   1. Test case: Type `import cont` and press TAB<br>
+   2. Test case: Type `import cont` and press TAB<br>
       Expected: The text autocompletes to `import contacts.csv`.
-
-   1. Test case: Type `import` and press TAB<br>
-      Expected: A list of all CSV files in the Downloads folder is shown.
-
-### Saving data
-
-1. Dealing with missing/corrupted data files
-
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
-
-1. _{ more test cases …​ }_
