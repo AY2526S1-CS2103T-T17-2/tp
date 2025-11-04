@@ -19,7 +19,7 @@
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Acknowledgements** {#acknowledgements}
+## **Acknowledgements** {: id="acknowledgements"}
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
@@ -27,13 +27,13 @@ AI Usage Declaration: I, Nicholas Lim ZiXian, used ChatGPT, after writing the re
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Setting up, getting started** {#setting-up-getting-started}
+## **Setting up, getting started** {: id="setting-up-getting-started"}
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Design** {#design}
+## **Design** {: id="design"}
 
 <!-- * Table of Contents -->
 ### Table of Contents
@@ -46,7 +46,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Architecture {#architecture}
+### Architecture {: id="architecture"}
 
 <puml src="diagrams/ArchitectureDiagram.puml" width="280" />
 
@@ -88,7 +88,7 @@ The sections below give more details of each component.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### UI component {#ui-component}
+### UI component {: id="ui-component"}
 
 The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
@@ -107,7 +107,7 @@ The `UI` component,
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Logic component {#logic-component}
+### Logic component {: id="logic-component"}
 
 **API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
@@ -142,7 +142,7 @@ How the parsing works:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Model component {#model-component}
+### Model component {: id="model-component"}
 **API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
@@ -157,7 +157,7 @@ The `Model` component,
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Storage component {#storage-component}
+### Storage component {: id="storage-component"}
 
 **API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
@@ -170,18 +170,18 @@ The `Storage` component,
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Common classes {#common-classes}
+### Common classes {: id="common-classes"}
 
 Classes used by multiple components are in the `seedu.address.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Implementation** {#implementation}
+## **Implementation** {: id="implementation"}
 
 This section describes some noteworthy details on how certain features are implemented.
 
 ---
-## Alias Feature {#alias-feature}
+## Alias Feature {: id="alias-feature"}
 
 The command alias mechanism allows users to create shortcuts for common commands (e.g., `la` as an alias for `list`). This feature is designed to be decoupled and testable, avoiding direct dependencies between the parser and the data model.
 
@@ -204,7 +204,7 @@ Design Considerations for Decoupling `AddressBookParser` from `Model`:
 * **Alternative 2 (Current Choice): Use an `AliasProvider` interface**: An `AliasProvider` interface is defined in the `logic.parser` package, (exposing `getCommandAliases()`). `ModelManager` implements this interface. `LogicManager` constructs `AddressBookParser` by injecting `ModelManager` as the `AliasProvider` type. This achieves
 **Decoupling** (parser only depends on the abstraction) and **Testability** (a simple stub can be injected for tests).
 
-## Import/export feature {#import-export-feature}
+## Import/export feature {: id="import-export-feature"}
 
 The current import/export mechanism allows users to save and load contacts from CSV files. This is facilitated by the `CsvUtil` class, which handles serialization and deserialization between the AddressBook and .csv files.
 
@@ -251,7 +251,7 @@ The following activity diagram summarizes what happens when a user executes an `
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Favorite/Unfavorite feature {#favorite-unfavorite-feature}
+## Favorite/Unfavorite feature {: id="favorite-unfavorite-feature"}
 
 The favorite/unfavorite feature allows users to mark contacts as favorites and sort them to the top of the contact list. This is implemented through the `FavCommand` and `UnfavCommand` classes.
 
@@ -316,7 +316,7 @@ Step 6. The changes are automatically saved to the JSON storage file.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command History feature {#command-history-feature}
+## Command History feature {: id="command-history-feature"}
 
 The command history feature allows users to navigate through previously entered commands using arrow keys. The history is persisted across application sessions.
 
@@ -394,7 +394,7 @@ Step 9. When the user exits the application, the command history is saved to `co
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command Autocomplete feature {#command-autocomplete-feature}
+## Command Autocomplete feature {: id="command-autocomplete-feature"}
 
 The command autocomplete feature allows users to quickly complete commands and file paths by pressing the TAB key. This improves typing efficiency and reduces errors.
 
@@ -473,7 +473,7 @@ Step 4. If `contacts.csv` is found, it completes to `import contacts.csv`.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### \[Proposed\] Undo/redo feature {#proposed-undo-redo-feature}
+### \[Proposed\] Undo/redo feature {: id="proposed-undo-redo-feature"}
 
 #### Proposed Implementation
 
@@ -568,7 +568,7 @@ _{more aspects and alternatives to be added}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Documentation, logging, testing, configuration, dev-ops** {#documentation-logging-testing-configuration-dev-ops}
+## **Documentation, logging, testing, configuration, dev-ops** {: id="documentation-logging-testing-configuration-dev-ops"}
 
 * [Documentation guide](Documentation.md)
 * [Testing guide](Testing.md)
@@ -578,9 +578,9 @@ _{more aspects and alternatives to be added}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Appendix: Requirements** {#appendix-requirements}
+## **Appendix: Requirements** {: id="appendix-requirements"}
 
-### Product scope {#product-scope}
+### Product scope {: id="product-scope"}
 
 **Target user profile**:
 
@@ -595,7 +595,7 @@ _{more aspects and alternatives to be added}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-### User stories {#user-stories}
+### User stories {: id="user-stories"}
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -623,7 +623,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Use cases {#use-cases}
+### Use cases {: id="use-cases"}
 
 (For all use cases below, the **System** is the `CampusBook` and the **Actor** is the `user`, unless specified otherwise)
 
@@ -966,7 +966,7 @@ Use case ends.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Non-Functional Requirements {#non-functional-requirements}
+### Non-Functional Requirements {: id="non-functional-requirements"}
 
 #### Environment & Portability ####
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -996,7 +996,7 @@ Use case ends.
 
 2. Course/Module codes must be regularly checked by developers, and updated in releases if they are changed by the relevant departments.
 
-### Glossary {#glossary}
+### Glossary {: id="glossary"}
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 
@@ -1032,7 +1032,7 @@ Use case ends.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Appendix: Instructions for manual testing** {#appendix-instructions-for-manual-testing}
+## **Appendix: Instructions for manual testing** {: id="appendix-instructions-for-manual-testing"}
 
 Given below are instructions to test the app manually.
 
@@ -1043,7 +1043,7 @@ testers are expected to do more *exploratory* testing.
 
 </box>
 
-### Launch and shutdown {#launch-and-shutdown}
+### Launch and shutdown {: id="launch-and-shutdown"}
 
 1. Initial launch
 
@@ -1060,7 +1060,7 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a person {#deleting-a-person-manual-test}
+### Deleting a person {: id="deleting-a-person-manual-test"}
 
 1. Deleting a person while all persons are being shown
 
@@ -1077,7 +1077,7 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Marking and unmarking favorites {#marking-and-unmarking-favorites-manual-test}
+### Marking and unmarking favorites {: id="marking-and-unmarking-favorites-manual-test"}
 
 1. Marking a person as favorite
 
@@ -1121,7 +1121,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Unmark "Bob" using `unfav 1`<br>
       Expected: "Bob" moves below all favorited contacts but above non-favorited contacts in alphabetical order.
 
-### Command history navigation {#command-history-navigation-manual-test}
+### Command history navigation {: id="command-history-navigation-manual-test"}
 
 1. Basic navigation
 
@@ -1162,7 +1162,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Execute more than 10 commands, then press ↑ repeatedly<br>
       Expected: Only the 10 most recent commands are accessible.
 
-### Command autocomplete {#command-autocomplete-manual-test}
+### Command autocomplete {: id="command-autocomplete-manual-test"}
 
 1. Command word autocomplete
 
@@ -1185,7 +1185,7 @@ testers are expected to do more *exploratory* testing.
    1. Test case: Type `import` and press TAB<br>
       Expected: A list of all CSV files in the Downloads folder is shown.
 
-### Saving data {#saving-data-manual-test}
+### Saving data {: id="saving-data-manual-test"}
 
 1. Dealing with missing/corrupted data files
 
