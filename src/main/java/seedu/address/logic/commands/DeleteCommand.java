@@ -35,6 +35,7 @@ public class DeleteCommand extends Command {
             + seedu.address.logic.parser.CliSyntax.PREFIX_TAG + "friends";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_ONE_PERSON_SUCCESS = "Deleted 1 person.";
     public static final String MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS = "Deleted %1$d persons.";
     public static final String MESSAGE_NO_PERSONS_FOUND_TO_DELETE = "No persons found matching the criteria to delete.";
 
@@ -106,7 +107,12 @@ public class DeleteCommand extends Command {
             model.deletePerson(person);
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, personsToDelete.size()));
+        final int deletedCount = personsToDelete.size();
+        String resultMessage = (deletedCount == 1)
+                ? MESSAGE_DELETE_ONE_PERSON_SUCCESS
+                : String.format(MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, deletedCount);
+
+        return new CommandResult(resultMessage);
     }
 
 
