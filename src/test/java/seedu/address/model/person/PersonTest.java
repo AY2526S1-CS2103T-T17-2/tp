@@ -8,6 +8,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_FACULTY_COMPUTING;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_MODULE_GESS2109;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -47,18 +48,42 @@ public class PersonTest {
             .build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
-        // different name, all other attributes same -> returns false
-        editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        // different name and different phone, all other attributes same -> returns false
+        editedAlice = new PersonBuilder(ALICE)
+            .withName(VALID_NAME_BOB)
+            .withPhone(VALID_PHONE_BOB)
+            .build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, all other attributes same -> returns false
+        // name differs in case, but same phone -> returns true (phone is unique identifier)
         Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
-        assertFalse(BOB.isSamePerson(editedBob));
+        assertTrue(BOB.isSamePerson(editedBob));
 
-        // name has trailing spaces, all other attributes same -> returns false
+        // name has trailing spaces, but same phone -> returns true (phone is unique identifier)
         String nameWithTrailingSpaces = VALID_NAME_BOB + " ";
         editedBob = new PersonBuilder(BOB).withName(nameWithTrailingSpaces).build();
+        assertTrue(BOB.isSamePerson(editedBob));
+
+        // name differs in case, and different phone -> returns false
+        editedBob = new PersonBuilder(BOB)
+            .withName(VALID_NAME_BOB.toLowerCase())
+            .withPhone(VALID_PHONE_AMY)
+            .build();
         assertFalse(BOB.isSamePerson(editedBob));
+
+        // same phone, different name -> returns true (phone number is unique identifier)
+        Person personWithSamePhone = new PersonBuilder(ALICE)
+            .withName(VALID_NAME_BOB)
+            .build();
+        assertTrue(ALICE.isSamePerson(personWithSamePhone));
+
+        // same phone, different other attributes -> returns true
+        personWithSamePhone = new PersonBuilder(ALICE)
+            .withName(VALID_NAME_BOB)
+            .withEmail(VALID_EMAIL_BOB)
+            .withAddress(VALID_ADDRESS_BOB)
+            .build();
+        assertTrue(ALICE.isSamePerson(personWithSamePhone));
     }
 
     @Test
