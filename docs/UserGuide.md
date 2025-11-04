@@ -489,8 +489,8 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.<br>
 
-**Q**: Why does the application not allow same names (e.g. John & John) to be added, even if the other fields are different?<br>
-**A**: It is unlikely that two people will have the same full name (e.g. John Doe Xiao Ming). If the first name of two contacts you are trying to add clashes, consider adding their full names.<br>
+**Q**: Why does the application not allow same names (e.g. John & John) or phone numbers to be added, even if the other fields are different?<br>
+**A**: It is unlikely that two people will have the same full name (e.g. John Doe Xiao Ming), same thing applies to phone numbers. If the first name of two contacts you are trying to add clashes, consider adding their full names.<br>
 
 **Q**: Why does the applicaiton allow same names with different capitalisation (e.g. John & john) to be added?<br>
 **A**: This is to prevent overzealous input validation, as there are some names with the same characters, but different capitalisation (e.g. McKenzie & Mckenzie).<br>
