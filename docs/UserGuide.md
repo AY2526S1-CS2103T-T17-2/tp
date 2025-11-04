@@ -47,7 +47,7 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CampusBook.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -110,7 +110,7 @@ Format: `help`
 
 ### Adding a person: `add` {#adding-a-person-add}
 
-Adds a person to the address book.
+Adds a person to the contact list.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m/MODULE]… [fav/FAVORITE]…​`
 
@@ -127,13 +127,13 @@ Examples:
 
 ### Selecting a Faculty to Preload Contacts: `select` {#selecting-a-faculty-to-preload-contacts-select}
 
-Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your address book.
+Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your contact list.
 
 Format: `select FACULTY`
 
 * Preloads contacts for the given `FACULTY`.
 * The `FACULTY` name must be one of the official NUS faculty names. The command will provide a list of valid faculties if an invalid one is entered.
-* If any of the contacts to be preloaded already exist in your address book, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
+* If any of the contacts to be preloaded already exist in your contact list, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
 
 Examples:
 * `select Engineering` preloads the contacts for the Faculty of Engineering.
@@ -143,7 +143,7 @@ Examples:
 
 ### Listing all persons : `list` {#listing-all-persons-list}
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in the contact list.
 
 Format: `list`
 
@@ -151,7 +151,7 @@ Format: `list`
 
 ### Editing a person : `edit` {#editing-a-person-edit}
 
-Edits an existing person in the address book.
+Edits an existing person in the contact list.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`
 
@@ -197,7 +197,7 @@ Examples:
 
 ### Deleting a person : `delete` {#deleting-a-person-delete}
 
-Deletes the specified person from the address book. This can be done in two ways: by index or by criteria.
+Deletes the specified person from the contact list. This can be done in two ways: by index or by criteria.
 
 **Option 1: Delete by index**
 
@@ -214,10 +214,10 @@ Format: `delete [n/NAME_KEYWORD...] [t/TAG_KEYWORD...] [m/MODULE_KEYWORD...] [f/
 * Deletes all persons who match the specified criteria.
 * The search logic is identical to the `find` command.
 * This is a powerful command. Be careful, as it can delete multiple contacts at once.
-* Batch delete applies to entire address book, not just displayed contacts.
+* Batch delete applies to entire contact list, not just displayed contacts.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `list` followed by `delete 2` deletes the 2nd person in the contact list.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 * `delete t/expired` deletes all persons tagged with `expired`.
 * `delete n/John f/Science` deletes all persons from the `Science` faculty whose name contains `John`.
@@ -226,7 +226,7 @@ Examples:
 
 ### Clearing all entries : `clear` {#clearing-all-entries-clear}
 
-Clears all entries from the address book.
+Clears all entries from the contact list.
 
 Format: `clear`
 
@@ -244,7 +244,7 @@ Format: `fav INDEX`
 * If the person is already marked as favorite, an error message will be shown.
 
 Examples:
-* `list` followed by `fav 2` marks the 2nd person in the address book as favorite.
+* `list` followed by `fav 2` marks the 2nd person in the contact list as favorite.
 * `find John` followed by `fav 1` marks the 1st person in the results of the `find` command as favorite.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -261,23 +261,25 @@ Format: `unfav INDEX`
 * If the person is not marked as favorite, an error message will be shown.
 
 Examples:
-* `list` followed by `unfav 2` removes the favorite status from the 2nd person in the address book.
+* `list` followed by `unfav 2` removes the favorite status from the 2nd person in the contact list.
 * `find John` followed by `unfav 1` removes the favorite status from the 1st person in the results of the `find` command.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exporting data : `export` {#exporting-data-export}
 
-Exports all entries from the address book and compiles them into a csv file.
+Exports all entries from the contact list and compiles them into a csv file.
 
 Format: `export`
 
-* The file will be downloaded in the user's `Downloads` folder with the format `Campusbook_contacts.csv`.
+* The file will be downloaded in the user's `Downloads` folder with the format `CampusBook_contacts.csv` (note the capital 'B' in CampusBook).
 * In the case where `CampusBook_contacts.csv` already exists in the user's `Downloads` folder, the old one will be replaced.
+* If the contact list is empty, you will see the message: "Unable to export due to empty address book" (this message is from the code and may be updated in a future version).
+* If the export fails for any reason, you will see the message: "Failed to export contacts to CSV".
 
 --------------------------------------------------------------------------------------------------------------------
 ### Importing data : `import` {#importing-data-import}
 
-Imports all entries from a csv file and inserts them into the address book
+Imports all entries from a csv file and inserts them into the contact list.
 
 Format: `import` or `import [File name in Downloads]` or `import [Absolute File Path]`
 
@@ -286,6 +288,7 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
 * Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e., 2 contacts with the same name but different details will be considered duplicates)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
+* If the specified file cannot be found, you will see an error message: "Couldn't find file" followed by the command usage instructions.
 * Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
 [Sample Data](CampusBook_contacts.csv)
@@ -420,7 +423,7 @@ Each Person can possess:
 
 ## Contact Details Panel {#contact-details-panel}
 
-Adds a person to the address book.
+Adds a person to the contact list.
 
 How to Use:
 1. Click into your preferred contact.
