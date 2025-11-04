@@ -722,7 +722,7 @@ Guarantees: Person will only be found from the list if at least a part of the gi
 
 * 3a. There are no matches for the given name.
 
-    * 3a1. CampusBook shows a message indicating no person matched.
+    * 3a1. CampusBook shows a message indicating no person(s) matched.
 
       Use case ends.
 
@@ -1139,7 +1139,7 @@ Expected: Error message shown, no changes made.
    Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. 
 
    3. Test case: `delete 0  `
-   Expected: No person is deleted. Error details shown in the status message. 
+   Expected: No person(s) is/are deleted. Error details shown in the status message. 
 
    4. Other incorrect delete commands: `delete`, `delete x`, ... (where x is larger than the list size)  
    Expected: Similar to previous.
@@ -1221,7 +1221,7 @@ Expected: All aliases cleared.
       Expected: Message indicating the person is already marked as favorite.
 
    4. Test case: `fav 0`<br>
-      Expected: No person is marked as favorite. Error details shown in the status message.
+      Expected: No person(s) is/are marked as favorite. Error details shown in the status message.
 
    5. Other incorrect fav commands to try: `fav`, `fav x`, `fav -1` (where x is larger than the list size)<br>
       Expected: Error message shown.
@@ -1342,7 +1342,7 @@ Output: `Unknown prefix ‘ff/’. Did you mean ‘f/’?`
 Current behavior: When duplicates are skipped during CSV import, only a general warning is shown.
 Planned enhancement: List skipped contacts explicitly in the result message, e.g.:
 
-`3 duplicates skipped: John Doe, Alice Tan, Ben Lim.`
+`3 duplicate(s) skipped: John Doe, Alice Tan, Ben Lim.`
 
 4. **Clearer error message for malformed CSV files**
 

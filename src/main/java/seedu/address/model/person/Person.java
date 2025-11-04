@@ -100,16 +100,22 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
+     * Returns true if both persons have the same name or the same phone number.
      * This defines a weaker notion of equality between two persons.
+     * Two persons are considered the same if they share the same name or phone number,
+     * preventing duplicate entries with the same name or phone number.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {
             return true;
         }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+        if (otherPerson == null) {
+            return false;
+        }
+
+        return otherPerson.getName().equals(getName())
+                || otherPerson.getPhone().equals(getPhone());
     }
 
     /**

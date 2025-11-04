@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
@@ -82,7 +81,7 @@ public class FindCommandTest {
 
     @Test
     public void execute_facultyKeyword_personFound() {
-        String expectedMessage = String.format(MESSAGE_PERSON_LISTED_OVERVIEW, 1);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         FacultyContainsKeywordsPredicate predicate = new FacultyContainsKeywordsPredicate(List.of("Law"));
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
@@ -92,7 +91,7 @@ public class FindCommandTest {
 
     @Test
     public void execute_compoundNameAndFacultyKeywords_personFound() {
-        String expectedMessage = String.format(MESSAGE_PERSON_LISTED_OVERVIEW, 1);
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 1);
         Predicate<Person> predicate = new NameContainsKeywordsPredicate(List.of("Fiona"))
                 .and(new FacultyContainsKeywordsPredicate(List.of("Law")));
         FindCommand command = new FindCommand(predicate);

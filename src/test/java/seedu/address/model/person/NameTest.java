@@ -28,7 +28,8 @@ public class NameTest {
         assertFalse(Name.isValidName("")); // empty string
         assertFalse(Name.isValidName(" ")); // spaces only
         assertFalse(Name.isValidName("^")); // only non-alphanumeric characters
-        assertFalse(Name.isValidName("peter*")); // contains non-alphanumeric characters
+        assertFalse(Name.isValidName("peter*")); // contains non-allowed special characters
+        assertFalse(Name.isValidName("@john")); // starts with non-allowed character
 
         // valid name
         assertTrue(Name.isValidName("peter jack")); // alphabets only
@@ -36,6 +37,19 @@ public class NameTest {
         assertTrue(Name.isValidName("peter the 2nd")); // alphanumeric characters
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr 2nd")); // long names
+
+        // valid names with special characters
+        assertTrue(Name.isValidName("Ravi Kumar s/o Suresh Kumar")); // contains slash
+        assertTrue(Name.isValidName("O'Connor")); // contains apostrophe
+        assertTrue(Name.isValidName("José")); // contains accented character
+        assertTrue(Name.isValidName("Mary-Jane")); // contains hyphen
+        assertTrue(Name.isValidName("Dr. Smith")); // contains period
+        assertTrue(Name.isValidName("Jean-Pierre O'Connor")); // multiple special characters
+
+        // names with command prefix-like patterns (without space before prefix)
+        // These are valid at the Name validation level, but will cause parsing issues if used in commands
+        assertTrue(Name.isValidName("Johnn/Smith")); // prefix-like pattern without space before slash
+        assertTrue(Name.isValidName("Alicep/123")); // prefix-like pattern without space
     }
 
     @Test

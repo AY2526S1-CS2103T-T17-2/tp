@@ -47,7 +47,7 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CampusBook.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -110,7 +110,7 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the address book.
+Adds a person to your contact list.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m/MODULE]… [fav/FAVORITE]…​`
 
@@ -119,21 +119,31 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m
 **Tip:** A person can have any number of tags/faculties/modules (including 0)
 </box>
 
+**Note on names:**
+* Names can contain letters (including accented characters like José), numbers, spaces, and common special characters such as apostrophes (`'`), hyphens (`-`), slashes (`/`), and periods (`.`).
+* Examples of valid names: `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, `Mary-Jane`, `José`.
+* **Important**: Do not use command prefixes (e.g., `n/`, `p/`, `e/`, `a/`, `t/`, `m/`, `f/`, `fav/`) in names, as they will be interpreted as command syntax and cause parsing errors.
+
+**Note on duplicates:**
+* You cannot add two contacts with the same phone number OR the same name.
+
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal fav/true`
+* `add n/O'Connor p/87654321 e/oconnor@example.com a/123 Main St`
+* `add n/Ravi Kumar s/o Suresh Kumar p/91234567 e/ravi@example.com a/456 Oak Ave`
 
 --------------------------------------------------------------------------------------------------------------------
 
 ### Selecting a Faculty to Preload Contacts: `select`
 
-Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your address book.
+Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your contact list.
 
 Format: `select FACULTY`
 
 * Preloads contacts for the given `FACULTY`.
 * The `FACULTY` name must be one of the official NUS faculty names. The command will provide a list of valid faculties if an invalid one is entered.
-* If any of the contacts to be preloaded already exist in your address book, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
+* If any of the contacts to be preloaded already exist in your contact list, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
 
 Examples:
 * `select Engineering` preloads the contacts for the Faculty of Engineering.
@@ -143,7 +153,7 @@ Examples:
 
 ### Listing all persons: `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in your contact list.
 
 Format: `list`
 
@@ -151,7 +161,7 @@ Format: `list`
 
 ### Editing a person: `edit`
 
-Edits an existing person in the address book.
+Edits an existing person in your contact list.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`
 
@@ -197,7 +207,7 @@ Examples:
 
 ### Deleting a person: `delete`
 
-Deletes the specified person from the address book. This can be done in two ways: by index or by criteria.
+Deletes the specified person from your contact list. This can be done in two ways: by index or by criteria.
 
 **Option 1: Delete by index**
 
@@ -214,10 +224,10 @@ Format: `delete [n/NAME_KEYWORD...] [t/TAG_KEYWORD...] [m/MODULE_KEYWORD...] [f/
 * Deletes all persons who match the specified criteria.
 * The search logic is identical to the `find` command.
 * This is a powerful command. Be careful, as it can delete multiple contacts at once.
-* Batch delete applies to entire address book, not just displayed contacts.
+* Batch delete applies to entire contact list, not just displayed contacts.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `list` followed by `delete 2` deletes the 2nd person in your contact list.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 * `delete t/expired` deletes all persons tagged with `expired`.
 * `delete n/John f/Science` deletes all persons from the `Science` faculty whose name contains `John`.
@@ -226,7 +236,7 @@ Examples:
 
 ### Clearing all entries: `clear`
 
-Clears all entries from the address book.
+Clears all entries from your contact list.
 
 Format: `clear`
 
@@ -244,7 +254,7 @@ Format: `fav INDEX`
 * If the person is already marked as favorite, an error message will be shown.
 
 Examples:
-* `list` followed by `fav 2` marks the 2nd person in the address book as favorite.
+* `list` followed by `fav 2` marks the 2nd person in your contact list as favorite.
 * `find John` followed by `fav 1` marks the 1st person in the results of the `find` command as favorite.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -261,13 +271,13 @@ Format: `unfav INDEX`
 * If the person is not marked as favorite, an error message will be shown.
 
 Examples:
-* `list` followed by `unfav 2` removes the favorite status from the 2nd person in the address book.
+* `list` followed by `unfav 2` removes the favorite status from the 2nd person in your contact list.
 * `find John` followed by `unfav 1` removes the favorite status from the 1st person in the results of the `find` command.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exporting data: `export`
 
-Exports all entries from the address book and compiles them into a csv file.
+Exports all entries from your contact list and compiles them into a csv file.
 
 Format: `export`
 
@@ -277,14 +287,14 @@ Format: `export`
 --------------------------------------------------------------------------------------------------------------------
 ### Importing data: `import`
 
-Imports all entries from a csv file and inserts them into the address book
+Imports all entries from a csv file and inserts them into your contact list
 
 Format: `import` or `import [File name in Downloads]` or `import [Absolute File Path]`
 
-* The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
+* The csv file must follow the format where the first row is Headers containing the following: `Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e., 2 contacts with the same name but different details will be considered duplicates)
+* Any duplicated data will be skipped. (Duplicated contacts are defined as contacts with the same name OR the same phone number)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
 * Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
@@ -423,7 +433,7 @@ Each Person can possess:
 
 ## Contact Details Panel
 
-Adds a person to the address book.
+Adds a person to your contact list.
 
 How to Use:
 1. Click into your preferred contact.
@@ -492,11 +502,15 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.<br>
 
-**Q**: Why does the application not allow same names (e.g. John & John) or phone numbers to be added, even if the other fields are different?<br>
-**A**: It is unlikely that two people will have the same full name (e.g. John Doe Xiao Ming), same thing applies to phone numbers. If the first name of two contacts you are trying to add clashes, consider adding their full names.<br>
+**Q**: Why does the application not allow contacts with the same phone number or the same name to be added?<br>
+**A**: Phone numbers and names are unique identifiers for contacts. The application prevents duplicate phone numbers or names to ensure data integrity and avoid confusion. Two contacts are considered duplicates if they have the same phone number OR the same name.<br>
 
-**Q**: Why does the applicaiton allow same names with different capitalisation (e.g. John & john) to be added?<br>
+**Q**: Why does the application allow same names with different capitalisation (e.g. John & john) to be added?<br>
 **A**: This is to prevent overzealous input validation, as there are some names with the same characters, but different capitalisation (e.g. McKenzie & Mckenzie).<br>
+
+**Q**: Can I add contacts with special characters in their names (e.g. O'Connor, José)?<br>
+**A**: Yes! The application supports names with special characters such as apostrophes (`'`), hyphens (`-`), slashes (`/`), periods (`.`), and accented characters (e.g. é, ó). This allows for realistic names like `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, and `José`.<br>
+**Note**: Special characters in names should not include any command prefixes (e.g., `n/`, `p/`, `e/`, `a/`, `t/`, `m/`, `f/`, `fav/`). If a command prefix appears in a name (especially when preceded by a space), it will be interpreted as command syntax and cause parsing errors.<br>
 
 --------------------------------------------------------------------------------------------------------------------
 

@@ -109,7 +109,7 @@ public class DeleteCommandTest {
         // Use the new constructor that accepts a List<Predicate>
         DeleteCommand deleteCommand = new DeleteCommand(List.of(predicate));
 
-        // Expect the "multiple persons" success message, even for 1 person
+        // Expect the success message for 1 person
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, 1);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
