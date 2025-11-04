@@ -1134,16 +1134,34 @@ Expected: Error message shown, no changes made.
 
 1. Deleting a person while all persons are being shown
 
-   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Prerequisites: List all persons using the list command. Multiple persons in the list.
 
-   2. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+   2. Test case: `delete 1`
+   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. 
 
-   3. Test case: `delete 0`<br>
-      Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
+   3. Test case: `delete 0  `
+   Expected: No person is deleted. Error details shown in the status message. 
 
-   4. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+   4. Other incorrect delete commands: `delete`, `delete x`, ... (where x is larger than the list size)  
+   Expected: Similar to previous.
+
+2. Deleting by criteria (enhanced delete command)  
+The delete command also supports field-based criteria similar to find.
+
+   1. Test case: `delete n/John`  
+   Expected: Deletes all persons whose names contain “John”. Confirmation or summary message displayed.
+
+   2. Test case: `delete n/John t/friend`  
+   Expected: Deletes all persons whose name includes “John” and tag includes “friend”.
+
+   3. Test case: `delete t/friend`  
+   Expected: Deletes all contacts tagged as “friend”.
+
+   4. Case sensitivity check: `delete n/john`  
+   Expected: Same results as `delete n/John`.
+
+   5. Invalid delete criteria: `delete n/ (missing value)`, `delete x/random (unknown prefix)`  
+   Expected: Error message displayed indicating invalid command format.
 
 ### Exporting data
 
@@ -1190,6 +1208,7 @@ Expected: Alias removed; `la` no longer works.
 6. Removing all aliases  
 Test case: `unalias --all`  
 Expected: All aliases cleared.
+
 ### Marking and unmarking favorites
 
 1. Marking a person as favorite
