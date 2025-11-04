@@ -181,7 +181,7 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 ---
-## Alias Feature
+## Alias Feature {#alias-feature}
 
 The command alias mechanism allows users to create shortcuts for common commands (e.g., `la` as an alias for `list`). This feature is designed to be decoupled and testable, avoiding direct dependencies between the parser and the data model.
 
@@ -204,7 +204,7 @@ Design Considerations for Decoupling `AddressBookParser` from `Model`:
 * **Alternative 2 (Current Choice): Use an `AliasProvider` interface**: An `AliasProvider` interface is defined in the `logic.parser` package, (exposing `getCommandAliases()`). `ModelManager` implements this interface. `LogicManager` constructs `AddressBookParser` by injecting `ModelManager` as the `AliasProvider` type. This achieves
 **Decoupling** (parser only depends on the abstraction) and **Testability** (a simple stub can be injected for tests).
 
-## Import/export feature
+## Import/export feature {#import-export-feature}
 
 The current import/export mechanism allows users to save and load contacts from CSV files. This is facilitated by the `CsvUtil` class, which handles serialization and deserialization between the AddressBook and .csv files.
 
@@ -251,7 +251,7 @@ The following activity diagram summarizes what happens when a user executes an `
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Favorite/Unfavorite feature
+## Favorite/Unfavorite feature {#favorite-unfavorite-feature}
 
 The favorite/unfavorite feature allows users to mark contacts as favorites and sort them to the top of the contact list. This is implemented through the `FavCommand` and `UnfavCommand` classes.
 
@@ -316,7 +316,7 @@ Step 6. The changes are automatically saved to the JSON storage file.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command History feature
+## Command History feature {#command-history-feature}
 
 The command history feature allows users to navigate through previously entered commands using arrow keys. The history is persisted across application sessions.
 
@@ -394,7 +394,7 @@ Step 9. When the user exits the application, the command history is saved to `co
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Command Autocomplete feature
+## Command Autocomplete feature {#command-autocomplete-feature}
 
 The command autocomplete feature allows users to quickly complete commands and file paths by pressing the TAB key. This improves typing efficiency and reduces errors.
 
@@ -473,7 +473,7 @@ Step 4. If `contacts.csv` is found, it completes to `import contacts.csv`.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### \[Proposed\] Undo/redo feature
+### \[Proposed\] Undo/redo feature {#proposed-undo-redo-feature}
 
 #### Proposed Implementation
 
@@ -580,7 +580,7 @@ _{more aspects and alternatives to be added}_
 
 ## **Appendix: Requirements** {#appendix-requirements}
 
-### Product scope
+### Product scope {#product-scope}
 
 **Target user profile**:
 
@@ -595,7 +595,7 @@ _{more aspects and alternatives to be added}_
 
 --------------------------------------------------------------------------------------------------------------------
 
-### User stories
+### User stories {#user-stories}
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
@@ -623,7 +623,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Use cases
+### Use cases {#use-cases}
 
 (For all use cases below, the **System** is the `CampusBook` and the **Actor** is the `user`, unless specified otherwise)
 
@@ -966,7 +966,7 @@ Use case ends.
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Non-Functional Requirements
+### Non-Functional Requirements {#non-functional-requirements}
 
 #### Environment & Portability ####
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -996,7 +996,7 @@ Use case ends.
 
 2. Course/Module codes must be regularly checked by developers, and updated in releases if they are changed by the relevant departments.
 
-### Glossary
+### Glossary {#glossary}
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 
@@ -1043,7 +1043,7 @@ testers are expected to do more *exploratory* testing.
 
 </box>
 
-### Launch and shutdown
+### Launch and shutdown {#launch-and-shutdown}
 
 1. Initial launch
 
@@ -1077,7 +1077,7 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Marking and unmarking favorites
+### Marking and unmarking favorites {#marking-and-unmarking-favorites-manual-test}
 
 1. Marking a person as favorite
 
