@@ -291,7 +291,7 @@ Imports all entries from a csv file and inserts them into your contact list
 
 Format: `import` or `import [File name in Downloads]` or `import [Absolute File Path]`
 
-* The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
+* The csv file must follow the format where the first row is Headers containing the following: `Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
 * Any duplicated data will be skipped. (Duplicated contacts are defined as contacts with the same name OR the same phone number)
@@ -410,6 +410,7 @@ Format: `exit`
 --------------------------------------------------------------------------------------------------------------------
 
 ## How Fields Work
+
 Information in a contact (e.g., Name, Phone, Email) is stored as a field.
 When you use a prefix (like p/ or f/), the application identifies which field to add/edit.
 
