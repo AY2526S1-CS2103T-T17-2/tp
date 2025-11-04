@@ -46,7 +46,7 @@ class ImportCommandTest {
 
         // Assert
         assertEquals(3, model.getAddressBook().getPersonList().size());
-        assertEquals("Imported 3 contact(s). Skipped 0 duplicate row(s). Failed to import 0 invalid row(s).\n",
+        assertEquals("Imported 3 contacts. Skipped 0 duplicate rows. Failed to import 0 invalid rows.\n",
                     result.getFeedbackToUser());
     }
 
@@ -65,7 +65,7 @@ class ImportCommandTest {
         CommandResult result = command.execute(model);
 
         assertEquals(1, model.getAddressBook().getPersonList().size()); // only one added
-        assertEquals("Imported 1 contact(s). Skipped 1 duplicate row(s). Failed to import 0 invalid row(s).\n",
+        assertEquals("Imported 1 contact. Skipped 1 duplicate row. Failed to import 0 invalid rows.\n",
                     result.getFeedbackToUser());
     }
 

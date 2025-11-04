@@ -106,7 +106,11 @@ public class DeleteCommand extends Command {
             model.deletePerson(person);
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, personsToDelete.size()));
+        int deleteCount = personsToDelete.size();
+        String deleteMessage = (deleteCount == 1)
+                ? "Deleted 1 person."
+                : String.format(MESSAGE_DELETE_MULTIPLE_PERSONS_SUCCESS, deleteCount);
+        return new CommandResult(deleteMessage);
     }
 
 
