@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.io.IOException;
@@ -75,6 +76,29 @@ class ImportCommandTest {
         ImportCommand command = new ImportCommand(fakeFile);
 
         assertThrows(CommandException.class, () -> command.execute(model));
+    }
+
+    @Test
+    void execute_csvWithInvalidRow_handlesSingleError() throws IOException, CsvValidationException, Exception {
+        // Arrange: create CSV with one valid and one invalid row (empty name)
+        Path csvFile = tempDir.resolve("test.csv");
+        String csvContent = String.join(System.lineSeparator(),
+                "Name,Phone Number,Email,Address,Tags,Modules,Faculties,Favorites",
+                "Alice Pauline,94351253,alice@example.com,123 Jurong West Ave 6,,,,",
+                ",91234567,bob@example.com,456 Clementi Rd,,,," // invalid: empty name
+        );
+        Files.writeString(csvFile, csvContent);
+
+        ImportCommand command = new ImportCommand(csvFile);
+
+        // Act
+        CommandResult result = command.execute(model);
+
+        // Assert: one valid contact imported, one error
+        assertEquals(1, model.getAddressBook().getPersonList().size());
+        String expectedMessage = "Imported 1 contact. Skipped 0 duplicate rows. Failed to import 1 invalid row.\n"
+                + "\nSome rows could not be imported:\n";
+        assertTrue(result.getFeedbackToUser().startsWith(expectedMessage));
     }
 
 }
