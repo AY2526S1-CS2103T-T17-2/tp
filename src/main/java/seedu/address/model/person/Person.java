@@ -103,7 +103,7 @@ public class Person {
      * Returns true if both persons have the same name or the same phone number.
      * This defines a weaker notion of equality between two persons.
      * Two persons are considered the same if they share the same name or phone number,
-     * preventing duplicate entries with the same phone number.
+     * preventing duplicate entries with the same name or phone number.
      */
     public boolean isSamePerson(Person otherPerson) {
         if (otherPerson == this) {

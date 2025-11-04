@@ -124,8 +124,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m
 * Examples of valid names: `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, `Mary-Jane`, `José`.
 
 **Note on duplicates:**
-* You cannot add two contacts with the same phone number, even if they have different names.
-* Contacts with the same name but different phone numbers are allowed.
+* You cannot add two contacts with the same phone number OR the same name.
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T`
@@ -294,7 +293,7 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped. (Duplicated contacts are defined as contacts with the same phone number, even if they have different names)
+* Any duplicated data will be skipped. (Duplicated contacts are defined as contacts with the same name OR the same phone number)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
 * Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
@@ -499,8 +498,8 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.<br>
 
-**Q**: Why does the application not allow contacts with the same phone number to be added?<br>
-**A**: Phone numbers are unique identifiers for contacts. The application prevents duplicate phone numbers to ensure data integrity and avoid confusion. However, you can add contacts with the same name but different phone numbers.<br>
+**Q**: Why does the application not allow contacts with the same phone number or the same name to be added?<br>
+**A**: Phone numbers and names are unique identifiers for contacts. The application prevents duplicate phone numbers or names to ensure data integrity and avoid confusion. Two contacts are considered duplicates if they have the same phone number OR the same name.<br>
 
 **Q**: Can I add contacts with special characters in their names (e.g. O'Connor, José)?<br>
 **A**: Yes! The application supports names with special characters such as apostrophes (`'`), hyphens (`-`), slashes (`/`), periods (`.`), and accented characters (e.g. é, ó). This allows for realistic names like `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, and `José`.<br>
