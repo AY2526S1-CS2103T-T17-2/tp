@@ -122,6 +122,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m
 **Note on names:**
 * Names can contain letters (including accented characters like José), numbers, spaces, and common special characters such as apostrophes (`'`), hyphens (`-`), slashes (`/`), and periods (`.`).
 * Examples of valid names: `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, `Mary-Jane`, `José`.
+* **Important**: Do not use command prefixes (e.g., `n/`, `p/`, `e/`, `a/`, `t/`, `m/`, `f/`, `fav/`) in names, as they will be interpreted as command syntax and cause parsing errors.
 
 **Note on duplicates:**
 * You cannot add two contacts with the same phone number OR the same name.
@@ -503,6 +504,7 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 
 **Q**: Can I add contacts with special characters in their names (e.g. O'Connor, José)?<br>
 **A**: Yes! The application supports names with special characters such as apostrophes (`'`), hyphens (`-`), slashes (`/`), periods (`.`), and accented characters (e.g. é, ó). This allows for realistic names like `O'Connor`, `Ravi Kumar s/o Suresh Kumar`, and `José`.<br>
+**Note**: Special characters in names should not include any command prefixes (e.g., `n/`, `p/`, `e/`, `a/`, `t/`, `m/`, `f/`, `fav/`). If a command prefix appears in a name (especially when preceded by a space), it will be interpreted as command syntax and cause parsing errors.<br>
 
 --------------------------------------------------------------------------------------------------------------------
 
