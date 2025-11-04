@@ -174,7 +174,7 @@ public class AddCommandParserTest {
     public void parse_nameWithCommandPrefix_failure() {
         // Test that names containing command prefixes (with space before) cause parsing errors
         // This is because ArgumentTokenizer will recognize the prefix as a command syntax
-        
+
         // Name with prefix-like pattern that has space before it - should be detected as duplicate prefix
         String nameWithPrefix = "John n/ Smith";
         assertParseFailure(parser,
