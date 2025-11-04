@@ -47,7 +47,7 @@ If you are an **NUS student** looking for a **centralised and efficient** contac
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to CampusBook.
 
    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
@@ -110,7 +110,7 @@ Format: `help`
 
 ### Adding a person: `add`
 
-Adds a person to the address book.
+Adds a person to your contact list.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m/MODULE]… [fav/FAVORITE]…​`
 
@@ -137,13 +137,13 @@ Examples:
 
 ### Selecting a Faculty to Preload Contacts: `select`
 
-Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your address book.
+Preloads a list of default administrative contacts for a specified NUS faculty. This is a convenient way to quickly add important university contacts to your contact list.
 
 Format: `select FACULTY`
 
 * Preloads contacts for the given `FACULTY`.
 * The `FACULTY` name must be one of the official NUS faculty names. The command will provide a list of valid faculties if an invalid one is entered.
-* If any of the contacts to be preloaded already exist in your address book, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
+* If any of the contacts to be preloaded already exist in your contact list, they will be skipped to avoid duplicates. A warning will be shown for any skipped contacts.
 
 Examples:
 * `select Engineering` preloads the contacts for the Faculty of Engineering.
@@ -153,7 +153,7 @@ Examples:
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all persons in your contact list.
 
 Format: `list`
 
@@ -161,7 +161,7 @@ Format: `list`
 
 ### Editing a person : `edit`
 
-Edits an existing person in the address book.
+Edits an existing person in your contact list.
 
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​ [f/FACULTY]…​ [m/MODULE]…​ [fav/FAVORITE]`
 
@@ -207,7 +207,7 @@ Examples:
 
 ### Deleting a person : `delete`
 
-Deletes the specified person from the address book. This can be done in two ways: by index or by criteria.
+Deletes the specified person from your contact list. This can be done in two ways: by index or by criteria.
 
 **Option 1: Delete by index**
 
@@ -224,10 +224,10 @@ Format: `delete [n/NAME_KEYWORD...] [t/TAG_KEYWORD...] [m/MODULE_KEYWORD...] [f/
 * Deletes all persons who match the specified criteria.
 * The search logic is identical to the `find` command.
 * This is a powerful command. Be careful, as it can delete multiple contacts at once.
-* Batch delete applies to entire address book, not just displayed contacts.
+* Batch delete applies to entire contact list, not just displayed contacts.
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `list` followed by `delete 2` deletes the 2nd person in your contact list.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 * `delete t/expired` deletes all persons tagged with `expired`.
 * `delete n/John f/Science` deletes all persons from the `Science` faculty whose name contains `John`.
@@ -236,7 +236,7 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from your contact list.
 
 Format: `clear`
 
@@ -254,7 +254,7 @@ Format: `fav INDEX`
 * If the person is already marked as favorite, an error message will be shown.
 
 Examples:
-* `list` followed by `fav 2` marks the 2nd person in the address book as favorite.
+* `list` followed by `fav 2` marks the 2nd person in your contact list as favorite.
 * `find John` followed by `fav 1` marks the 1st person in the results of the `find` command as favorite.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -271,13 +271,13 @@ Format: `unfav INDEX`
 * If the person is not marked as favorite, an error message will be shown.
 
 Examples:
-* `list` followed by `unfav 2` removes the favorite status from the 2nd person in the address book.
+* `list` followed by `unfav 2` removes the favorite status from the 2nd person in your contact list.
 * `find John` followed by `unfav 1` removes the favorite status from the 1st person in the results of the `find` command.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exporting data : `export`
 
-Exports all entries from the address book and compiles them into a csv file.
+Exports all entries from your contact list and compiles them into a csv file.
 
 Format: `export`
 
@@ -287,7 +287,7 @@ Format: `export`
 --------------------------------------------------------------------------------------------------------------------
 ### Importing data : `import`
 
-Imports all entries from a csv file and inserts them into the address book
+Imports all entries from a csv file and inserts them into your contact list
 
 Format: `import` or `import [File name in Downloads]` or `import [Absolute File Path]`
 
@@ -430,7 +430,7 @@ Each Person can possess:
 
 ## Contact Details Panel
 
-Adds a person to the address book.
+Adds a person to your contact list.
 
 How to Use:
 1. Click into your preferred contact.
