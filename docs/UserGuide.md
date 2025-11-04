@@ -119,6 +119,10 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… [f/FACULTY]…[m
 **Tip:** A person can have any number of tags/faculties/modules (including 0)
 </box>
 
+**Note on duplicates:**
+* You cannot add two contacts with the same phone number, even if they have different names.
+* Contacts with the same name but different phone numbers are allowed.
+
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 f/Computing m/CS2103T`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal fav/true`
@@ -284,7 +288,7 @@ Format: `import` or `import [File name in Downloads]` or `import [Absolute File 
 * The csv file must follow the format where the first row is Headers containing the following:`Name, Phone Number, Email, Address, Tags, Modules, Faculties, Favorites`
 * The `Name, Phone Number, Email, Address` fields are mandatory, if there is missing data the import command will fail.
 * The `Tags, Modules, Faculties, Favorites` fields are optional and can be left blank in the csv file.
-* Any duplicated data will be skipped. (current implementation defines duplicated data as contacts with same names (i.e., 2 contacts with the same name but different details will be considered duplicates)
+* Any duplicated data will be skipped. (Duplicated contacts are defined as contacts with the same phone number, even if they have different names)
 * Only a csv file is supported, if a different type of file is inserted then the import will fail.
 * Any incorrect data will be pointed out, a message containing what's wrong and in which line will be displayed.
 
@@ -489,11 +493,11 @@ Furthermore, certain edits can cause the CampusBook to behave in unexpected ways
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous CampusBook home folder.<br>
 
-**Q**: Why does the application not allow same names (e.g. John & John) to be added, even if the other fields are different?<br>
-**A**: It is unlikely that two people will have the same full name (e.g. John Doe Xiao Ming). If the first name of two contacts you are trying to add clashes, consider adding their full names.<br>
+**Q**: Can I add contacts with the same name?<br>
+**A**: Yes! The application allows contacts with the same name as long as they have different phone numbers. Phone numbers are used as unique identifiers to prevent duplicate entries.<br>
 
-**Q**: Why does the applicaiton allow same names with different capitalisation (e.g. John & john) to be added?<br>
-**A**: This is to prevent overzealous input validation, as there are some names with the same characters, but different capitalisation (e.g. McKenzie & Mckenzie).<br>
+**Q**: Why does the application not allow contacts with the same phone number to be added?<br>
+**A**: Phone numbers are unique identifiers for contacts. The application prevents duplicate phone numbers to ensure data integrity and avoid confusion. However, you can add contacts with the same name but different phone numbers.<br>
 
 --------------------------------------------------------------------------------------------------------------------
 

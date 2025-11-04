@@ -152,8 +152,13 @@ The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
 * stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
+* stores a `UserPref` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
 * does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+
+**Note on Person uniqueness:**
+* The `UniquePersonList` uses `Person#isSamePerson(Person)` to determine if two persons are duplicates.
+* `Person#isSamePerson(Person)` compares persons by their phone numbers, allowing contacts with the same name but different phone numbers.
+* This design allows duplicate names while ensuring phone numbers remain unique identifiers.
 
 --------------------------------------------------------------------------------------------------------------------
 
