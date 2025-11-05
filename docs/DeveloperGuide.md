@@ -15,6 +15,7 @@
 5. [Documentation, Logging, Testing, Configuration and Dev-Ops Guides](#documentation-logging-testing-configuration-dev-ops)
 6. [Appendix: Requirements](#appendix-requirements)
 7. [Appendix: Instructions for manual testing](#appendix-instructions-for-manual-testing)
+8. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
@@ -1313,7 +1314,7 @@ Expected: All aliases cleared.
    2. Test case: Type `import cont` and press TAB<br>
       Expected: The text autocompletes to `import contacts.csv`.
 
-## **Appendix: Instructions for manual testing**
+## **Appendix: Planned Enhancements**
 Team size: 4
 
 The following list outlines planned enhancements that address known feature flaws which we were not allowed to fix in v1.6.
